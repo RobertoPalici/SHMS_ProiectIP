@@ -1,5 +1,6 @@
 package com.restservice;
 
+import com.restservice.shoppingListAndInventory.inventory.Product;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,4 +15,5 @@ public class Main {
                 .singletonMap("server.port", "8081"));
         app.run(args);
     }
+    Product product=new Product();
 }
