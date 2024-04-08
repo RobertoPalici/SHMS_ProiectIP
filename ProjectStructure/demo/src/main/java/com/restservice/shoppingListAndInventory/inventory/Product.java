@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class Product {
@@ -13,6 +12,10 @@ public class Product {
     LocalDate expiryDate;
     float quantity;
     int averageConsumption;
+    public Product(String name, float quantity){
+        this.name=name;
+        this.quantity=quantity;
+    }
     public void computeAverageConsumption(){
     }
 }
