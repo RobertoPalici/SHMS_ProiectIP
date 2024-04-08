@@ -10,14 +10,14 @@ import java.time.LocalDate;
 public class Product {
     String name;
     LocalDate expiryDate;
-    float quantity;
+    Quantity quantity;
     int averageConsumption;
-    public Product(String name, float quantity){
+    public Product(String name, Quantity quantity){
         this.name=name;
         this.quantity=quantity;
     }
     public void addQuantity(float quantity){
-        this.quantity=this.quantity+quantity;
+        this.quantity.setValue(this.quantity.getValue() + quantity);
     }
     public void computeAverageConsumption(){
     }

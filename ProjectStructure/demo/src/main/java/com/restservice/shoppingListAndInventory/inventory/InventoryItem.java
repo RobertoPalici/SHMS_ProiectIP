@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class InventoryItem {
     Product item;
     LocalDate dateOfBuying;
-    public InventoryItem(String name, float quantity){
+    public InventoryItem(String name, Quantity quantity){
         item=new Product(name, quantity);
         this.dateOfBuying=LocalDate.now();
     }

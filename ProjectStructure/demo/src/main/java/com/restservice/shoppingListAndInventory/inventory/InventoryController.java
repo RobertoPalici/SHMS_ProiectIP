@@ -28,7 +28,7 @@ public class InventoryController {
                 return;
             }
         }
-        itemList.addItem(name,quantity);
+        itemList.addItem(name,new Quantity(quantity, QuantityType.Amount));
         System.out.println(itemList);
     }
     @RequestMapping("/removeItem")
@@ -42,6 +42,29 @@ public class InventoryController {
         if(id>=0&&id<itemList.getItemList().size())
             itemList.removeItem(id);
         System.out.println(itemList);
+    }
+    @RequestMapping("/changeQuantity")
+            public void changeQuantity(@RequestParam(value="id", defaultValue = "-1") String idString,
+                                       @RequestParam(value="quantity", defaultValue = "0") String quantityString){
+        float quantity;
+
+        try {
+            quantity = Float.parseFloat(quantityString);
+        } catch (NumberFormatException e) {
+            quantity = 1;
+        }
+        int  id;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (NumberFormatException e) {
+            id = -1;
+        }
+        float currentQuantity = itemList.getItemList().get(id).getItem().getQuantity().getValue();
+        if(currentQuantity + quantity > 0)
+            itemList.getItemList().get(id).getItem().getQuantity().setValue(currentQuantity + quantity);
+        else itemList.getItemList().get(id).getItem().getQuantity().setValue(0);
+        System.out.println(itemList);
+
     }
     Map<Product, Integer> averageConsumptionForAll;
     public void computeAverageConsumptionForAll(){

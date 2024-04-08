@@ -1,4 +1,16 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
-public record Quantity(float value, QuantityType type) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
+public class Quantity {
+    float value;
+    QuantityType type;
+
 }

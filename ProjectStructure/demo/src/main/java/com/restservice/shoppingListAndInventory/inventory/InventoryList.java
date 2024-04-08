@@ -21,7 +21,7 @@ public class InventoryList {
     public void addItem(InventoryItem item){
         itemList.add(item);
     }
-    public void addItem(String name, float quantity){
+    public void addItem(String name, Quantity quantity){
         itemList.add(new InventoryItem(name,quantity));
     }
     public void removeItem(int index){
