@@ -16,6 +16,9 @@ public class Product {
         this.name=name;
         this.quantity=quantity;
     }
+    public void addQuantity(float quantity){
+        this.quantity=this.quantity+quantity;
+    }
     public void computeAverageConsumption(){
     }
 }

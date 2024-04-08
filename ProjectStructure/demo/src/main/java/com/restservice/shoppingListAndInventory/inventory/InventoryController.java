@@ -3,6 +3,7 @@ package com.restservice.shoppingListAndInventory.inventory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 public class InventoryController {
@@ -19,6 +20,13 @@ public class InventoryController {
             quantity = Float.parseFloat(quantityString);
         } catch (NumberFormatException e) {
             quantity = 1;
+        }
+        for(int i=0;i<itemList.getItemList().size();i++){
+            if(Objects.equals(itemList.getItemList().get(i).getItem().getName(), name)){
+                itemList.getItemList().get(i).getItem().addQuantity(quantity);
+                System.out.println(itemList);
+                return;
+            }
         }
         itemList.addItem(name,quantity);
         System.out.println(itemList);
