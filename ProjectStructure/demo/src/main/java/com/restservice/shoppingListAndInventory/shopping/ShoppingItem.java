@@ -11,7 +11,9 @@ import java.time.LocalDate;
 @ToString
 public class ShoppingItem {
     Product item;
-    public ShoppingItem(String name, Quantity quantity){
+    float price;
+    public ShoppingItem(String name, Quantity quantity, float price){
         item=new Product(name, quantity);
+        this.price=price;
     }
 }
