@@ -47,8 +47,11 @@ public class ChoresController {
             choresList.addChore(name);
         else if(personID!=-1 && duration==-1)
             choresList.addChore(name, personID);
+        else if(personID==-1 && duration!=-1)
+            choresList.addChore(duration, name);
         else
             choresList.addChore(name, personID, duration);
+
         System.out.println(choresList);
         return choresList;
     }

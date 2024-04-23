@@ -30,6 +30,9 @@ public class ChoresList {
     public void addChore(String name, int personID) {
         choresList.add(new Chore(name, personID));
     }
+    public void addChore(int duration, String name) {
+        choresList.add(new Chore(duration, name));
+    }
     public void addChore(String name, int personID, int duration) {
         choresList.add(new Chore(name, personID, duration));
     }
