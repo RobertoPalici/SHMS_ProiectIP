@@ -17,7 +17,10 @@ public class Product {
         this.quantity=quantity;
     }
     public void addQuantity(float quantity){
-        this.quantity.setValue(this.quantity.getValue() + quantity);
+        if(this.quantity.getValue() + quantity<0)
+            this.quantity.setValue(0);
+        else
+            this.quantity.setValue(this.quantity.getValue() + quantity);
     }
     public void computeAverageConsumption(){
     }
