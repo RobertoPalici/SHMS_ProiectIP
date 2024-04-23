@@ -25,104 +25,70 @@ public class ChoresController {
     public ChoresList addChore(@RequestParam(value = "name", defaultValue = "") String name,
                                @RequestParam(value="personID", defaultValue = "-1") String personIDString,
                                @RequestParam(value="duration", defaultValue = "-1") String durationString){
-        int personID;
-        try {
-            personID = parseInt(personIDString);
-        } catch (NumberFormatException e) {
-            personID = 0;
+        try{
+            choresList.addChore(name, personIDString, durationString);
         }
-        int duration;
-        try {
-            duration = parseInt(durationString);
-        } catch (NumberFormatException e) {
-            duration = 0;
+        catch (ChoresException e){
+            System.out.println("Error: "+e.getMessage());
+            return choresList;
         }
-        for(int i=0;i<choresList.getChoresList().size();i++){
-            if(Objects.equals(choresList.getChoresList().get(i).getName(), name)){
-                System.out.println(choresList);
-                return choresList;
-            }
-        }
-        if(personID==-1 && duration==-1)
-            choresList.addChore(name);
-        else if(personID!=-1 && duration==-1)
-            choresList.addChore(name, personID);
-        else if(personID==-1 && duration!=-1)
-            choresList.addChore(duration, name);
-        else
-            choresList.addChore(name, personID, duration);
-
         System.out.println(choresList);
         return choresList;
     }
+
     @GetMapping("/removeChore")
     public ChoresList removeChore(@RequestParam(value="id", defaultValue = "-1") String idString){
-        int id;
-        try {
-            id = parseInt(idString);
-        } catch (NumberFormatException e) {
-            id = -1;
+        try{
+            choresList.removeChore(idString);
         }
-        if(id>=0&&id<choresList.getChoresList().size())
-            choresList.removeChore(id);
+        catch (ChoresException e) {
+            System.out.println("Error: "+e.getMessage());
+            return choresList;
+        }
         System.out.println(choresList);
         return choresList;
     }
+
     @GetMapping("/changePersonID")
     public ChoresList changePersonID(@RequestParam(value="id", defaultValue = "-1") String idString,
                                         @RequestParam(value="personID", defaultValue = "-1") String personIDString){
-        int personID;
-        try {
-            personID = parseInt(personIDString);
-        } catch (NumberFormatException e) {
-            personID = 0;
+
+        try{
+            choresList.setPersonID(idString, personIDString);
         }
-        int  id;
-        try {
-            id = parseInt(idString);
-        } catch (NumberFormatException e) {
-            id = -1;
-        }
-        if(id<0||id>choresList.getChoresList().size()-1)
+        catch (ChoresException e) {
+            System.out.println("Error: "+e.getMessage());
             return choresList;
-        choresList.getChoresList().get(id).setPersonID(personID);
+        }
         System.out.println(choresList);
         return choresList;
     }
+
     @GetMapping("/changeDescription")
     public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="description", defaultValue = "") String descriptionString){
-        int  id;
-        try {
-            id = parseInt(idString);
-        } catch (NumberFormatException e) {
-            id = -1;
+        try{
+            choresList.setDescription(idString, descriptionString);
         }
-        if(id<0||id>choresList.getChoresList().size()-1)
+        catch (ChoresException e) {
+            System.out.println("Error: "+e.getMessage());
             return choresList;
-        choresList.getChoresList().get(id).setDescription(descriptionString);
+        }
         System.out.println(choresList);
         return choresList;
     }
     @GetMapping("/changeDuration")
     public ChoresList changeDuration(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="duration", defaultValue = "-1") String durationString){
-        int duration;
-        try {
-            duration = parseInt(durationString);
-        } catch (NumberFormatException e) {
-            duration = 0;
+        try{
+            choresList.setDuration(idString, durationString);
         }
-        int  id;
-        try {
-            id = parseInt(idString);
-        } catch (NumberFormatException e) {
-            id = -1;
-        }
-        if(id<0||id>choresList.getChoresList().size()-1)
+        catch (ChoresException e) {
+            System.out.println("Error: "+e.getMessage());
             return choresList;
-        choresList.getChoresList().get(id).setDuration(duration);
+        }
         System.out.println(choresList);
         return choresList;
+
     }
 }
