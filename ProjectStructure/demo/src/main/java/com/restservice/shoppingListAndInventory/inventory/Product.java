@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @ToString
 @EqualsAndHashCode
 public class Product {
+    int id;
     String name;
     LocalDate expiryDate;
     Quantity quantity;

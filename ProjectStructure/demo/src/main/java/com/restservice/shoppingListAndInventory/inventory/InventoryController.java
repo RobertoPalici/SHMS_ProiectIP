@@ -2,6 +2,7 @@ package com.restservice.shoppingListAndInventory.inventory;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -19,10 +20,11 @@ public class InventoryController {
         try{
             itemList.addItem(name,quantityString);
         }
-        catch (InventoryException e){
+        catch (SQLException | InventoryException e){
             System.out.println("Error: "+e.getMessage());
             return itemList;
         }
+
         System.out.println(itemList);
         return itemList;
     }

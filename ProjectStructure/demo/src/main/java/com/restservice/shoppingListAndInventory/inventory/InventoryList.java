@@ -1,9 +1,13 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
+import com.restservice.shoppingListAndInventory.inventory.database.InventoryItemDAO;
+import com.restservice.shoppingListAndInventory.inventory.database.InventoryListDAO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +18,13 @@ import java.util.Objects;
 public class InventoryList {
     List<InventoryItem> itemList;
     public InventoryList(){
-        itemList=new ArrayList<>();
+        try{
+            InventoryListDAO list= new InventoryListDAO();
+            itemList=list.load();
+        }catch (SQLException e){
+            System.out.println("Error: "+e.getMessage());
+            System.exit(e.getErrorCode());
+        }
     }
     public int findItemIndex(String name){
         for(int i=0;i<itemList.size();i++){
@@ -31,18 +41,21 @@ public class InventoryList {
     public void addItem(InventoryItem item){
         itemList.add(item);
     }
-    public void addItem(String name, Quantity quantity) throws InventoryException{
+    public void addItem(String name, Quantity quantity) throws InventoryException, SQLException {
         if(name.isEmpty())
             throw new InventoryException("Item name cannot be empty.");
         if(quantity.value<0&&quantity.value!=-1)
             throw new InventoryException("Quantity cannot be negative.");
         int index=findItemIndex(name);
         if(index>=0)
-            itemList.get(index).getItem().addQuantity(quantity.value);
-        else
-            itemList.add(new InventoryItem(name,quantity));
+            this.changeQuantity(index, quantity);
+        else {
+            var items=new InventoryItemDAO();
+            items.add(name, quantity);
+            itemList.add(new InventoryItem(name, quantity, LocalDate.now()));
+        }
     }
-    public void addItem(String name, String quantityString) throws InventoryException{
+    public void addItem(String name, String quantityString) throws InventoryException, SQLException {
         float quantity;
         try {
             quantity = Float.parseFloat(quantityString);
@@ -55,10 +68,14 @@ public class InventoryList {
         int id;
         try {
             id = Integer.parseInt(idString);
+            var items=new InventoryItemDAO();
+            items.remove(itemList.get(id).getItem().getName());
+            this.removeItem(id);
         } catch (NumberFormatException e) {
             throw new InventoryException("Item ID has to be a non-negative integer.");
+        } catch (SQLException e){
+            throw new InventoryException(e.getMessage());
         }
-        this.removeItem(id);
     }
     public void removeItem(int id) throws InventoryException{
         if(id<0)
@@ -85,6 +102,16 @@ public class InventoryList {
     public void changeQuantity(int id, Quantity quantity) throws InventoryException{
         if(id<0||id>itemList.size()-1)
             throw new InventoryException("Item ID has to be a non-negative integer and cannot be bigger that the list's size.");
-        itemList.get(id).getItem().addQuantity(quantity.value);
+        try {
+            var items=new InventoryItemDAO();
+            float difference=itemList.get(id).getItem().getQuantity().getValue() + quantity.getValue();
+            if(difference<0)
+                difference=0;
+            items.changeQuantity(itemList.get(id).getItem().getName(),difference);
+            itemList.get(id).getItem().addQuantity(quantity.value);
+        }
+        catch (SQLException e){
+            throw new InventoryException(e.getMessage());
+        }
     }
 }

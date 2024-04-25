@@ -11,10 +11,11 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class InventoryItem {
+    int id;
     Product item;
     LocalDate dateOfBuying;
-    public InventoryItem(String name, Quantity quantity){
+    public InventoryItem(String name, Quantity quantity, LocalDate buyDate){
         item=new Product(name, quantity);
-        this.dateOfBuying=LocalDate.now();
+        this.dateOfBuying=buyDate;
     }
 }
