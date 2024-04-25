@@ -1,0 +1,30 @@
+{
+  "itemList": [
+    {
+      "item": {
+        "name": "mere",
+        "expiryDate": null,
+        "quantity": {
+          "value": 6,
+          "type": "Amount"
+        },
+        "averageConsumption": 0
+      },
+      "dateOfBuying": "2024-04-24",
+      "imageSrc": ""
+    },
+    {
+      "item": {
+        "name": "cirese",
+        "expiryDate": null,
+        "quantity": {
+          "value": 60,
+          "type": "Amount"
+        },
+        "averageConsumption": 0
+      },
+      "dateOfBuying": "2024-04-24",
+      "imageSrc": ""
+    }
+  ]
+}

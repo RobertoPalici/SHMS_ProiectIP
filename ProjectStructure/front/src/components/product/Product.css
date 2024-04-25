@@ -1,0 +1,115 @@
+/* Product.css */
+
+.product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px; 
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+  
+  .product-image {
+    width: 10vw;  
+    height: 10vw; 
+    border-radius: 50;
+  }
+  
+  .quantity-controls {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-button {
+    background-color: #1BBC9B;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  .remove-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    margin-left: 10px;
+  }
+
+  .current-quantity {
+    margin: 0 10px;
+    font-weight: bold;
+  }
+  
+  .appContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    align-items: center;
+    margin: 100px;
+    gap: 20px; 
+    background-color: #F2F2F2;
+    position: relative;
+    margin-top: 150px; 
+  }
+  
+  .product-container {
+    background-color: #FFFFFF; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    justify-content: center;  
+    padding: 0px;
+    background-color: #F2F2F2;
+    border-radius: 15%;
+  }
+
+  .buy-button {
+    margin-top: 10px;
+    background-color: #1BBC9B;
+    font-weight: bold;
+    border-radius: 15px;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 1100px) {
+    .product-image {
+    width: 13vw;  
+    height: 13vw;  
+  }
+  .product-name {
+    font-size: 1vw; 
+  }
+  }
+
+  @media (max-width: 750px) {
+    .product-image {
+    width: 14vw;  
+    height: 14vw;  
+  }
+
+  .buy-button {
+    padding: 3px 10px;
+  }
+  }
+
+  
