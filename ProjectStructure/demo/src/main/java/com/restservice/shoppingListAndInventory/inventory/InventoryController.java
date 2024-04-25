@@ -54,6 +54,11 @@ public class InventoryController {
         System.out.println(itemList);
         return itemList;
     }
+    @GetMapping("/list")
+    public InventoryList changeQuantity(){
+        System.out.println(itemList);
+        return itemList;
+    }
     Map<Product, Integer> averageConsumptionForAll;
     public void computeAverageConsumptionForAll(){
 
