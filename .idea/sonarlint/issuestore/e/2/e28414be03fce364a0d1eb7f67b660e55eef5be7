@@ -1,0 +1,18 @@
+
+^
+java:S1192"HDefine a constant instead of duplicating this literal "Error: " 6 times.(äìÎÆ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(á‡§ê
+œ
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(çˆ³•şÿÿÿÿ
+E	java:S106"+Replace this use of System.out by a logger.(Ğˆ†Œÿÿÿÿÿ
+@	java:S106"+Replace this use of System.out by a logger.(äìÎÆ
+E	java:S106 "+Replace this use of System.out by a logger.(Ğˆ†Œÿÿÿÿÿ
+@	java:S106."+Replace this use of System.out by a logger.(äìÎÆ
+E	java:S1061"+Replace this use of System.out by a logger.(Ğˆ†Œÿÿÿÿÿ
+@	java:S106;"+Replace this use of System.out by a logger.(äìÎÆ
+E	java:S106>"+Replace this use of System.out by a logger.(Ğˆ†Œÿÿÿÿÿ
+@	java:S106I"+Replace this use of System.out by a logger.(äìÎÆ
+E	java:S106L"+Replace this use of System.out by a logger.(Ğˆ†Œÿÿÿÿÿ
+@	java:S106U"+Replace this use of System.out by a logger.(äìÎÆ
+@	java:S106`"+Replace this use of System.out by a logger.(äìÎÆ
+E	java:S106c"+Replace this use of System.out by a logger.(Ğˆ†Œÿÿÿÿÿ

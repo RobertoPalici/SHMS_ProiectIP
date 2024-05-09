@@ -1,0 +1,14 @@
+
+^
+java:S1192 "HDefine a constant instead of duplicating this literal "Error: " 5 times.(äìÎÆ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ë—ÓŠûÿÿÿÿ
+@	java:S106 "+Replace this use of System.out by a logger.(äìÎÆ
+@	java:S106#"+Replace this use of System.out by a logger.(ÏõÒñ
+@	java:S106-"+Replace this use of System.out by a logger.(äìÎÆ
+@	java:S1060"+Replace this use of System.out by a logger.(ÏõÒñ
+@	java:S106<"+Replace this use of System.out by a logger.(äìÎÆ
+@	java:S106?"+Replace this use of System.out by a logger.(ÏõÒñ
+@	java:S106J"+Replace this use of System.out by a logger.(äìÎÆ
+@	java:S106M"+Replace this use of System.out by a logger.(ÏõÒñ
+@	java:S106W"+Replace this use of System.out by a logger.(äìÎÆ
+@	java:S106Z"+Replace this use of System.out by a logger.(ÏõÒñ

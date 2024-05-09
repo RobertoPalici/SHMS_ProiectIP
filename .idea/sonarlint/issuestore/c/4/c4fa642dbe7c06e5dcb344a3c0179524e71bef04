@@ -1,0 +1,10 @@
+
+†
+java:S1192N"pDefine a constant instead of duplicating this literal "Chore ID cannot be bigger than the list's size." 4 times.(ú‡í¸
+†
+java:S1192<"kDefine a constant instead of duplicating this literal "Duration has to be a non-negative integer." 3 times.(ƒ³¾íþÿÿÿÿ
+
+java:S1192F"kDefine a constant instead of duplicating this literal "Chore ID has to be a non-negative integer." 9 times.(Ð›‰Ñ
+4
+java:S1700"Rename field "choresList"(üÒÏ©úÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ë—ÓŠûÿÿÿÿ

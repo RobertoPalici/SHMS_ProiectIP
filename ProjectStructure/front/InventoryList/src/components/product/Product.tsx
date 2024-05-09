@@ -8,7 +8,7 @@ type Quantity = {
   type: string;
 }
 
-type Item = {
+export type Item = {
   name: string;
   expiryDate: string | null;
   quantity: Quantity;
@@ -19,17 +19,18 @@ export type ItemList = {
   item: Item;
   imageSrc : string;
   dateOfBuying: string | null;
+  id : any;
 }
 
 export type ProductProps = {
-  itemList : ItemList[];
+  itemList: ItemList[];
 };
 
 interface ProductDeclareProps {
   handleIncreaseQuantity: (name : string) => void;
   handleDecreaseQuantity: (name : string) => void;
   handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
-  handleDelete?: (name : string) => void;
+  handleDelete: (name : string) => void;
   newProduct ?: string;
   setNewProduct ?: React.Dispatch<React.SetStateAction<string>>;
   newQuantity ?: number;
@@ -38,15 +39,20 @@ interface ProductDeclareProps {
 
 
 const Product: React.FC<ItemList & ProductDeclareProps> = ({item, imageSrc, dateOfBuying, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
-  const [quantityValue, setQuantityValue] = useState(item.quantity.value);
-  const [productName, setProductName] = useState(item.name);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
 
+  const handleButton = () => {
+    setTimeout(() => {
+      if(inputRef.current) {inputRef.current.value = '';}
+      if(inputRef2.current) {inputRef2.current.value = '';}
+    }, 30);
+  };
+
   return (
     <div className="product">
-      <img style={{margin: '10px'}} src={imageSrc} alt={productName} className="product-image" />
+      <img style={{margin: '10px'}} src={imageSrc} alt={item.name} className="product-image" />
       <div className="product-info">
         {imageSrc !== questionmark && (
         <div className="quantity-controls">
@@ -62,14 +68,14 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, imageSrc, date
           >+
           </button>
           <button className="remove-button" 
-              onClick={() => {if(handleDelete) handleDelete(item.name)}}
+              onClick={() => handleDelete(item.name)}
           >X
           </button>
         </div>
         )}
         <form className="product-info" onSubmit={handleSubmit}>
         {imageSrc === questionmark ? (
-          <div>
+          <div className='product-info'>
           <input
             autoFocus
             ref={inputRef}
@@ -97,17 +103,14 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, imageSrc, date
         />
         </div>
         ) : (
-          <h2 className="product-name">{productName}</h2>
+          <h2 className="product-name">{item.name}</h2>
         )}
         {imageSrc === questionmark && (
           <button 
               className="buy-button" 
               type='submit'
               aria-label='Add Item'
-              onClick={() => {
-                inputRef.current?.focus()
-                inputRef2.current?.focus()
-                }}
+              onClick={handleButton}
           >
                 Add
           </button>

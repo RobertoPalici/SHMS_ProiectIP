@@ -26,28 +26,30 @@ const ItemLists: React.FC<ContentProps> = ({products, handleIncreaseQuantity, ha
                           dateOfBuying={item.dateOfBuying}
                           handleIncreaseQuantity={handleIncreaseQuantity}
                           handleDecreaseQuantity={handleDecreaseQuantity}
-                          handleDelete={handleDelete}                               />
+                          handleDelete={handleDelete}
+                          id={undefined}/>
                         </div>
                     ))}
                 <div className="product-container">
                                 <Product
-                                item={{
-                                    "name": "",
-                                    "expiryDate": null,
-                                    "quantity": {
-                                      "value": 0,
-                                      "type": "Amount"
-                                    },
-                                    "averageConsumption": 0
-                                  }} 
-                                imageSrc={questionmark}
-                                dateOfBuying={null}
-                                handleIncreaseQuantity={handleIncreaseQuantity}
-                                handleDecreaseQuantity={handleDecreaseQuantity}
-                                handleSubmit={handleSubmit} 
-                                setNewProduct={setNewProduct}
-                                setNewQuantity={setNewQuantity}
-                                />
+                          item={{
+                            "name": "",
+                            "expiryDate": null,
+                            "quantity": {
+                              "value": 0,
+                              "type": "Amount"
+                            },
+                            "averageConsumption": 0
+                          }}
+                          imageSrc={questionmark}
+                          dateOfBuying={null}
+                          handleIncreaseQuantity={handleIncreaseQuantity}
+                          handleDecreaseQuantity={handleDecreaseQuantity}
+                          handleSubmit={handleSubmit}
+                          handleDelete={handleDelete}
+                          setNewProduct={setNewProduct}
+                          setNewQuantity={setNewQuantity}
+                          id={undefined}/>
                   </div>
                   </div>
   )

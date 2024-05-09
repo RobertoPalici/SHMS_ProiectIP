@@ -13,34 +13,63 @@ import TOMATOES from './components/pictures/TOMATOES.png';
 import HOT_PEPPERS from './components/pictures/HOT PEPPERS.png';
 import questionmark from './components/pictures/questionmark.png';
 import './App.css';
-import Content from './Content'; 
+import Content from './Content';
+import APIRequest from './APIRequest';
 
 const App: React.FC = () => {
-  
-  /*const savedData = localStorage.getItem('inventoryList');
-  const initialProducts = savedData ? JSON.parse(savedData) : [];*/
 
-  const [products, setProducts] = useState<ProductProps>({
-    "itemList": []
-  });
-  const[newProduct, setNewProduct] = useState('');
-  const[newQuantity, setNewQuantity] = useState(0);
+  const API_URL = 'http://localhost:8081/inventory';
+  //const API_URL = 'http://localhost:5000/itemList';
+
+  const [products, setProducts] = useState<ProductProps>({itemList: []});
+  const [newProduct, setNewProduct] = useState('');
+  const [newQuantity, setNewQuantity] = useState(0);
+  const [fetchError, setFetchError] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem('inventoryList', JSON.stringify(products));
-  }, [products])
+    const fetchItems = async () => {
+      try{
+        const response = await fetch(API_URL);
+        if(!response.ok) throw Error('Data was not received');
+        const listItems = await response.json();
+
+        setProducts(prevProducts => {
+          return {...prevProducts, itemList: listItems.itemList};
+        });
+        setFetchError(null);
+      } catch(err : unknown){
+          if (err instanceof Error) {
+            setFetchError(err.message);
+          } else {
+            setFetchError('An unknown error occurred');
+          }
+      } finally{
+        setLoading(false);
+      }
+    }
+    setTimeout(() => {
+      (async () => await fetchItems())();
+    }, 2000);
+  }, [])
 
   return (
     <div className="appContainer">
       <Nav />
-      <Content 
-        products = {products}
-        setProducts = {setProducts}
-        newProduct = {newProduct}
-        setNewProduct = {setNewProduct}
-        newQuantity = {newQuantity}
-        setNewQuantity = {setNewQuantity}
-      />
+      <main>
+        {loading && <p>Inventory is loading...</p>}
+        {fetchError && <p style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
+        {!fetchError && !loading && <Content 
+          products = {products}
+          setProducts = {setProducts}
+          newProduct = {newProduct}
+          setNewProduct = {setNewProduct}
+          newQuantity = {newQuantity}
+          setNewQuantity = {setNewQuantity}
+          fetchError = {fetchError}
+          setFetchError = {setFetchError}
+        />}
+      </main>
       <img className="footer" src={footer} alt="Footer" />
     </div>
   );

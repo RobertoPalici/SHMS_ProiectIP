@@ -1,0 +1,21 @@
+
+m
+=ProjectStructure/demo/src/main/java/com/restservice/Main.java,d\4\d4a45a86a19490fe83a57d220f83ff13e5a9efa1
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+ü
+oProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/inventory/InventoryController.java,8\3\8363e7a91fc41dd4656560917983d87538190364
+é
+^ProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/chores/Chore.java,4\b\4b157bf97048284f0a50c03bc732f8f1dd08a75e
+ô
+iProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/chores/ChoresController.java,d\5\d5f1c0ec265db4992ff02d0c598e67fc6172d47b
+ì
+cProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/chores/ChoresList.java,c\4\c4fa642dbe7c06e5dcb344a3c0179524e71bef04
+ò
+hProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/inventory/QuantityType.java,3\d\3d203ac4823f3b7255334efdb961198323aae73f
+î
+dProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/inventory/Quantity.java,8\6\861107ff74b43d6aa4c5e8495165553dbef5fdef
+¶
+vProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/notifications/NotificationController.java,3\2\324cfd6c0b7081749838a66ddc1c7a66e5672f02
+ù
+mProjectStructure/demo/src/main/java/com/restservice/shoppingListAndInventory/shopping/ShoppingController.java,e\2\e28414be03fce364a0d1eb7f67b660e55eef5be7

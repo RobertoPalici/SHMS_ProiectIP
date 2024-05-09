@@ -1,29 +1,17 @@
 {
   "itemList": [
     {
+      "id": "fd41",
       "item": {
-        "name": "mere",
+        "name": "penisul lui robi",
         "expiryDate": null,
         "quantity": {
-          "value": 6,
+          "value": 14,
           "type": "Amount"
         },
         "averageConsumption": 0
       },
-      "dateOfBuying": "2024-04-24",
-      "imageSrc": ""
-    },
-    {
-      "item": {
-        "name": "cirese",
-        "expiryDate": null,
-        "quantity": {
-          "value": 60,
-          "type": "Amount"
-        },
-        "averageConsumption": 0
-      },
-      "dateOfBuying": "2024-04-24",
+      "dateOfBuying": null,
       "imageSrc": ""
     }
   ]

@@ -85,6 +85,6 @@ public class InventoryList {
     public void changeQuantity(int id, Quantity quantity) throws InventoryException{
         if(id<0||id>itemList.size()-1)
             throw new InventoryException("Item ID has to be a non-negative integer and cannot be bigger that the list's size.");
-        itemList.get(id).getItem().addQuantity(quantity.value);
+        itemList.get(id).getItem().setQuantity(quantity);
     }
 }
