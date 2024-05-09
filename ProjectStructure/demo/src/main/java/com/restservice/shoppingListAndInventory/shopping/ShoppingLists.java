@@ -9,7 +9,8 @@ import java.util.List;
 @ToString
 public class ShoppingLists {
     List<ShoppingList> shoppingLists;
-    public ShoppingLists(){ shoppingLists=new ArrayList<>();}
+    public ShoppingLists(){ shoppingLists=new ArrayList<>();
+    shoppingLists.add(new ShoppingList());}
     public void addList(){
         shoppingLists.add(new ShoppingList());
     }
@@ -34,8 +35,9 @@ public class ShoppingLists {
     public void addItem(int index, String name, String quantityString, String priceString)throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");
-        if (index > shoppingLists.size() - 1)
-            throw new ShoppingException("List index cannot be bigger than list size!");
+        if (index > shoppingLists.size() - 1){
+            System.out.println(shoppingLists.size()-1);
+            throw new ShoppingException("List index cannot be bigger than list size!");}
         shoppingLists.get(index).addItem(name, quantityString, priceString);
     }
     public void addItem(String indexString, String name, String quantityString, String priceString) throws ShoppingException{
@@ -64,7 +66,7 @@ public class ShoppingLists {
         this.removeItem(index, idString);
     }
     public void changeQuantity(int index, String idString, String quantityString) throws ShoppingException{
-        if (index<0)
+        if (index < 0)
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");

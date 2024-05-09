@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import  Nav  from './components/header/Nav'
 import {Top} from './components/Top'
 import Mid from './components/Mid'
-import { ChoreProps } from './components/ChoreLists';
+import { ChoreProps } from './components/Chore';
 import {Footer} from './components/Footer';
 
 
@@ -11,7 +11,7 @@ const App: React.FC = () => {
 
   const API_URL = 'http://localhost:8081/chores';
 
-  const [chores, setChores] = useState<ChoreProps>({choreList: []});
+  const [chores, setChores] = useState<ChoreProps>({choresList: []});
   const [newChore, setNewChore] = useState('');
   const [newDesc, setNewDesc] = useState('');
   const [fetchError, setFetchError] = useState<any>(null);
@@ -24,8 +24,9 @@ const App: React.FC = () => {
         if(!response.ok) throw Error('Data was not received');
         const listChores = await response.json();
         console.log(listChores);
+        console.log(listChores.choresList);
         setChores(prevChores => {
-          return {...prevChores, choreList: listChores.choreList};
+          return {...prevChores, choresList: listChores.choresList};
         });
         setFetchError(null);
       } catch(err : unknown){
@@ -48,7 +49,7 @@ const App: React.FC = () => {
       <Nav />
       <Top />
       <main>
-        {loading && <p>Inventory is loading...</p>}
+        {loading && <p>Chores List is loading...</p>}
         {fetchError && <p style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !loading && <Mid 
         chores = {chores}

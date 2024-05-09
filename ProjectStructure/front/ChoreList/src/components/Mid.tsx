@@ -3,7 +3,7 @@ import styles from './Mid.module.css'
 import placeholder from './pictures/sweep.jpg'
 import APIRequest from '../APIRequest';
 import ChoreLists from './ChoreLists';
-import { ChoreList, ChoreProps } from './ChoreLists';
+import { ChoresList, ChoreProps } from './Chore';
 
 
 
@@ -21,14 +21,15 @@ interface MidProps {
 const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, fetchError, setChores, setNewChore, setNewDesc, setFetchError}) =>{
     const API_URL = 'http://localhost:8081/chores';
 
-    const saveChores = (newChores : ChoreList[]) => {
+    const saveChores = (newChores : ChoresList[]) => {
       console.log(chores);
       setChores(prevChores => {
-        return {...prevChores, choreList: newChores};  
+        return {...prevChores, choresList: newChores};  
       });
     }
     
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      console.log(chores);
         e.preventDefault();
         if(!newChore) return;
         addChore(newChore, newDesc);
@@ -40,15 +41,18 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, fetchError, setChor
       if(name.trim() === ''){
         alert('Please enter a title for the chore');
       } else {
+        console.log(name);
+        console.log(chores);
+        console.log(chores.choresList);
         const newChoreItem = {id: undefined, name, description, personID: -1, duration: -1, imageSrc: '' };
         console.log(newChoreItem);
-        if (!chores.choreList) {
-          const listChores = [chores.choreList, newChoreItem];
+        if (!chores) {
+          const listChores = [chores, newChoreItem];
           console.log(listChores);
           saveChores(listChores);
         }
         else{
-        const listChores = [...chores.choreList, newChoreItem];
+        const listChores = [...chores.choresList, newChoreItem];
         console.log(listChores);
         saveChores(listChores);}
         const options = {
@@ -64,10 +68,10 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, fetchError, setChor
       }
     }
     const handleDelete = async (name : string) => {
-      if(chores.choreList !== undefined){
-        const listChores = chores.choreList.filter((item) => item.name !== name);
-        const targetChore = chores.choreList.filter((item) => item.name === name);
-        const index = chores.choreList.findIndex(item => item.name === name); 
+      if(chores.choresList !== undefined){
+        const listChores = chores.choresList.filter((item) => item.name !== name);
+        const targetChore = chores.choresList.filter((item) => item.name === name);
+        const index = chores.choresList.findIndex(item => item.name === name); 
         saveChores(listChores);
 
         const options = {method: 'DELETE'};

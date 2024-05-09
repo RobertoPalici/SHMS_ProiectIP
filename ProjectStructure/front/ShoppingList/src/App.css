@@ -16,13 +16,13 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  block-size: 40vmin;
   pointer-events: none;
 }
 
 .appImage {
-  height: 20%; 
-  width: 100%;
+  block-size: 20%; 
+  inline-size: 100%;
   display: block;
   position: relative; 
   z-index: 1;
@@ -30,24 +30,24 @@
 
 .overlay {
   position: absolute;
-  top: 50px;
-  left: 0;
-  width: 100%;
-  height: 15%; 
+  inset-block-start: 50px;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 15%; 
   z-index:1;
 }
 
 .vector {
   position: absolute;
-  top: 70px;
-  left: 100px;
-  width: calc(100% - 200px);  
+  inset-block-start: 70px;
+  inset-inline-start: 100px;
+  inline-size: calc(100% - 200px);  
   z-index: 3;
 }
 
 .footer {
-  height: 20%; 
-  width: 100%;
+  block-size: 20%; 
+  inline-size: 100%;
   display: block;
   position: relative; 
   z-index: 1;
@@ -61,7 +61,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-block-size: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,7 +88,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  block-size: 100vh;
   font-family: Arial, sans-serif;
 }
 
@@ -97,7 +97,7 @@ h1 {
 }
 
 p {
-  margin-top: 20px;
+  margin-block-start: 20px;
   font-size: 18px;
   color: #666;
 }
@@ -106,13 +106,13 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5vw;
-  width: 100%;
-  background-color: none;
+  margin-block-start: 5vw;
+  inline-size: 100%;
+  background-color: #F2F2F2;
   position: absolute; 
-  top: 350px; 
-  left: 0; 
-  right: 0; 
+  inset-block-start: 350px; 
+  inset-inline-start: 0; 
+  inset-inline-end: 0; 
   z-index: 9999; 
 }
 
@@ -136,21 +136,20 @@ p {
   font-size: 16px;
   font-weight: bold;
   border-radius: 10px;
-  width: 125px; 
+  inline-size: 125px; 
 }
 
 .tagButton{
-  margin-left: 2vw;
+  margin-inline-start: 2vw;
 }
 
 .restockSuggestions {
-  width: 250px;  
-  margin-right: 11vw;
+  inline-size: 250px;  
 }
 
 .sortButton {
-  width: 125px;  
-  margin-left: -5vw; 
+  inline-size: 125px;  
+  margin-inline-start: -5vw; 
 }
 
 .App {
@@ -161,10 +160,10 @@ p {
   position: relative;  
 }
 
-.shopping-list {
+.inventory-list {
   position: absolute;;  
-  top: 9%;  
-  left: 50%; 
+  inset-block-start: 9%;  
+  inset-inline-start: 50%; 
   transform: translate(-50%, -50%);  
   z-index: 4;  
   font-size: 6vw;  
@@ -178,13 +177,13 @@ p {
 }
 
 .App-logo {
-  height: 40vmin;
+  block-size: 40vmin;
   pointer-events: none;
 }
 
 .appImage {
-  height: 20%;  
-  width: 100%;
+  block-size: 20%;  
+  inline-size: 100%;
   display: block;
   position: relative;  
   z-index: 1;
@@ -192,37 +191,28 @@ p {
 
 .overlay {
   position: absolute;
-  top: 50px;
-  left: 0;
-  width: 100%;
-  height: 15%;  
+  inset-block-start: 50px;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 15%;  
   z-index:1;
 }
 
 .vector {
   position: absolute;
-  top: 70px;
-  left: 100px;
-  width: calc(100% - 200px);  
+  inset-block-start: 70px;
+  inset-inline-start: 100px;
+  inline-size: calc(100% - 200px);  
   z-index: 3;
 }
 
-@media (min-width: 1000px) {
+@media (min-inline-size: 1000px) {
   .overlay {
-    height: 80vw;  
+    block-size: 80vw;  
     z-index: 1;
   }
   .vector {
-    height: 60vw;  
-  }
-}
-
-@media (min-width: 400px) {
-  .overlay {
-    height: 35vw;
-  }
-  .vector {
-    height: 15vw ;
+    block-size: 60vw;  
   }
 }
 
@@ -234,7 +224,7 @@ p {
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-block-size: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -261,7 +251,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  block-size: 100vh;
   font-family: Arial, sans-serif;
 }
 
@@ -270,7 +260,7 @@ h1 {
 }
 
 p {
-  margin-top: 20px;
+  margin-block-start: 20px;
   font-size: 18px;
   color: #666;
 }
@@ -279,8 +269,8 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12vw;
-  width: 100%;
+  margin-block-start: 12vw;
+  inline-size: 100%;
 }
 
 .nav-links {
@@ -303,20 +293,20 @@ p {
   font-size: 16px;
   font-weight: bold;
   border-radius: 10px;
-  width: 125px;  
+  inline-size: 125px;  
 }
 
 .tagButton{
-  margin-left: 2vw;
+  margin-inline-start: 2vw;
 }
 
 .restockSuggestions {
-  width: 250px;  
+  inline-size: 250px;  
 }
 
 .sortButton {
-  width: 125px; 
-  margin-left: -5vw;  
+  inline-size: 125px; 
+  margin-inline-start: -5vw;  
 }
 
 .dropdowntag {
@@ -324,9 +314,9 @@ p {
   flex-direction: column;
   position: absolute;
   padding: 10px;
-  width: 100px; 
-  top: calc(100% - 5px); 
-  margin-left: 2.2vw;
+  inline-size: 100px; 
+  inset-block-start: calc(100% - 5px); 
+  margin-inline-start: 2.2vw;
 }
 
 .dropdowntag button {
@@ -338,7 +328,7 @@ p {
   cursor: pointer;
   font-family: Bolt, sans-serif;
   font-size: 14px;  
-  margin-bottom: 3px; 
+  margin-block-end: 3px; 
 }
 
 .dropdownsort {
@@ -347,10 +337,9 @@ p {
   position: absolute;
   padding: 10px;
   border-radius: 4px;
-  width: 100px;  
-  top: calc(100% - 5px);  
-  margin-left: 22vw; 
-  transform: translateX(-50%);  
+  inline-size: 100px;  
+  inset-block-start: calc(100% - 5px);  
+  margin-inline-start: 22vw; 
   z-index: 99999;
 }
 
@@ -363,7 +352,7 @@ p {
   cursor: pointer;
   font-family: Bolt, sans-serif;
   font-size: 14px; 
-  margin-bottom: 3px; 
+  margin-block-end: 3px; 
 }
 
 .dropdownsort button:hover{
@@ -378,159 +367,255 @@ p {
 
 @media (max-width: 1920px) {
   .buttonContainer{
-    margin-top: 19vw;
-  } 
-}
-@media (min-width: 1900px) and (max-width:2300px){
-  .restockSuggestions {
-    width: 250px; 
-    margin-top: 11vh; 
-  }
-}
-
-@media (min-width: 2300px) and (max-width:2800px){
-  .buttonContainer{
-    margin-top: 25vw;
+    margin-block-start: 25vw;
   } 
 
-  .shopping-list {
-    top: 10%;
+  .inventory-list {
+    inset-block-start: 10%;
   }
 
   .buttonContainer{
-    margin-top: 20vw;
+    margin-block-start: 20vw;
   } 
 
   .dropdowntag {
-    margin-left: 40px;  
+    margin-inline-start: 40px;  
   }
 
   .dropdownsort {
-    margin-left: 430px; 
-  }
-  .restockSuggestions {
-    width: 250px; 
-    margin-top: 5vh; 
+    margin-inline-start: 29.5vw; 
   }
 }
 
 @media (max-width: 1800px) {
   buttonContainer{
-    margin-top: 20vw;
+    margin-block-start: 20vw;
+  }
+
+  .dropdownsort {
+    margin-inline-start: 29.1vw;  
   }
 }
 
 @media (max-width: 1500px) {
   .buttonContainer{
-    margin-top: 15.5vw;
+    margin-block-start: 15.5vw;
   } 
+
+  .dropdownsort {
+    margin-inline-start: 28.5vw;   
+  }
 }
 
 @media (max-width: 1300px) {
   .buttonContainer{
-    margin-top: 12vw;
+    margin-block-start: 12vw;
   } 
 }
 
 @media (max-width: 1100px) {
   .buttonContainer{
-    margin-top: 7vw;
+    margin-block-start: 7vw;
   } 
+
+  .dropdownsort {
+    margin-inline-start: 28vw;  
+  }
 }
 
 @media (max-width: 950px) {
   .tagButton,
   .sortButton {
-    width: 100px;  
+    inline-size: 100px;  
     font-size: 14px;  
   }
 
   .sortButton {
-    margin-left: 0;  
+    margin-inline-start: 0;  
+  }
+
+  .dropdownsort button {
+    inline-size: 80px;
+    font-size: 60%; 
+    margin-inline-start: 1.5vw; 
+  }
+
+  .dropdowntag {
+    margin-inline-start: 2.5vw;
+  }
+
+  .dropdowntag button {
+    font-size: 12px;  
+    inline-size: 80px;
+    font-size: 70%; 
   }
 }
 
 @media (max-width: 900px) {
   .buttonContainer{
-    margin-top: 3vw;
+    margin-block-start: 3vw;
   } 
+}
+
+@media (max-width: 810px) {
+
+  .dropdowntag {
+    margin-inline-start: 2vw;
+  }
 }
 
 @media (max-width: 800px) {
   .restockSuggestions {
-    width: 30vw;  
+    inline-size: 30vw;  
     font-size: 1.8vw; 
   }
 }
-
-  @media (max-width: 750px) {
-    .shopping-list {
-      top: 9%; 
-      }
-    }
   
-    @media (min-width: 727px) {
-      .shopping-list {
-        top: 9%; 
-        }
-      }
-  
-  @media (max-width: 700px) {
-    .buttonContainer{
-      margin-top: -7vw;
-    } 
-
-    .shopping-list {
-      top: 5.5%; 
-      }
+@media (max-width: 700px) {
+  .product-list {
+    margin-block-start: 25.5vw; 
   }
+            
+  .inventory-list {
+    inset-block-start: 10.5%;  
+  }
+
+  .buttonContainer {
+    margin-block-start: 1%;  
+  }
+}
 
 @media (max-width: 600px) {
-  .buttonContainer {
-    margin-top: -17vw;
-    flex-direction: column;  
-    align-items: flex-start;  
-  }
-
   .product-list{
-    margin-top: 37vw;
+    margin-block-start: 37vw;
   }
 
   .tagButton,
   .sortButton,
   .restockSuggestions {
-    margin-top: 10px; 
-    width: calc(100% - 20px); 
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-block-start: 10px;  
+    inline-size: calc(100% - 20px);  
+    margin-inline-start: 10px;
+    margin-inline-start: 10px;
   }
 
   .product-list{
-    margin-top: 45vw;
+    margin-block-start: 45vw;
   }
 
   .buttonContainer {
-    margin-top: -15vw;
+    margin-block-start: 1vw;
+    margin-inline-end: 10vw;
+    margin-inline-start: auto;
+    inline-size: 80%; 
+    align-items: flex-start;
+  }
+  
+  .dropdowntag{
+    margin-inline-start: 4.5vw;
+  }
+
+  .inventory-list {
+    inset-block-start: 10%; 
   }
 }
 
 @media (max-width: 480px) {
-  .product-list{
-    margin-top: 60vw;
+  .inventory-list {
+    inset-block-start: 9.5%;  
   }
-  
+
+  .product-list{
+    margin-block-start: 60vw;
+  }
+
+  .dropdowntag{
+    margin-inline-start: 3vw;
+  }
 }
 
 @media (max-width: 450px) {
-  .shopping-list {
-    top: 5%; 
-    }
-
   .product-list{
-    margin-top: 60vw;
+    margin-block-start: 45vw;
   }
 
   .buttonContainer {
-    margin-top: -25vw;
+    margin-block-start: -25vw;
+  }
+  
+
+  .inventory-list {
+    inset-block-start: 9.5%;  
+  }
+}
+
+@media (max-width: 428px) {
+  .dropdownsort {
+    transform: translateX(-70vw);
+  }
+}
+
+@media (max-width: 414px) {
+  .dropdownsort {
+    transform: translateX(-73vw);
+  }
+}
+
+@media (max-width: 412px) {
+  .dropdownsort {
+    transform: translateX(-74vw);
+  }
+}
+
+@media (max-width: 400px) {
+  .overlay {
+    block-size: 35vw;
+  }
+  .vector {
+    block-size: 15vw ;
+  }
+}
+
+@media (max-width: 390px) {
+  .dropdownsort {
+    transform: translateX(-80.5vw);
+  }
+}
+
+@media (max-width: 384px) {
+  .dropdownsort {
+    transform: translateX(-82vw);
+  }
+
+  .inventory-list {
+    inset-block-start: 7%;
+  }
+
+  .dropdowntag {
+    margin-inline-start: 1.5vw;
+  }
+}
+
+@media (max-width: 375px) {
+  .dropdownsort {
+    transform: translateX(-85vw);
+  }
+}
+
+@media (max-width: 360px) {
+  .dropdownsort {
+    transform: translateX(-91vw);
+  }
+
+  .buttonContainer {
+    margin-block-start: -37vw;
+  }
+
+  .inventory-list {
+    inset-block-start: 7%;
+  }
+
+  .dropdowntag {
+    margin-inline-start: 1.5vw;
   }
 }

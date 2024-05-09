@@ -1,85 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Nav from './components/header/Nav';
-import Product from './components/product/Product';
-import image_1 from './components/pictures/image 3.png';
-import image_2 from './components/pictures/background-overlay.png';
-import image_3 from './components/pictures/vector.png';
+import {ProductProps} from './components/product/Product';
 import footer from './components/pictures/Footer.png';
-import POTATOES from './components/pictures/POTATOES.png';
-import CABBAGES from './components/pictures/CABBAGES.png';
-import CUCUMBERS from './components/pictures/CUCUMBERS.png';
-import TOMATOES from './components/pictures/TOMATOES.png'; 
-import HOT_PEPPERS from './components/pictures/HOT PEPPERS.png';
 import './App.css';
+import Content from './Content';
 
 const App: React.FC = () => {
-  const [isTagDropdownOpen, setTagDropdownOpen] = useState(false);
-  const [isSortDropdownOpen, setSortDropdownOpen] = useState(false);
 
-  const toggleTagDropdown = () => {
-    setTagDropdownOpen(!isTagDropdownOpen);
-    if (isSortDropdownOpen) {
-      setSortDropdownOpen(false);
+  const API_URL = 'http://localhost:8081/shopping';
+
+  const [products, setProducts] = useState<ProductProps>({shoppingLists: []});
+  const [newProduct, setNewProduct] = useState('');
+  const [newQuantity, setNewQuantity] = useState(0);
+  const [fetchError, setFetchError] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try{
+        const response = await fetch(API_URL);
+        if(!response.ok) throw Error('Data was not received');
+        const listItems = await response.json();
+        console.log(listItems);
+        console.log(listItems.shoppingLists);
+
+        setProducts(prevProducts => {
+          return {...prevProducts, shoppingLists: listItems.shoppingLists};
+        });
+        console.log(products);
+        setFetchError(null);
+      } catch(err : unknown){
+          if (err instanceof Error) {
+            setFetchError(err.message);
+          } else {
+            setFetchError('An unknown error occurred');
+          }
+      } finally{
+        setLoading(false);
+      }
     }
-  };
-
-  const products = [
-    { name: ' TOMATOES ', imageSrc: TOMATOES, initialQuantity: 5 },
-    { name: ' HOT PEPPERS', imageSrc: HOT_PEPPERS, initialQuantity: 3 },
-    { name: ' POTATOES ', imageSrc: POTATOES, initialQuantity: 8 },
-    { name: ' CUCUMBERS ', imageSrc: CUCUMBERS, initialQuantity: 8 },
-    { name: ' CABBAGES ', imageSrc: CABBAGES, initialQuantity: 8 },
-  ];
-
-  const toggleSortDropdown = () => {
-    setSortDropdownOpen(!isSortDropdownOpen);
-    if (isTagDropdownOpen) {
-      setTagDropdownOpen(false);
-    }
-  };
+    setTimeout(() => {
+      (async () => await fetchItems())();
+    }, 2000);
+  }, [])
 
   return (
     <div className="appContainer">
       <Nav />
-      <img className="appImage" src={image_1} alt="Imagine 1" />
-      <img className="overlay" src={image_2} alt="Overlay" />
-      <img className="vector" src={image_3} alt="Vector" />
-      
-      <div className="shopping-list">Shopping List</div>
-     
-      <div className="buttonContainer">
-        {/*<button onClick={toggleTagDropdown} className="tagButton">Tag</button>
-        {isTagDropdownOpen && (
-          <div className="dropdowntag">
-            <button> Food</button>
-            <button>Others</button>
-          </div>
-        )}*/}
-        {/*<button onClick={toggleSortDropdown} className="sortButton">Sort</button>
-        {isSortDropdownOpen && (
-          <div className="dropdownsort">
-            <button>Quantity</button>
-            <button>Date of add</button>
-            <button>A..Z</button>
-            <button>Z..A</button>
-          </div>
-        )}*/}
-        <div className="nav-links"></div>
-        <button className="restockSuggestions">Restock Suggestions</button>
-      </div>
-
-      <div className="product-list">
-        {products.map((product, index) => (
-          <div key={index} className="product-container">
-            <Product
-              name={product.name}
-              imageSrc={product.imageSrc}
-              initialQuantity={product.initialQuantity}
-            />
-          </div>
-        ))}
-      </div>
-
+      <main>
+        {loading && <p>Shopping lists are loading...</p>}
+        {fetchError && <p style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
+        {!fetchError && !loading && <Content 
+          products = {products}
+          setProducts = {setProducts}
+          newProduct = {newProduct}
+          setNewProduct = {setNewProduct}
+          newQuantity = {newQuantity}
+          setNewQuantity = {setNewQuantity}
+          fetchError = {fetchError}
+          setFetchError = {setFetchError}
+        />}
+      </main>
       <img className="footer" src={footer} alt="Footer" />
     </div>
   );

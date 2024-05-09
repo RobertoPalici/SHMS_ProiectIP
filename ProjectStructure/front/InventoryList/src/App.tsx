@@ -21,6 +21,8 @@ const App: React.FC = () => {
         const response = await fetch(API_URL);
         if(!response.ok) throw Error('Data was not received');
         const listItems = await response.json();
+        console.log(listItems);
+        console.log(listItems.itemList);
 
         setProducts(prevProducts => {
           return {...prevProducts, itemList: listItems.itemList};

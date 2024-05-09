@@ -16,6 +16,7 @@ import java.util.Objects;
 import static java.lang.Integer.parseInt;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/chores")
 public class ChoresController {
     ChoresList choresList = new ChoresList();

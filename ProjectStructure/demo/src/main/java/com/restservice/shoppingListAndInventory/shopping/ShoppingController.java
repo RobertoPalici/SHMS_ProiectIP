@@ -8,19 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 @RestController
+@CrossOrigin
 @RequestMapping("/shopping")
 public class ShoppingController {
     ShoppingLists shoppingLists = new ShoppingLists();
     public ShoppingController(){
 
     }
-    @GetMapping("/addList")
+    @PostMapping("/addList")
     public ShoppingLists addList(){
         shoppingLists.addList();
         System.out.println(shoppingLists);
         return shoppingLists;
     }
-    @GetMapping("/removeList")
+    @DeleteMapping("/removeList")
     public ShoppingLists removeList(@RequestParam(value = "index", defaultValue = "-1") String indexString){
        try{
            shoppingLists.removeList(indexString);
@@ -33,7 +34,7 @@ public class ShoppingController {
        return shoppingLists;
     }
 
-    @GetMapping("/addItem")
+    @PostMapping("/addItem")
     public ShoppingLists addItem (@RequestParam(value="index", defaultValue = "-1") String indexString,
                          @RequestParam(value = "name", defaultValue = "____") String name,
                          @RequestParam(value = "quantity", defaultValue = "1") String quantityString,
@@ -50,7 +51,7 @@ public class ShoppingController {
         return shoppingLists;
     }
 
-    @GetMapping("/removeItem")
+    @DeleteMapping("/removeItem")
     public ShoppingLists removeItem(@RequestParam(value="index", defaultValue = "-1") String indexString,
                            @RequestParam(value="id", defaultValue = "-1") String idString){
         try{
@@ -62,7 +63,7 @@ public class ShoppingController {
         System.out.println(shoppingLists);
         return shoppingLists;
     }
-    @GetMapping("/changeQuantity")
+    @PatchMapping("/changeQuantity")
     public ShoppingLists changeQuantity(@RequestParam(value="index", defaultValue = "-1") String indexString,
                                @RequestParam(value="id", defaultValue = "-1") String idString,
                                @RequestParam(value="quantity", defaultValue = "0") String quantityString){
@@ -77,7 +78,7 @@ public class ShoppingController {
         return shoppingLists;
 
     }
-    @GetMapping("/autocomplete")
+    @PostMapping("/autocomplete")
     public ShoppingLists autocomplete(@RequestParam(value="name", defaultValue = "") String name){
         try{
             shoppingLists.autocomplete(name);
@@ -86,7 +87,7 @@ public class ShoppingController {
         }
         return shoppingLists;
     }
-    @GetMapping("/changePrice")
+    @PatchMapping("/changePrice")
     public ShoppingLists changePrice(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                      @RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="price", defaultValue = "0") String priceString){
@@ -97,6 +98,10 @@ public class ShoppingController {
             return shoppingLists;
         }
         System.out.println(shoppingLists);
+        return shoppingLists;
+    }
+    @GetMapping
+    public ShoppingLists getShoppingLists(){
         return shoppingLists;
     }
 
