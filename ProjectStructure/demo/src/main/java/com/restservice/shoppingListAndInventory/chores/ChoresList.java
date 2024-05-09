@@ -32,7 +32,7 @@ public class ChoresList {
     public void addChore(Chore chore){
         choresList.add(chore);
     }
-    public void addChore(String name, int personID, int duration) throws ChoresException {
+    public void addChore(String name, String description, int personID, int duration) throws ChoresException {
         if(name.isEmpty())
             throw new ChoresException("Chore name cannot be empty.");
         if(personID < 0 && personID != -1)
@@ -42,11 +42,11 @@ public class ChoresList {
 
         int index=findChoreIndex(name);
         if(index==-1)
-            choresList.add(new Chore(name, personID, duration));
+            choresList.add(new Chore(name, description, personID, duration));
         else
             throw new ChoresException("Chore already exists.");
     }
-    public void addChore(String name, String personIDString, String durationString) throws ChoresException {
+    public void addChore(String name, String description, String personIDString, String durationString) throws ChoresException {
         int personID;
         int duration;
         try{
@@ -59,7 +59,7 @@ public class ChoresList {
         } catch (NumberFormatException e) {
             throw new ChoresException("Duration has to be a non-negative integer.");
         }
-        this.addChore(name, personID, duration);
+        this.addChore(name, description, personID, duration);
     }
 
     public void removeChore(String idString) throws ChoresException {

@@ -31,9 +31,9 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     const [isSortDropdownOpen, setSortDropdownOpen] = useState(false);
 
     const API_URL = 'http://localhost:8081/inventory';
-    //const API_URL = 'http://localhost:5000/itemList';
 
     const saveProducts = (newProducts : ItemList[]) => {
+      console.log(products);
       setProducts(prevProducts => {
         return {...prevProducts, itemList: newProducts};  
       });

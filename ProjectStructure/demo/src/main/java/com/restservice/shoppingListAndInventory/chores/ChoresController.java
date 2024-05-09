@@ -3,6 +3,7 @@ package com.restservice.shoppingListAndInventory.chores;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import com.restservice.shoppingListAndInventory.inventory.QuantityType;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,12 +22,13 @@ public class ChoresController {
     ChoresController() {
     }
 
-    @GetMapping("/addChore")
+    @PostMapping("/addChore")
     public ChoresList addChore(@RequestParam(value = "name", defaultValue = "") String name,
+                               @RequestParam(value = "description", defaultValue = "") String description,
                                @RequestParam(value="personID", defaultValue = "-1") String personIDString,
                                @RequestParam(value="duration", defaultValue = "-1") String durationString){
         try{
-            choresList.addChore(name, personIDString, durationString);
+            choresList.addChore(name, description, personIDString, durationString);
         }
         catch (ChoresException e){
             System.out.println("Error: "+e.getMessage());
@@ -36,7 +38,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @GetMapping("/removeChore")
+    @DeleteMapping("/removeChore")
     public ChoresList removeChore(@RequestParam(value="id", defaultValue = "-1") String idString){
         try{
             choresList.removeChore(idString);
@@ -49,7 +51,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @GetMapping("/changePersonID")
+    @PatchMapping("/changePersonID")
     public ChoresList changePersonID(@RequestParam(value="id", defaultValue = "-1") String idString,
                                         @RequestParam(value="personID", defaultValue = "-1") String personIDString){
 
@@ -64,7 +66,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @GetMapping("/changeDescription")
+    @PatchMapping("/changeDescription")
     public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="description", defaultValue = "") String descriptionString){
         try{
@@ -77,7 +79,7 @@ public class ChoresController {
         System.out.println(choresList);
         return choresList;
     }
-    @GetMapping("/changeDuration")
+    @PatchMapping("/changeDuration")
     public ChoresList changeDuration(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="duration", defaultValue = "-1") String durationString){
         try{
@@ -89,6 +91,9 @@ public class ChoresController {
         }
         System.out.println(choresList);
         return choresList;
-
+    }
+    @GetMapping
+    public ChoresList getChores(){
+        return choresList;
     }
 }

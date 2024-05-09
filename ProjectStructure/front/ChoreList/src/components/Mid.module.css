@@ -8,12 +8,12 @@
     margin-bottom: 5vw;
     
 }
-.chores{
+.chores_css{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 5vw;
 }
-.chores img{
+.chores_css img{
     width: 20vw;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;

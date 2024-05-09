@@ -59,7 +59,7 @@ public class InventoryController {
     }
 
     @GetMapping
-            public InventoryList getInventory(){
+    public InventoryList getInventory(){
         return itemList;
     }
     Map<Product, Integer> averageConsumptionForAll;

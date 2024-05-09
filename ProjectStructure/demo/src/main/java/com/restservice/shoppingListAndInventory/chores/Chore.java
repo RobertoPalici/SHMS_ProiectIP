@@ -13,5 +13,5 @@ public class Chore {
     int personID;
     int duration;
 
-    public Chore(String name, int personID, int duration) {this.name=name; this.duration=duration; this.personID=personID; }
+    public Chore(String name, String description, int personID, int duration) {this.name=name; this.description = description; this.duration=duration; this.personID=personID; }
 }
