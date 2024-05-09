@@ -9,7 +9,7 @@ const App: React.FC = () => {
 
   const API_URL = 'http://localhost:8081/shopping';
 
-  const [products, setProducts] = useState<ProductProps>({shoppingLists: []});
+  const [products, setProducts] = useState<ProductProps>({shoppingLists: [{shoppingList: []}]});
   const [newProduct, setNewProduct] = useState('');
   const [newQuantity, setNewQuantity] = useState(0);
   const [fetchError, setFetchError] = useState<any>(null);
@@ -23,10 +23,14 @@ const App: React.FC = () => {
         const listItems = await response.json();
         console.log(listItems);
         console.log(listItems.shoppingLists);
+        console.log(listItems.shoppingLists[0].shoppingList);
 
         setProducts(prevProducts => {
-          return {...prevProducts, shoppingLists: listItems.shoppingLists};
+          const newList = listItems.shoppingLists[0].shoppingList;
+          const updatedShoppingLists = [...prevProducts.shoppingLists, { shoppingList: newList }];
+          return { ...prevProducts, shoppingLists: updatedShoppingLists };
         });
+        
         console.log(products);
         setFetchError(null);
       } catch(err : unknown){
@@ -35,7 +39,7 @@ const App: React.FC = () => {
           } else {
             setFetchError('An unknown error occurred');
           }
-      } finally{
+      } {
         setLoading(false);
       }
     }

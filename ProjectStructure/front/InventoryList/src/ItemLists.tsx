@@ -15,6 +15,9 @@ interface ContentProps{
 
 const ItemLists: React.FC<ContentProps> = ({products, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, setNewProduct, setNewQuantity}) => {
   const {itemList} = products;
+  console.log(products);
+  console.log(products.itemList);
+  console.log(itemList);
 
   return (
     <div className="product-list">

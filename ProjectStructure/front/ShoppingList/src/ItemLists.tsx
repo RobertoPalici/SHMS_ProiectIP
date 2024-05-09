@@ -1,5 +1,5 @@
 import React from 'react'
-import Product, { ProductProps , ShoppingLists} from './components/product/Product';
+import Product, { ProductProps , ShoppingLists, ShoppingList} from './components/product/Product';
 import questionmark from './components/pictures/questionmark.png';
 import productIcon from './components/pictures/product.png';
 
@@ -15,10 +15,14 @@ interface ContentProps{
 
 const ItemLists: React.FC<ContentProps> = ({products, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, setNewProduct, setNewQuantity}) => {
   const {shoppingLists} = products;
-
+  /*console.log(products);
+  console.log(products.shoppingLists);
+  console.log(products.shoppingLists[0]);
+  console.log(products.shoppingLists[0].shoppingList);
+  console.log(shoppingLists);*/
   return (
     <div className="product-list">
-                    {shoppingLists?.map((item, index) => (
+                    {products.shoppingLists[1].shoppingList?.map((item, index) => (
                         <div className="product-container" key={index}>
                                 <Product
                           item={item.item}

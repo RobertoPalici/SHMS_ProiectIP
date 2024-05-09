@@ -15,16 +15,20 @@ export type Item = {
   averageConsumption: number;
 }
 
-export type ShoppingLists = {
+export type ShoppingList = {
   item: Item;
   price: number;
   imageSrc: string;
   id: any;
 }
 
+export type ShoppingLists = {
+  shoppingList: ShoppingList[];
+};
+
 export type ProductProps = {
   shoppingLists: ShoppingLists[];
-};
+}
 
 interface ProductDeclareProps {
   handleIncreaseQuantity: (name : string) => void;
@@ -38,7 +42,7 @@ interface ProductDeclareProps {
 }
 
 
-const Product: React.FC<ShoppingLists & ProductDeclareProps> = ({item, imageSrc, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
+const Product: React.FC<ShoppingList & ProductDeclareProps> = ({item, imageSrc, price, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
