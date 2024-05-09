@@ -1,30 +1,35 @@
 package com.restservice.shoppingListAndInventory.shopping;
+import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import com.restservice.shoppingListAndInventory.inventory.QuantityType;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 @RestController
-@CrossOrigin
 @RequestMapping("/shopping")
 public class ShoppingController {
-    ShoppingLists shoppingLists = new ShoppingLists();
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    ShoppingLists shoppingLists=new ShoppingLists(entityManager);
     public ShoppingController(){
 
     }
     @PostMapping("/addList")
     public ShoppingLists addList(){
-        shoppingLists.addList();
+        shoppingLists.addList(entityManager);
         System.out.println(shoppingLists);
         return shoppingLists;
     }
     @DeleteMapping("/removeList")
     public ShoppingLists removeList(@RequestParam(value = "index", defaultValue = "-1") String indexString){
        try{
-           shoppingLists.removeList(indexString);
+           shoppingLists.removeList(indexString, entityManager);
        } catch (ShoppingException e){
            System.out.println("Error: " + e.getMessage());
            return shoppingLists;
@@ -42,7 +47,7 @@ public class ShoppingController {
 
 
         try{
-            shoppingLists.addItem(indexString, name, quantityString, priceString);
+            shoppingLists.addItem(indexString, name, quantityString, priceString, entityManager);
         } catch (ShoppingException e){
             System.out.println("Error: " + e.getMessage());
             return shoppingLists;
@@ -55,7 +60,7 @@ public class ShoppingController {
     public ShoppingLists removeItem(@RequestParam(value="index", defaultValue = "-1") String indexString,
                            @RequestParam(value="id", defaultValue = "-1") String idString){
         try{
-            shoppingLists.removeItem(indexString, idString);
+            shoppingLists.removeItem(indexString, idString, entityManager);
         } catch (ShoppingException e){
             System.out.println("Error: " + e.getMessage());
             return shoppingLists;
@@ -69,7 +74,7 @@ public class ShoppingController {
                                @RequestParam(value="quantity", defaultValue = "0") String quantityString){
 
         try{
-            shoppingLists.changeQuantity(indexString, idString, quantityString);
+            shoppingLists.changeQuantity(indexString, idString, quantityString, entityManager);
         } catch (ShoppingException e){
             System.out.println("Error: " + e.getMessage());
             return shoppingLists;

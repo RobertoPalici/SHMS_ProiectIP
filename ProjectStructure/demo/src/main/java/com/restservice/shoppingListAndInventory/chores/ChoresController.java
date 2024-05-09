@@ -3,6 +3,9 @@ package com.restservice.shoppingListAndInventory.chores;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import com.restservice.shoppingListAndInventory.inventory.QuantityType;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,9 @@ import static java.lang.Integer.parseInt;
 @CrossOrigin
 @RequestMapping("/chores")
 public class ChoresController {
-    ChoresList choresList = new ChoresList();
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    ChoresList choresList = new ChoresList(entityManager);
     ChoresController() {
     }
 
@@ -29,7 +34,7 @@ public class ChoresController {
                                @RequestParam(value="personID", defaultValue = "-1") String personIDString,
                                @RequestParam(value="duration", defaultValue = "-1") String durationString){
         try{
-            choresList.addChore(name, description, personIDString, durationString);
+            choresList.addChore(name, description, personIDString, durationString, entityManager);
         }
         catch (ChoresException e){
             System.out.println("Error: "+e.getMessage());
@@ -42,7 +47,7 @@ public class ChoresController {
     @DeleteMapping("/removeChore")
     public ChoresList removeChore(@RequestParam(value="id", defaultValue = "-1") String idString){
         try{
-            choresList.removeChore(idString);
+            choresList.removeChore(idString, entityManager);
         }
         catch (ChoresException e) {
             System.out.println("Error: "+e.getMessage());
@@ -54,7 +59,7 @@ public class ChoresController {
 
     @PatchMapping("/changePersonID")
     public ChoresList changePersonID(@RequestParam(value="id", defaultValue = "-1") String idString,
-                                        @RequestParam(value="personID", defaultValue = "-1") String personIDString){
+                                     @RequestParam(value="personID", defaultValue = "-1") String personIDString){
 
         try{
             choresList.setPersonID(idString, personIDString);
@@ -69,7 +74,7 @@ public class ChoresController {
 
     @PatchMapping("/changeDescription")
     public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
-                                     @RequestParam(value="description", defaultValue = "") String descriptionString){
+                                        @RequestParam(value="description", defaultValue = "") String descriptionString){
         try{
             choresList.setDescription(idString, descriptionString);
         }

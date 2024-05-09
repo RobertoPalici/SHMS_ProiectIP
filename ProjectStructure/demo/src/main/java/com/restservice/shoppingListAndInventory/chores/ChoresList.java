@@ -1,10 +1,17 @@
 package com.restservice.shoppingListAndInventory.chores;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.restservice.shoppingListAndInventory.inventory.InventoryItem;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Session;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +19,32 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
+@Entity
+@NoArgsConstructor
+@Table(name = "chores_list")
+@JsonIgnoreProperties(value = {"id"})
 public class ChoresList {
-    List<Chore> choresList;
+    @Id
+    @Column(name = "id")
+    //@GeneratedValue(strategy=GenerationType.AUTO)
+    private int id=1;
 
-    public ChoresList() {
-        choresList=new ArrayList<>();
+    @OneToMany(mappedBy = "list")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    List<Chore> choresList = new ArrayList<>();
+
+    public ChoresList(EntityManager entityManager) {
+        Session session = entityManager.unwrap(Session.class);
+        choresList=loadAllData(session);
+        entityManager.getTransaction().begin();
+        entityManager.merge(this);
+        entityManager.getTransaction().commit();
+    }
+    private static List<Chore> loadAllData(Session session) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Chore> criteria = builder.createQuery(Chore.class);
+        criteria.from(Chore.class);
+        return session.createQuery(criteria).getResultList();
     }
     public int findChoreIndex(String name){
         for(int i=0; i<choresList.size(); i++) {
@@ -32,21 +59,24 @@ public class ChoresList {
     public void addChore(Chore chore){
         choresList.add(chore);
     }
-    public void addChore(String name, String description, int personID, int duration) throws ChoresException {
+    public void addChore(String name, String description, int personID, int duration, EntityManager entityManager) throws ChoresException {
         if(name.isEmpty())
             throw new ChoresException("Chore name cannot be empty.");
         if(personID < 0 && personID != -1)
             throw new ChoresException("Person ID cannot be negative.");
         if(duration < 0 && duration != -1)
             throw new ChoresException("Duration cannot be negative.");
-
         int index=findChoreIndex(name);
-        if(index==-1)
-            choresList.add(new Chore(name, description, personID, duration));
-        else
+        if(index!=-1)
             throw new ChoresException("Chore already exists.");
+        Chore chore = new Chore(name, description, personID, duration);
+        chore.setList(this);
+        entityManager.getTransaction().begin();
+        entityManager.persist(chore);
+        entityManager.getTransaction().commit();
+        choresList.add(chore);
     }
-    public void addChore(String name, String description, String personIDString, String durationString) throws ChoresException {
+    public void addChore(String name, String description, String personIDString, String durationString, EntityManager entityManager) throws ChoresException {
         int personID;
         int duration;
         try{
@@ -59,23 +89,26 @@ public class ChoresList {
         } catch (NumberFormatException e) {
             throw new ChoresException("Duration has to be a non-negative integer.");
         }
-        this.addChore(name, description, personID, duration);
+        this.addChore(name, description, personID, duration, entityManager);
     }
 
-    public void removeChore(String idString) throws ChoresException {
+    public void removeChore(String idString, EntityManager entityManager) throws ChoresException {
         int id;
         try{
             id=Integer.parseInt(idString);
         } catch (NumberFormatException e) {
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         }
-        this.removeChore(id);
+        this.removeChore(id, entityManager);
     }
-    public void removeChore(int id) throws ChoresException {
+    public void removeChore(int id, EntityManager entityManager) throws ChoresException {
         if(id<0)
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         if(id>=choresList.size())
             throw new ChoresException("Chore ID cannot be bigger than the list's size.");
+        entityManager.getTransaction().begin();
+        entityManager.remove(entityManager.contains(choresList.get(id)) ? choresList.get(id) : entityManager.merge(choresList.get(id)));
+        entityManager.getTransaction().commit();
         choresList.remove(id);
     }
     public void setPersonID(String idString, String personIDString) throws ChoresException {

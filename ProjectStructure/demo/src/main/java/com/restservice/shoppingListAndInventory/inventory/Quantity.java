@@ -1,13 +1,11 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Quantity {
     float value;

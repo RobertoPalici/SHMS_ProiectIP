@@ -1,5 +1,8 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +16,9 @@ import java.util.Objects;
 @RequestMapping("/inventory")
 public class InventoryController {
 
-    InventoryList itemList=new InventoryList();
-
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    InventoryList itemList=new InventoryList(entityManager);
     public InventoryController(){
     }
 
@@ -22,7 +26,7 @@ public class InventoryController {
     public InventoryList addItem(@RequestParam(value = "name", defaultValue = "") String name,
                         @RequestParam(value = "quantity", defaultValue = "1") String quantityString){
         try{
-            itemList.addItem(name,quantityString);
+            itemList.addItem(name,quantityString,entityManager);
         }
         catch (InventoryException e){
             System.out.println("Error: "+e.getMessage());
@@ -34,7 +38,7 @@ public class InventoryController {
     @DeleteMapping("/removeItem")
     public InventoryList removeItem(@RequestParam(value="id", defaultValue = "-1") String idString){
         try{
-            itemList.removeItem(idString);
+            itemList.removeItem(idString,entityManager);
         }
         catch (InventoryException e){
             System.out.println("Error: "+e.getMessage());
@@ -47,7 +51,7 @@ public class InventoryController {
     public InventoryList changeQuantity(@RequestParam(value="id", defaultValue = "-1") String idString,
                                @RequestParam(value="quantity", defaultValue = "0") String quantityString){
         try{
-            itemList.changeQuantity(idString,quantityString);
+            itemList.changeQuantity(idString,quantityString,entityManager);
         }
         catch (InventoryException e)
         {
