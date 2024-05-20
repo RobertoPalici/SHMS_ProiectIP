@@ -73,7 +73,7 @@ public class Recipe {
                     if(!allNecessaryIngredients.contains(ingredient))
                         allNecessaryIngredients.add(ingredient);
 
-                    else allNecessaryIngredients.stream().filter(ingredient1 -> ingredient1.equals(ingredient)).forEach(ingredient1 -> ingredient1.getProduct().addQuantity(ingredient.getProduct().getQuantity().getValue()));
+                    //else allNecessaryIngredients.stream().filter(ingredient1 -> ingredient1.equals(ingredient)).forEach(ingredient1 -> ingredient1.getProduct().addQuantity(ingredient.getProduct().getQuantity().getValue()));
                 })
         );
         return allNecessaryIngredients;

@@ -128,7 +128,7 @@ public class InventoryList {
         if(id<0||id>itemList.size()-1)
             throw new InventoryException("Item ID has to be a non-negative integer and cannot be bigger that the list's size.");
 
-        itemList.get(id).getItem().setQuantity(quantity);
+        itemList.get(id).setQuantity(quantity);
         entityManager.getTransaction().begin();
         entityManager.merge(itemList.get(id));
         entityManager.getTransaction().commit();

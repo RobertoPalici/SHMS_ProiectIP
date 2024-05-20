@@ -26,26 +26,13 @@ public class Product {
     @Column(name = "expiry_date")
     LocalDate expiryDate;
 
-    @Embedded
-    @AttributeOverrides( {
-            @AttributeOverride(name="value", column = @Column(name="quantity_value") ),
-            @AttributeOverride(name="type", column = @Column(name="quantity_type") )
-    } )
-    Quantity quantity;
     @Column(name = "average_consumption")
     int averageConsumption;
 
     @Column(name = "is_eatable")
     boolean isEatable = false;
-    public Product(String name, Quantity quantity){
+    public Product(String name){
         this.name=name;
-        this.quantity=quantity;
-    }
-    public void addQuantity(float quantity){
-        if(this.quantity.getValue() + quantity<0)
-            this.quantity.setValue(0);
-        else
-            this.quantity.setValue(this.quantity.getValue() + quantity);
     }
     public void computeAverageConsumption(){
     }

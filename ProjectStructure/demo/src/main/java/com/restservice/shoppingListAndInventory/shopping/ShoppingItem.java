@@ -21,6 +21,13 @@ public class ShoppingItem {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="value", column = @Column(name="quantity_value") ),
+            @AttributeOverride(name="type", column = @Column(name="quantity_type") )
+    } )
+    Quantity quantity;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     Product item;
@@ -32,7 +39,14 @@ public class ShoppingItem {
     @Column(name = "price")
     float price;
     public ShoppingItem(String name, Quantity quantity, float price){
-        item=new Product(name, quantity);
+        item=new Product(name);
         this.price=price;
+        this.quantity=quantity;
+    }
+    public void addQuantity(float quantity){
+        if(this.quantity.getValue() + quantity<0)
+            this.quantity.setValue(0);
+        else
+            this.quantity.setValue(this.quantity.getValue() + quantity);
     }
 }

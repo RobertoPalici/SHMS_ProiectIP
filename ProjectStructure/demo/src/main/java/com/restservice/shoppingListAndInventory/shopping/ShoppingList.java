@@ -123,7 +123,7 @@ public class ShoppingList {
     public void changeQuantity(int id, Quantity quantity, EntityManager entityManager) throws ShoppingException{
         if(id<0||id>shoppingList.size()-1)
             throw new ShoppingException("Item ID has to be a non-negative integer and cannot be bigger that the list's size.");
-        shoppingList.get(id).getItem().setQuantity(quantity);
+        shoppingList.get(id).setQuantity(quantity);
         entityManager.getTransaction().begin();
         entityManager.merge(shoppingList.get(id));
         entityManager.getTransaction().commit();
