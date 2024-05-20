@@ -33,12 +33,10 @@ public class ChoresList {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<Chore> choresList = new ArrayList<>();
 
-    public ChoresList(EntityManager entityManager) {
-        Session session = entityManager.unwrap(Session.class);
-        choresList=loadAllData(session);
-        entityManager.getTransaction().begin();
-        entityManager.merge(this);
-        entityManager.getTransaction().commit();
+    public ChoresList(ChoreRepository choreRepository) {
+        for (Chore item : choreRepository.choreItemRepository.findAll()) {
+            choresList.add(item);
+        }
     }
     private static List<Chore> loadAllData(Session session) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -59,7 +57,7 @@ public class ChoresList {
     public void addChore(Chore chore){
         choresList.add(chore);
     }
-    public void addChore(String name, String description, int personID, int duration, EntityManager entityManager) throws ChoresException {
+    public void addChore(String name, String description, int personID, int duration, ChoreRepository choreRepository) throws ChoresException {
         if(name.isEmpty())
             throw new ChoresException("Chore name cannot be empty.");
         if(personID < 0 && personID != -1)
@@ -71,12 +69,10 @@ public class ChoresList {
             throw new ChoresException("Chore already exists.");
         Chore chore = new Chore(name, description, personID, duration);
         chore.setList(this);
-        entityManager.getTransaction().begin();
-        entityManager.persist(chore);
-        entityManager.getTransaction().commit();
+        choreRepository.choreItemRepository.save(chore);
         choresList.add(chore);
     }
-    public void addChore(String name, String description, String personIDString, String durationString, EntityManager entityManager) throws ChoresException {
+    public void addChore(String name, String description, String personIDString, String durationString, ChoreRepository choreRepository) throws ChoresException {
         int personID;
         int duration;
         try{
@@ -89,26 +85,24 @@ public class ChoresList {
         } catch (NumberFormatException e) {
             throw new ChoresException("Duration has to be a non-negative integer.");
         }
-        this.addChore(name, description, personID, duration, entityManager);
+        this.addChore(name, description, personID, duration, choreRepository);
     }
 
-    public void removeChore(String idString, EntityManager entityManager) throws ChoresException {
+    public void removeChore(String idString, ChoreRepository choreRepository) throws ChoresException {
         int id;
         try{
             id=Integer.parseInt(idString);
         } catch (NumberFormatException e) {
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         }
-        this.removeChore(id, entityManager);
+        this.removeChore(id, choreRepository);
     }
-    public void removeChore(int id, EntityManager entityManager) throws ChoresException {
+    public void removeChore(int id, ChoreRepository choreRepository) throws ChoresException {
         if(id<0)
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         if(id>=choresList.size())
             throw new ChoresException("Chore ID cannot be bigger than the list's size.");
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.contains(choresList.get(id)) ? choresList.get(id) : entityManager.merge(choresList.get(id)));
-        entityManager.getTransaction().commit();
+        choreRepository.choreItemRepository.delete(choresList.get(id));
         choresList.remove(id);
     }
     public void setPersonID(String idString, String personIDString) throws ChoresException {

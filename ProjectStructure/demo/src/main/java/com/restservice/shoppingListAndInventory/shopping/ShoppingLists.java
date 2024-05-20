@@ -28,15 +28,10 @@ public class ShoppingLists {
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<ShoppingList> shoppingLists=new ArrayList<>();;
-    public ShoppingLists(EntityManager entityManager){
-        Session session = entityManager.unwrap(Session.class);
-        shoppingLists=loadAllData(session);
-        if(shoppingLists.isEmpty())
-            this.addList(entityManager);
-        entityManager.getTransaction().begin();
-        entityManager.merge(this);
-        entityManager.merge(shoppingLists.get(0));
-        entityManager.getTransaction().commit();
+    public ShoppingLists(ShoppingRepository shoppingRepository){
+        for (ShoppingList list : shoppingRepository.shoppingListRepository.findAll()) {
+            shoppingLists.add(list);
+        }
     }
 
     private static List<ShoppingList> loadAllData(Session session) {
@@ -45,26 +40,21 @@ public class ShoppingLists {
         criteria.from(ShoppingList.class);
         return session.createQuery(criteria).getResultList();
     }
-    public void addList(EntityManager entityManager){
+    public void addList(ShoppingRepository shoppingRepository){
         ShoppingList list=new ShoppingList();
         list.setList(this);
         shoppingLists.add(list);
-
-        entityManager.getTransaction().begin();
-        entityManager.merge(list);
-        entityManager.getTransaction().commit();
+        shoppingRepository.shoppingListRepository.save(list);
     }
-    public void removeList(int index, EntityManager entityManager) throws ShoppingException{
+    public void removeList(int index, ShoppingRepository shoppingRepository) throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.contains(shoppingLists.get(index)) ? shoppingLists.get(index) : entityManager.merge(shoppingLists.get(index)));
-        entityManager.getTransaction().commit();
+        shoppingRepository.shoppingListRepository.delete(shoppingLists.get(index));
         shoppingLists.remove(index);
     }
-    public void removeList(String indexString, EntityManager entityManager) throws ShoppingException{
+    public void removeList(String indexString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int index;
         try{
             index=Integer.parseInt(indexString);
@@ -73,55 +63,55 @@ public class ShoppingLists {
         }
         if(shoppingLists.isEmpty())
             throw new ShoppingException("There are no lists to delete!");
-        this.removeList(index, entityManager);
+        this.removeList(index, shoppingRepository);
     }
-    public void addItem(int index, String name, String quantityString, String priceString, EntityManager entityManager)throws ShoppingException{
+    public void addItem(int index, String name, String quantityString, String priceString, ShoppingRepository shoppingRepository)throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");
-        shoppingLists.get(index).addItem(name, quantityString, priceString, entityManager);
+        shoppingLists.get(index).addItem(name, quantityString, priceString, shoppingRepository);
     }
-    public void addItem(String indexString, String name, String quantityString, String priceString, EntityManager entityManager) throws ShoppingException{
+    public void addItem(String indexString, String name, String quantityString, String priceString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int index;
         try{
             index=Integer.parseInt(indexString);
         } catch (NumberFormatException e){
             throw new ShoppingException("Index has to be a number.");
         }
-        this.addItem(index, name, quantityString, priceString, entityManager);
+        this.addItem(index, name, quantityString, priceString, shoppingRepository);
     }
-    public void removeItem(int index, String idString, EntityManager entityManager) throws ShoppingException{
+    public void removeItem(int index, String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");
-        shoppingLists.get(index).removeItem(idString, entityManager);
+        shoppingLists.get(index).removeItem(idString, shoppingRepository);
     }
-    public void removeItem(String indexString, String idString, EntityManager entityManager) throws ShoppingException{
+    public void removeItem(String indexString, String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int index;
         try{
             index=Integer.parseInt(indexString);
         } catch (NumberFormatException e){
             throw new ShoppingException("Index has to be a number.");
         }
-        this.removeItem(index, idString, entityManager);
+        this.removeItem(index, idString, shoppingRepository);
     }
-    public void changeQuantity(int index, String idString, String quantityString, EntityManager entityManager) throws ShoppingException{
+    public void changeQuantity(int index, String idString, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");
-        shoppingLists.get(index).changeQuantity(idString, quantityString, entityManager);
+        shoppingLists.get(index).changeQuantity(idString, quantityString, shoppingRepository);
     }
-    public void changeQuantity(String indexString, String idString, String quantityString, EntityManager entityManager) throws ShoppingException{
+    public void changeQuantity(String indexString, String idString, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int index;
         try{
             index=Integer.parseInt(indexString);
         } catch (NumberFormatException e){
             throw new ShoppingException("Index has to be a number.");
         }
-        this.changeQuantity(index, idString, quantityString, entityManager);
+        this.changeQuantity(index, idString, quantityString, shoppingRepository);
     }
 
     public void changePrice(int index, String idString, String priceString) throws ShoppingException{

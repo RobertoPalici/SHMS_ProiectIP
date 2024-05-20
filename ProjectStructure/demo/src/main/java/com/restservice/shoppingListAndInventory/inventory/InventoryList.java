@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ import org.hibernate.annotations.Cascade;
 @NoArgsConstructor
 @Table(name = "inventory_list")
 @JsonIgnoreProperties(value = {"id", "list"})
-public class InventoryList {
+public class InventoryList{
     @Id
     @Column(name = "id")
     //@GeneratedValue(strategy=GenerationType.AUTO)
@@ -34,12 +35,10 @@ public class InventoryList {
     @Transient
     private boolean is_persisted=false;
 
-    public InventoryList(EntityManager entityManager){
-        Session session = entityManager.unwrap(Session.class);
-        itemList=loadAllData(session);
-        entityManager.getTransaction().begin();
-        entityManager.merge(this);
-        entityManager.getTransaction().commit();
+    public InventoryList(InventoryRepository inventoryRepository){
+        for (InventoryItem item : inventoryRepository.inventoryItemRepository.findAll()) {
+            itemList.add(item);
+        }
     }
     private static List<InventoryItem> loadAllData(Session session) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -59,11 +58,11 @@ public class InventoryList {
     public InventoryItem getItemAt(int index){
         return itemList.get(index);
     }
-    public void addItem(InventoryItem item, EntityManager entityManager){
+    public void addItem(InventoryItem item, InventoryRepository inventoryRepository){
         item.setList(this);
         itemList.add(item);
     }
-    public void addItem(String name, Quantity quantity, EntityManager entityManager) throws InventoryException{
+    public void addItem(String name, Quantity quantity, InventoryRepository inventoryRepository) throws InventoryException{
         if(name.isEmpty())
             throw new InventoryException("Item name cannot be empty.");
         if(quantity.value<0&&quantity.value!=-1)
@@ -76,40 +75,36 @@ public class InventoryList {
         }*/
         InventoryItem item = new InventoryItem(name,quantity);
         item.setList(this);
-        entityManager.getTransaction().begin();
-        entityManager.persist(item);
-        entityManager.getTransaction().commit();
+        inventoryRepository.inventoryItemRepository.save(item);
         itemList.add(item);
     }
-    public void addItem(String name, String quantityString, EntityManager entityManager) throws InventoryException{
+    public void addItem(String name, String quantityString, InventoryRepository inventoryRepository) throws InventoryException{
         float quantity;
         try {
             quantity = Float.parseFloat(quantityString);
         } catch (NumberFormatException e) {
             throw new InventoryException("Quantity has to be a number.");
         }
-        this.addItem(name, new Quantity(quantity, QuantityType.Amount), entityManager);
+        this.addItem(name, new Quantity(quantity, QuantityType.Amount), inventoryRepository);
     }
-    public void removeItem(String idString, EntityManager entityManager) throws InventoryException{
+    public void removeItem(String idString, InventoryRepository inventoryRepository) throws InventoryException{
         int id;
         try {
             id = Integer.parseInt(idString);
         } catch (NumberFormatException e) {
             throw new InventoryException("Item ID has to be a non-negative integer.");
         }
-        this.removeItem(id, entityManager);
+        this.removeItem(id, inventoryRepository);
     }
-    public void removeItem(int id, EntityManager entityManager) throws InventoryException{
+    public void removeItem(int id, InventoryRepository inventoryRepository) throws InventoryException{
         if(id<0)
             throw new InventoryException("Item ID has to be a non-negative integer.");
         if(id>=itemList.size())
             throw new InventoryException("Item ID cannot be bigger that the list's size.");
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.contains(itemList.get(id)) ? itemList.get(id) : entityManager.merge(itemList.get(id)));
-        entityManager.getTransaction().commit();
+        inventoryRepository.inventoryItemRepository.delete(itemList.get(id));
         itemList.remove(id);
     }
-    public void changeQuantity(String idString, String quantityString, EntityManager entityManager) throws InventoryException{
+    public void changeQuantity(String idString, String quantityString, InventoryRepository inventoryRepository) throws InventoryException{
         float quantity;
         try {
             quantity = Float.parseFloat(quantityString);
@@ -122,15 +117,13 @@ public class InventoryList {
         } catch (NumberFormatException e) {
             throw new InventoryException("Item ID has to be a non-negative integer.");
         }
-        changeQuantity(id, new Quantity(quantity, QuantityType.Amount), entityManager);
+        changeQuantity(id, new Quantity(quantity, QuantityType.Amount), inventoryRepository);
     }
-    public void changeQuantity(int id, Quantity quantity, EntityManager entityManager) throws InventoryException{
+    public void changeQuantity(int id, Quantity quantity, InventoryRepository inventoryRepository) throws InventoryException{
         if(id<0||id>itemList.size()-1)
             throw new InventoryException("Item ID has to be a non-negative integer and cannot be bigger that the list's size.");
 
         itemList.get(id).setQuantity(quantity);
-        entityManager.getTransaction().begin();
-        entityManager.merge(itemList.get(id));
-        entityManager.getTransaction().commit();
+        inventoryRepository.inventoryItemRepository.save(itemList.get(id));
     }
 }

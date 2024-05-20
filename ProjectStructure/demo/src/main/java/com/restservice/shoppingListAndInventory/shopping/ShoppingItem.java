@@ -8,6 +8,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+
+import static javax.persistence.EnumType.STRING;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,7 +27,7 @@ public class ShoppingItem {
     @Embedded
     @AttributeOverrides( {
             @AttributeOverride(name="value", column = @Column(name="quantity_value") ),
-            @AttributeOverride(name="type", column = @Column(name="quantity_type") )
+            @AttributeOverride(name="type", column = @Column(name="quantity_type"))
     } )
     Quantity quantity;
 

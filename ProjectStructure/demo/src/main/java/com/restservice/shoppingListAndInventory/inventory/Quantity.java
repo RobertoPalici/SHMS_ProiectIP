@@ -1,5 +1,7 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @Getter
@@ -9,6 +11,6 @@ import lombok.*;
 @ToString
 public class Quantity {
     float value;
+    @Enumerated(EnumType.STRING)
     QuantityType type;
-
 }

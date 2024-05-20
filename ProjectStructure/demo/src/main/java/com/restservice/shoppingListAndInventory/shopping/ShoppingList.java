@@ -22,8 +22,8 @@ import java.util.Objects;
 public class ShoppingList {
     @Id
     @Column(name = "id")
-    //@GeneratedValue(strategy=GenerationType.AUTO)
-    private int id=1;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int id;
 
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
@@ -55,22 +55,20 @@ public class ShoppingList {
     public void addItem(ShoppingItem item){
         shoppingList.add(item);
     }
-    public void addItem(String name, Quantity quantity, float price, EntityManager entityManager) throws ShoppingException {
+    public void addItem(String name, Quantity quantity, float price, ShoppingRepository shoppingRepository) throws ShoppingException {
         if(name.isEmpty())
             throw new ShoppingException("Item name cannot be empty.");
         if(quantity.getValue()<0&&quantity.getValue()!=-1)
             throw new ShoppingException("Quantity cannot be negative.");
         if(price < 0)
             throw new ShoppingException("Price cannot be nagative.");
-        ShoppingItem item= new ShoppingItem(name, quantity,price);
+        ShoppingItem item= new ShoppingItem(name, quantity, price);
         item.setList(this);
         shoppingList.add(item);
 
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.contains(item) ? item : entityManager.merge(item));
-        entityManager.getTransaction().commit();
+        shoppingRepository.shoppingItemRepository.save(item);
     }
-    public void addItem(String name, String quantityString, String priceString, EntityManager entityManager) throws ShoppingException{
+    public void addItem(String name, String quantityString, String priceString, ShoppingRepository shoppingRepository) throws ShoppingException{
         float quantity;
         try {
             quantity = Float.parseFloat(quantityString);
@@ -83,29 +81,27 @@ public class ShoppingList {
         } catch (NumberFormatException e) {
             throw new ShoppingException("Price has to be a number.");
         }
-        this.addItem(name, new Quantity(quantity, QuantityType.Amount), price, entityManager);
+        this.addItem(name, new Quantity(quantity, QuantityType.Amount), price, shoppingRepository);
     }
-    public void removeItem(String idString, EntityManager entityManager) throws ShoppingException{
+    public void removeItem(String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int id;
         try {
             id = Integer.parseInt(idString);
         } catch (NumberFormatException e) {
             throw new ShoppingException("Item ID has to be a non-negative integer.");
         }
-        this.removeItem(id, entityManager);
+        this.removeItem(id, shoppingRepository);
     }
-    public void removeItem(int id, EntityManager entityManager) throws ShoppingException{
+    public void removeItem(int id, ShoppingRepository shoppingRepository) throws ShoppingException{
         if(id<0)
             throw new ShoppingException("Item ID has to be a non-negative integer.");
         if(id>=shoppingList.size())
             throw new ShoppingException("Item ID cannot be bigger that the list's size.");
         ShoppingItem item = shoppingList.get(id);
         shoppingList.remove(id);
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.contains(item) ? item : entityManager.merge(item));
-        entityManager.getTransaction().commit();
+        shoppingRepository.shoppingItemRepository.delete(item);
     }
-    public void changeQuantity(String idString, String quantityString, EntityManager entityManager) throws ShoppingException{
+    public void changeQuantity(String idString, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
         float quantity;
         try {
             quantity = Float.parseFloat(quantityString);
@@ -118,15 +114,13 @@ public class ShoppingList {
         } catch (NumberFormatException e) {
             throw new ShoppingException("Item ID has to be a non-negative integer.");
         }
-        this.changeQuantity(id, new Quantity(quantity, QuantityType.Amount), entityManager);
+        this.changeQuantity(id, new Quantity(quantity, QuantityType.Amount), shoppingRepository);
     }
-    public void changeQuantity(int id, Quantity quantity, EntityManager entityManager) throws ShoppingException{
+    public void changeQuantity(int id, Quantity quantity, ShoppingRepository shoppingRepository) throws ShoppingException{
         if(id<0||id>shoppingList.size()-1)
             throw new ShoppingException("Item ID has to be a non-negative integer and cannot be bigger that the list's size.");
         shoppingList.get(id).setQuantity(quantity);
-        entityManager.getTransaction().begin();
-        entityManager.merge(shoppingList.get(id));
-        entityManager.getTransaction().commit();
+        shoppingRepository.shoppingItemRepository.save(shoppingList.get(id));
     }
     public void changePrice(String idString, String priceString) throws ShoppingException{
         float price;

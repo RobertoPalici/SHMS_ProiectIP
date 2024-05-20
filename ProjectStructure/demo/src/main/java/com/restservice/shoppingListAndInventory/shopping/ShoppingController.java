@@ -6,6 +6,7 @@ import com.restservice.shoppingListAndInventory.inventory.QuantityType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,22 +15,22 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/shopping")
 public class ShoppingController {
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
-    ShoppingLists shoppingLists=new ShoppingLists(entityManager);
+    @Autowired
+    ShoppingRepository shoppingRepository;
+    ShoppingLists shoppingLists;
     public ShoppingController(){
 
     }
     @PostMapping("/addList")
     public ShoppingLists addList(){
-        shoppingLists.addList(entityManager);
+        shoppingLists.addList(shoppingRepository);
         System.out.println(shoppingLists);
         return shoppingLists;
     }
     @DeleteMapping("/removeList")
     public ShoppingLists removeList(@RequestParam(value = "index", defaultValue = "-1") String indexString){
        try{
-           shoppingLists.removeList(indexString, entityManager);
+           shoppingLists.removeList(indexString, shoppingRepository);
        } catch (ShoppingException e){
            System.out.println("Error: " + e.getMessage());
            return shoppingLists;
@@ -41,13 +42,13 @@ public class ShoppingController {
 
     @PostMapping("/addItem")
     public ShoppingLists addItem (@RequestParam(value="index", defaultValue = "-1") String indexString,
-                         @RequestParam(value = "name", defaultValue = "____") String name,
+                         @RequestParam(value = "name", defaultValue = "") String name,
                          @RequestParam(value = "quantity", defaultValue = "1") String quantityString,
                          @RequestParam(value="price", defaultValue = "0") String priceString ){
 
 
         try{
-            shoppingLists.addItem(indexString, name, quantityString, priceString, entityManager);
+            shoppingLists.addItem(indexString, name, quantityString, priceString, shoppingRepository);
         } catch (ShoppingException e){
             System.out.println("Error: " + e.getMessage());
             return shoppingLists;
@@ -60,7 +61,7 @@ public class ShoppingController {
     public ShoppingLists removeItem(@RequestParam(value="index", defaultValue = "-1") String indexString,
                            @RequestParam(value="id", defaultValue = "-1") String idString){
         try{
-            shoppingLists.removeItem(indexString, idString, entityManager);
+            shoppingLists.removeItem(indexString, idString, shoppingRepository);
         } catch (ShoppingException e){
             System.out.println("Error: " + e.getMessage());
             return shoppingLists;
@@ -74,7 +75,7 @@ public class ShoppingController {
                                @RequestParam(value="quantity", defaultValue = "0") String quantityString){
 
         try{
-            shoppingLists.changeQuantity(indexString, idString, quantityString, entityManager);
+            shoppingLists.changeQuantity(indexString, idString, quantityString, shoppingRepository);
         } catch (ShoppingException e){
             System.out.println("Error: " + e.getMessage());
             return shoppingLists;
@@ -93,7 +94,7 @@ public class ShoppingController {
         return shoppingLists;
     }
     @PatchMapping("/changePrice")
-    public ShoppingLists changePrice(@RequestParam(value = "index", defaultValue = "-1") String indexString,
+    public ShoppingLists changePrice(@RequestParam(value="index", defaultValue = "-1") String indexString,
                                      @RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="price", defaultValue = "0") String priceString){
         try{
@@ -107,6 +108,12 @@ public class ShoppingController {
     }
     @GetMapping
     public ShoppingLists getShoppingLists(){
+        return shoppingLists;
+    }
+    @GetMapping(path="/start")
+    public ShoppingLists start() {
+        // This returns a JSON or XML with the users
+        shoppingLists = new ShoppingLists(shoppingRepository);
         return shoppingLists;
     }
 

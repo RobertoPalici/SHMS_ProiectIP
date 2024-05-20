@@ -3,6 +3,8 @@ package com.restservice.shoppingListAndInventory.inventory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +17,9 @@ import java.util.Objects;
 @CrossOrigin
 @RequestMapping("/inventory")
 public class InventoryController {
-
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
-    InventoryList itemList=new InventoryList(entityManager);
+    @Autowired
+    private InventoryRepository inventoryRepository;
+    InventoryList itemList;
     public InventoryController(){
     }
 
@@ -26,7 +27,7 @@ public class InventoryController {
     public InventoryList addItem(@RequestParam(value = "name", defaultValue = "") String name,
                         @RequestParam(value = "quantity", defaultValue = "1") String quantityString){
         try{
-            itemList.addItem(name,quantityString,entityManager);
+            itemList.addItem(name,quantityString,inventoryRepository);
         }
         catch (InventoryException e){
             System.out.println("Error: "+e.getMessage());
@@ -38,7 +39,7 @@ public class InventoryController {
     @DeleteMapping("/removeItem")
     public InventoryList removeItem(@RequestParam(value="id", defaultValue = "-1") String idString){
         try{
-            itemList.removeItem(idString,entityManager);
+            itemList.removeItem(idString,inventoryRepository);
         }
         catch (InventoryException e){
             System.out.println("Error: "+e.getMessage());
@@ -51,7 +52,7 @@ public class InventoryController {
     public InventoryList changeQuantity(@RequestParam(value="id", defaultValue = "-1") String idString,
                                @RequestParam(value="quantity", defaultValue = "0") String quantityString){
         try{
-            itemList.changeQuantity(idString,quantityString,entityManager);
+            itemList.changeQuantity(idString,quantityString,inventoryRepository);
         }
         catch (InventoryException e)
         {
@@ -64,6 +65,12 @@ public class InventoryController {
 
     @GetMapping
     public InventoryList getInventory(){
+        return itemList;
+    }
+    @GetMapping(path="/start")
+    public InventoryList start() {
+        // This returns a JSON or XML with the users
+        itemList=new InventoryList(inventoryRepository);
         return itemList;
     }
     Map<Product, Integer> averageConsumptionForAll;

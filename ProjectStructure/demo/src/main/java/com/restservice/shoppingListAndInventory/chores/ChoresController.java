@@ -6,6 +6,7 @@ import com.restservice.shoppingListAndInventory.inventory.QuantityType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,19 +23,19 @@ import static java.lang.Integer.parseInt;
 @CrossOrigin
 @RequestMapping("/chores")
 public class ChoresController {
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
-    ChoresList choresList = new ChoresList(entityManager);
+    @Autowired
+    private ChoreRepository choreRepository;
+    ChoresList choresList;
     ChoresController() {
     }
 
-    @PostMapping("/addChore")
+    @GetMapping("/addChore")
     public ChoresList addChore(@RequestParam(value = "name", defaultValue = "") String name,
                                @RequestParam(value = "description", defaultValue = "") String description,
                                @RequestParam(value="personID", defaultValue = "-1") String personIDString,
                                @RequestParam(value="duration", defaultValue = "-1") String durationString){
         try{
-            choresList.addChore(name, description, personIDString, durationString, entityManager);
+            choresList.addChore(name, description, personIDString, durationString, choreRepository);
         }
         catch (ChoresException e){
             System.out.println("Error: "+e.getMessage());
@@ -44,10 +45,10 @@ public class ChoresController {
         return choresList;
     }
 
-    @DeleteMapping("/removeChore")
+    @GetMapping("/removeChore")
     public ChoresList removeChore(@RequestParam(value="id", defaultValue = "-1") String idString){
         try{
-            choresList.removeChore(idString, entityManager);
+            choresList.removeChore(idString, choreRepository);
         }
         catch (ChoresException e) {
             System.out.println("Error: "+e.getMessage());
@@ -57,7 +58,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @PatchMapping("/changePersonID")
+    @GetMapping("/changePersonID")
     public ChoresList changePersonID(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="personID", defaultValue = "-1") String personIDString){
 
@@ -72,7 +73,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @PatchMapping("/changeDescription")
+    @GetMapping("/changeDescription")
     public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
                                         @RequestParam(value="description", defaultValue = "") String descriptionString){
         try{
@@ -85,7 +86,7 @@ public class ChoresController {
         System.out.println(choresList);
         return choresList;
     }
-    @PatchMapping("/changeDuration")
+    @GetMapping("/changeDuration")
     public ChoresList changeDuration(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="duration", defaultValue = "-1") String durationString){
         try{
@@ -100,6 +101,12 @@ public class ChoresController {
     }
     @GetMapping
     public ChoresList getChores(){
+        return choresList;
+    }
+    @GetMapping(path="/start")
+    public ChoresList start() {
+        // This returns a JSON or XML with the users
+        choresList=new ChoresList(choreRepository);
         return choresList;
     }
 }
