@@ -34,9 +34,9 @@ public class Chore {
     int personID;
 
     @Column(name = "duration")
-    int duration;
+    String duration;
 
-    public Chore(String name, String description, int personID, int duration) {this.name=name; this.description=description; this.duration=duration; this.personID=personID; }
+    public Chore(String name, String description, int personID, String duration) {this.name=name; this.description=description; this.duration=duration; this.personID=personID; }
 
     @Override
     public String toString() {

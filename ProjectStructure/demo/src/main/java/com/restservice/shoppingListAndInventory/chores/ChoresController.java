@@ -74,6 +74,24 @@ public class ChoresController {
         return choresList;
     }
 
+    @PatchMapping("/changeItemDetails")
+    public ChoresList changeItemDetails(@RequestParam(value="id", defaultValue = "-1") String idString,
+                                        @RequestParam(value="name", defaultValue = "") String nameString,
+                                        @RequestParam(value="description", defaultValue = "") String descriptionString,
+                                        @RequestParam(value="duration", defaultValue = "") String durationString,
+                                        @RequestParam(value="personId", defaultValue = "") String persodIdString
+                                        ){
+
+        try{
+            choresList.setItemDetails(idString, nameString, descriptionString, durationString, persodIdString, choreRepository);
+        }
+        catch (ChoresException e) {
+            System.out.println("Error: "+e.getMessage());
+            return choresList;
+        }
+        System.out.println(choresList);
+        return choresList;
+    }
     @PatchMapping("/changeDescription")
     public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
                                         @RequestParam(value="description", defaultValue = "") String descriptionString){

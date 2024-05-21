@@ -57,13 +57,11 @@ public class ChoresList {
     public void addChore(Chore chore){
         choresList.add(chore);
     }
-    public void addChore(String name, String description, int personID, int duration, ChoreRepository choreRepository) throws ChoresException {
+    public void addChore(String name, String description, int personID, String duration, ChoreRepository choreRepository) throws ChoresException {
         if(name.isEmpty())
             throw new ChoresException("Chore name cannot be empty.");
         if(personID < 0 && personID != -1)
             throw new ChoresException("Person ID cannot be negative.");
-        if(duration < 0 && duration != -1)
-            throw new ChoresException("Duration cannot be negative.");
         int index=findChoreIndex(name);
         if(index!=-1)
             throw new ChoresException("Chore already exists.");
@@ -80,12 +78,7 @@ public class ChoresList {
         } catch (NumberFormatException e) {
             throw new ChoresException("Person ID has to be a non-negative integer.");
         }
-        try{
-            duration=Integer.parseInt(durationString);
-        } catch (NumberFormatException e) {
-            throw new ChoresException("Duration has to be a non-negative integer.");
-        }
-        this.addChore(name, description, personID, duration, choreRepository);
+        this.addChore(name, description, personID, durationString, choreRepository);
     }
 
     public void removeChore(String idString, ChoreRepository choreRepository) throws ChoresException {
@@ -104,6 +97,24 @@ public class ChoresList {
             throw new ChoresException("Chore ID cannot be bigger than the list's size.");
         choreRepository.choreItemRepository.delete(choresList.get(id));
         choresList.remove(id);
+    }
+    public void setItemDetails(String idString, String name, String description, String durationString, String personIDString, ChoreRepository choreRepository) throws ChoresException{
+        int id;
+        try{
+            id=Integer.parseInt(idString);
+        } catch (NumberFormatException e) {
+            throw new ChoresException("Chore ID has to be a non-negative integer.");
+        }
+        if(id<0)
+            throw new ChoresException("Chore ID has to be a non-negative integer.");
+        if(id>=choresList.size())
+            throw new ChoresException("Chore ID cannot be bigger than the list's size.");
+        this.setPersonID(idString, personIDString);
+        choresList.get(id).setName(name);
+        choresList.get(id).setDescription(description);
+        choresList.get(id).setDuration(durationString);
+        choreRepository.choreItemRepository.save(choresList.get(id));
+
     }
     public void setPersonID(String idString, String personIDString) throws ChoresException {
         int id;
@@ -152,15 +163,15 @@ public class ChoresList {
         } catch (NumberFormatException e) {
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         }
-        int duration;
+        /*int duration;
         try{
             duration=Integer.parseInt(durationString);
         } catch (NumberFormatException e) {
             throw new ChoresException("Duration has to be a non-negative integer.");
-        }
-        this.setDuration(id, duration);
+        }*/
+        choresList.get(id).setDuration(durationString);
     }
-    public void setDuration(int id, int duration) throws ChoresException {
+    /*public void setDuration(int id, int duration) throws ChoresException {
         if(id<0)
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         if(id>=choresList.size())
@@ -168,7 +179,7 @@ public class ChoresList {
         if(duration < 0 && duration != -1)
             throw new ChoresException("Duration has to be a non-negative integer.");
         choresList.get(id).setDuration(duration);
-    }
+    }*/
 
     @Override
     public String toString() {
