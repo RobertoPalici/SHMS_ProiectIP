@@ -21,7 +21,7 @@ import org.hibernate.annotations.Cascade;
 @Entity
 @NoArgsConstructor
 @Table(name = "inventory_list")
-@JsonIgnoreProperties(value = {"id", "list"})
+@JsonIgnoreProperties(value = {"id", "itemBuyHistoryList"})
 public class InventoryList{
     @Id
     @Column(name = "id")
@@ -31,6 +31,10 @@ public class InventoryList{
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<InventoryItem> itemList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "list")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    List<InventoryItem> itemBuyHistoryList = new ArrayList<>();
 
     @Transient
     private boolean is_persisted=false;
@@ -125,5 +129,12 @@ public class InventoryList{
 
         itemList.get(id).setQuantity(quantity);
         inventoryRepository.inventoryItemRepository.save(itemList.get(id));
+    }
+
+    @Override
+    public String toString() {
+        return "InventoryList{" +
+                "itemList=" + itemList +
+                '}';
     }
 }

@@ -23,11 +23,7 @@ public class Product {
 
     @Column(name = "name")
     String name;
-    @Column(name = "expiry_date")
-    LocalDate expiryDate;
 
-    @Column(name = "average_consumption")
-    int averageConsumption;
 
     @Column(name = "is_eatable")
     boolean isEatable = false;
@@ -35,5 +31,12 @@ public class Product {
         this.name=name;
     }
     public void computeAverageConsumption(){
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
