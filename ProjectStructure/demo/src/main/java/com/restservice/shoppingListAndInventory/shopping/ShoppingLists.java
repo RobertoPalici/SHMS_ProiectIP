@@ -16,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "shopping_lists")
 @JsonIgnoreProperties(value = {"id"})
 public class ShoppingLists {
@@ -29,9 +28,10 @@ public class ShoppingLists {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<ShoppingList> shoppingLists=new ArrayList<>();;
     public ShoppingLists(ShoppingRepository shoppingRepository){
-        for (ShoppingList list : shoppingRepository.shoppingListRepository.findAll()) {
-            shoppingLists.add(list);
-        }
+        this.addList(shoppingRepository);
+    }
+
+    public ShoppingLists(){
     }
 
     private static List<ShoppingList> loadAllData(Session session) {

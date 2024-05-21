@@ -1,5 +1,6 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
+import com.restservice.shoppingListAndInventory.chores.ChoresList;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -65,6 +67,16 @@ public class InventoryController {
 
     @GetMapping
     public InventoryList getInventory(){
+        if(itemList!=null)
+            return itemList;
+        Iterator<InventoryList> iter = inventoryRepository.inventoryListRepository.findAll().iterator();
+        if(iter.hasNext()){
+            itemList=iter.next();
+        }
+        else{
+            itemList=new InventoryList();
+            inventoryRepository.inventoryListRepository.save(itemList);
+        }
         return itemList;
     }
     @GetMapping(path="/start")

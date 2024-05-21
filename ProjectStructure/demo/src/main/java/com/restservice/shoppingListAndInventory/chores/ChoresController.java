@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Iterator;
 import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
@@ -29,7 +30,7 @@ public class ChoresController {
     ChoresController() {
     }
 
-    @GetMapping("/addChore")
+    @PostMapping("/addChore")
     public ChoresList addChore(@RequestParam(value = "name", defaultValue = "") String name,
                                @RequestParam(value = "description", defaultValue = "") String description,
                                @RequestParam(value="personID", defaultValue = "-1") String personIDString,
@@ -45,7 +46,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @GetMapping("/removeChore")
+    @DeleteMapping("/removeChore")
     public ChoresList removeChore(@RequestParam(value="id", defaultValue = "-1") String idString){
         try{
             choresList.removeChore(idString, choreRepository);
@@ -58,7 +59,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @GetMapping("/changePersonID")
+    @PatchMapping("/changePersonID")
     public ChoresList changePersonID(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="personID", defaultValue = "-1") String personIDString){
 
@@ -73,7 +74,7 @@ public class ChoresController {
         return choresList;
     }
 
-    @GetMapping("/changeDescription")
+    @PatchMapping("/changeDescription")
     public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
                                         @RequestParam(value="description", defaultValue = "") String descriptionString){
         try{
@@ -86,7 +87,7 @@ public class ChoresController {
         System.out.println(choresList);
         return choresList;
     }
-    @GetMapping("/changeDuration")
+    @PatchMapping("/changeDuration")
     public ChoresList changeDuration(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="duration", defaultValue = "-1") String durationString){
         try{
@@ -101,12 +102,17 @@ public class ChoresController {
     }
     @GetMapping
     public ChoresList getChores(){
-        return choresList;
-    }
-    @GetMapping(path="/start")
-    public ChoresList start() {
-        // This returns a JSON or XML with the users
-        choresList=new ChoresList(choreRepository);
+        if(choresList!=null)
+            return choresList;
+        Iterator<ChoresList> iter = choreRepository.choreListRepository.findAll().iterator();
+        if(iter.hasNext()){
+            choresList=iter.next();
+        }
+        else
+        {
+            choresList=new ChoresList();
+            choreRepository.choreListRepository.save(choresList);
+        }
         return choresList;
     }
 }
