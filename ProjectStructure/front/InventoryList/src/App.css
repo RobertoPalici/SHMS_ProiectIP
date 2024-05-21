@@ -28,21 +28,14 @@
   z-index: 1;
 }
 
-.overlay {
-  position: absolute;
-  inset-block-start: 50px;
-  inset-inline-start: 0;
-  inline-size: 100%;
-  block-size: 15%; 
-  z-index:1;
-}
 
 .vector {
   position: absolute;
-  inset-block-start: 70px;
-  inset-inline-start: 100px;
-  inline-size: calc(100% - 200px);  
-  z-index: 3;
+  display: block;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);  
+  z-index: 4;  
 }
 
 .footer {
@@ -102,55 +95,7 @@ p {
   color: #666;
 }
  
-.buttonContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-block-start: 5vw;
-  inline-size: 100%;
-  background-color: #F2F2F2;
-  position: absolute; 
-  inset-block-start: 350px; 
-  inset-inline-start: 0; 
-  inset-inline-end: 0; 
-  z-index: 9999; 
-}
 
-.nav-links {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-}
-
-.tagButton,
-.sortButton,
-.restockSuggestions {
-  color: #000000;
-  background-color: burlywood;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: Mont;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 10px;
-  inline-size: 125px; 
-}
-
-.tagButton{
-  margin-inline-start: 2vw;
-}
-
-.restockSuggestions {
-  inline-size: 250px;  
-}
-
-.sortButton {
-  inline-size: 125px;  
-  margin-inline-start: -5vw; 
-}
 
 .App {
   text-align: center;
@@ -159,11 +104,16 @@ p {
 .appContainer {
   position: relative;  
 }
+.topContainer{
+  position: relative;
+  width:100%;
+}
 
 .inventory-list {
-  position: absolute;;  
-  inset-block-start: 9%;  
-  inset-inline-start: 50%; 
+  position: absolute;
+  display: block;
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);  
   z-index: 4;  
   font-size: 6vw;  
@@ -189,433 +139,69 @@ p {
   z-index: 1;
 }
 
-.overlay {
-  position: absolute;
-  inset-block-start: 50px;
-  inset-inline-start: 0;
-  inline-size: 100%;
-  block-size: 15%;  
-  z-index:1;
-}
-
 .vector {
   position: absolute;
-  inset-block-start: 70px;
-  inset-inline-start: 100px;
-  inline-size: calc(100% - 200px);  
-  z-index: 3;
+  display: block;
+  top: 30%;
+  transform: translate(-50%, -50%);  
+  z-index: 4;  
 }
 
-@media (min-inline-size: 1000px) {
-  .overlay {
-    block-size: 80vw;  
-    z-index: 1;
-  }
-  .vector {
-    block-size: 60vw;  
-  }
+.buttonContainer{
+  display:flex;
+  justify-content: space-around;
+  margin-top: 3vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-block-size: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  block-size: 100vh;
-  font-family: Arial, sans-serif;
-}
-
-h1 {
-  color: #333;
-}
-
-p {
-  margin-block-start: 20px;
-  font-size: 18px;
-  color: #666;
-}
- 
-.buttonContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-block-start: 12vw;
-  inline-size: 100%;
-}
-
-.nav-links {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-}
-
-.tagButton,
-.sortButton,
-.restockSuggestions {
-  color: #ffffff;
+.buttonContainer button{
+  border: none;
+  border-radius: 7px;
+  min-width: fit-content;
+  color:white;
   background-color: #1BBC9B;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: Bolt, sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 10px;
-  inline-size: 125px;  
+  padding: 5px 10px;
+  width: 8vh;
+  font-size: 1.25vw;
 }
 
-.tagButton{
-  margin-inline-start: 2vw;
+.buttonContainer button:hover{
+  background-color: #36edc8;
 }
 
-.restockSuggestions {
-  inline-size: 250px;  
-}
-
-.sortButton {
-  inline-size: 125px; 
-  margin-inline-start: -5vw;  
-}
-
-.dropdowntag {
+.tag{
   display: flex;
   flex-direction: column;
-  position: absolute;
-  padding: 10px;
-  inline-size: 100px; 
-  inset-block-start: calc(100% - 5px); 
-  margin-inline-start: 2.2vw;
+  align-items: center;
 }
 
-.dropdowntag button {
-  color: #ffffff;
-  background-color: #1BBC9B;
-  padding: 5px 9px;  
-  border-radius: 20px;
-  font-weight: bold;;
-  cursor: pointer;
-  font-family: Bolt, sans-serif;
-  font-size: 14px;  
-  margin-block-end: 3px; 
-}
-
-.dropdownsort {
+.tagDropdown{
   display: flex;
   flex-direction: column;
-  position: absolute;
-  padding: 10px;
-  border-radius: 4px;
-  inline-size: 100px;  
-  inset-block-start: calc(100% - 5px);  
-  margin-inline-start: 22vw; 
-  z-index: 99999;
+  margin-top: 2vh;
 }
 
-.dropdownsort button {
-  color: #ffffff;
-  background-color: #1BBC9B;
-  padding: 5px 9px;  
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: Bolt, sans-serif;
-  font-size: 14px; 
-  margin-block-end: 3px; 
+.tagDropdown button{
+  margin-top: 1vh;
 }
 
-.dropdownsort button:hover{
-  background-color: #d0f0c0;
-  color:black;
+.sort{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sort button{
+  width: 10vw;
+}
+.sortDropdown{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
 }
 
-.dropdowntag button:hover{
-  background-color: #d0f0c0;
-  color:black;
+.sortDropdown button{
+  margin-top: 1vh;
 }
 
-@media (max-width: 1920px) {
-  .buttonContainer{
-    margin-block-start: 25vw;
-  } 
-
-  .inventory-list {
-    inset-block-start: 10%;
-  }
-
-  .buttonContainer{
-    margin-block-start: 20vw;
-  } 
-
-  .dropdowntag {
-    margin-inline-start: 40px;  
-  }
-
-  .dropdownsort {
-    margin-inline-start: 29.5vw; 
-  }
-}
-
-@media (max-width: 1800px) {
-  buttonContainer{
-    margin-block-start: 20vw;
-  }
-
-  .dropdownsort {
-    margin-inline-start: 29.1vw;  
-  }
-}
-
-@media (max-width: 1500px) {
-  .buttonContainer{
-    margin-block-start: 15.5vw;
-  } 
-
-  .dropdownsort {
-    margin-inline-start: 28.5vw;   
-  }
-}
-
-@media (max-width: 1300px) {
-  .buttonContainer{
-    margin-block-start: 12vw;
-  } 
-}
-
-@media (max-width: 1100px) {
-  .buttonContainer{
-    margin-block-start: 7vw;
-  } 
-
-  .dropdownsort {
-    margin-inline-start: 28vw;  
-  }
-}
-
-@media (max-width: 950px) {
-  .tagButton,
-  .sortButton {
-    inline-size: 100px;  
-    font-size: 14px;  
-  }
-
-  .sortButton {
-    margin-inline-start: 0;  
-  }
-
-  .dropdownsort button {
-    inline-size: 80px;
-    font-size: 60%; 
-    margin-inline-start: 1.5vw; 
-  }
-
-  .dropdowntag {
-    margin-inline-start: 2.5vw;
-  }
-
-  .dropdowntag button {
-    font-size: 12px;  
-    inline-size: 80px;
-    font-size: 70%; 
-  }
-}
-
-@media (max-width: 900px) {
-  .buttonContainer{
-    margin-block-start: 3vw;
-  } 
-}
-
-@media (max-width: 810px) {
-
-  .dropdowntag {
-    margin-inline-start: 2vw;
-  }
-}
-
-@media (max-width: 800px) {
-  .restockSuggestions {
-    inline-size: 30vw;  
-    font-size: 1.8vw; 
-  }
-}
-  
-@media (max-width: 700px) {
-  .product-list {
-    margin-block-start: 25.5vw; 
-  }
-            
-  .inventory-list {
-    inset-block-start: 10.5%;  
-  }
-
-  .buttonContainer {
-    margin-block-start: 1%;  
-  }
-}
-
-@media (max-width: 600px) {
-  .product-list{
-    margin-block-start: 37vw;
-  }
-
-  .tagButton,
-  .sortButton,
-  .restockSuggestions {
-    margin-block-start: 10px;  
-    inline-size: calc(100% - 20px);  
-    margin-inline-start: 10px;
-    margin-inline-start: 10px;
-  }
-
-  .product-list{
-    margin-block-start: 45vw;
-  }
-
-  .buttonContainer {
-    margin-block-start: 1vw;
-    margin-inline-end: 10vw;
-    margin-inline-start: auto;
-    inline-size: 80%; 
-    align-items: flex-start;
-  }
-  
-  .dropdowntag{
-    margin-inline-start: 4.5vw;
-  }
-
-  .inventory-list {
-    inset-block-start: 10%; 
-  }
-}
-
-@media (max-width: 480px) {
-  .inventory-list {
-    inset-block-start: 9.5%;  
-  }
-
-  .product-list{
-    margin-block-start: 60vw;
-  }
-
-  .dropdowntag{
-    margin-inline-start: 3vw;
-  }
-}
-
-@media (max-width: 450px) {
-  .product-list{
-    margin-block-start: 45vw;
-  }
-
-  .buttonContainer {
-    margin-block-start: -25vw;
-  }
-  
-
-  .inventory-list {
-    inset-block-start: 9.5%;  
-  }
-}
-
-@media (max-width: 428px) {
-  .dropdownsort {
-    transform: translateX(-70vw);
-  }
-}
-
-@media (max-width: 414px) {
-  .dropdownsort {
-    transform: translateX(-73vw);
-  }
-}
-
-@media (max-width: 412px) {
-  .dropdownsort {
-    transform: translateX(-74vw);
-  }
-}
-
-@media (max-width: 400px) {
-  .overlay {
-    block-size: 35vw;
-  }
-  .vector {
-    block-size: 15vw ;
-  }
-}
-
-@media (max-width: 390px) {
-  .dropdownsort {
-    transform: translateX(-80.5vw);
-  }
-}
-
-@media (max-width: 384px) {
-  .dropdownsort {
-    transform: translateX(-82vw);
-  }
-
-  .inventory-list {
-    inset-block-start: 7%;
-  }
-
-  .dropdowntag {
-    margin-inline-start: 1.5vw;
-  }
-}
-
-@media (max-width: 375px) {
-  .dropdownsort {
-    transform: translateX(-85vw);
-  }
-}
-
-@media (max-width: 360px) {
-  .dropdownsort {
-    transform: translateX(-91vw);
-  }
-
-  .buttonContainer {
-    margin-block-start: -37vw;
-  }
-
-  .inventory-list {
-    inset-block-start: 7%;
-  }
-
-  .dropdowntag {
-    margin-inline-start: 1.5vw;
-  }
+.restock{
+  height: 3vh; 
 }
