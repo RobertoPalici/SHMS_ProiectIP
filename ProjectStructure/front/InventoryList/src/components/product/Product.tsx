@@ -10,14 +10,13 @@ type Quantity = {
 
 export type Item = {
   name: string;
-  expiryDate: string | null;
-  averageConsumption: number;
   eatable: boolean;
 }
 
 export type ItemList = {
   item: Item;
   quantity: Quantity;
+  averageConsumption: number;
   imageSrc: string;
   id : any;
 }

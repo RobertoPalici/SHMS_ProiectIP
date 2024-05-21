@@ -26,6 +26,7 @@ const ItemLists: React.FC<ContentProps> = ({products, handleIncreaseQuantity, ha
                                 <Product
                           item={item.item}
                           quantity={item.quantity}
+                          averageConsumption={item.averageConsumption}
                           imageSrc={productIcon}
                           handleIncreaseQuantity={handleIncreaseQuantity}
                           handleDecreaseQuantity={handleDecreaseQuantity}
@@ -37,14 +38,13 @@ const ItemLists: React.FC<ContentProps> = ({products, handleIncreaseQuantity, ha
                                 <Product
                           item={{
                             "name": "",
-                            "expiryDate": null,
-                            "averageConsumption": 0,
                             "eatable": false
                           }}
                           quantity={{
                             "value": 0,
                             "type": "Amount"
                           }}
+                          averageConsumption={0}
                           imageSrc={questionmark}
                           handleIncreaseQuantity={handleIncreaseQuantity}
                           handleDecreaseQuantity={handleDecreaseQuantity}
