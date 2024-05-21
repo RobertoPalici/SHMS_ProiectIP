@@ -27,8 +27,8 @@ interface ContentProps{
 
 const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, setNewProduct, newQuantity, setNewQuantity, fetchError, setFetchError}) => {
  
-    const [isTagDropdownOpen, setTagDropdownOpen] = useState(false);
-    const [isSortDropdownOpen, setSortDropdownOpen] = useState(false);
+    const [isTag, setTag] = useState(false);
+    const [isSort, setSort] = useState(false);
 
     const API_URL = 'http://localhost:8081/inventory';
 
@@ -146,47 +146,43 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     }
   
     const toggleTagDropdown = () => {
-      setTagDropdownOpen(!isTagDropdownOpen);
-      if (isSortDropdownOpen) {
-        setSortDropdownOpen(false);
-      }
+      setTag(!isTag);
     };      
   
     const toggleSortDropdown = () => {
-      setSortDropdownOpen(!isSortDropdownOpen);
-      if (isTagDropdownOpen) {
-        setTagDropdownOpen(false);
-      }
+      setSort(!isSort);
     };
 
     return (
         <>
+        <div className="topContainer">
           <img className="appImage" src={image_1} alt="Imagine 1" />
-          <img className="overlay" src={image_2} alt="Overlay" />
           <img className="vector" src={image_3} alt="Vector" />
-        
           <div className="inventory-list">Inventory List</div>
-     
-          {/* <div className="buttonContainer">
-              <button onClick={toggleTagDropdown} className="tagButton">Tag</button>
-              {isTagDropdownOpen && (
-              <div className="dropdowntag">
-                  <button> Food</button>
-                  <button>Others</button>
-              </div>
-              )}
-              <button onClick={toggleSortDropdown} className="sortButton">Sort</button>
-              {isSortDropdownOpen && (
-              <div className="dropdownsort">
-                  <button>Quantity</button>
-                  <button>Date of add</button>
-                  <button>A..Z</button>
-                  <button>Z..A</button>
-              </div>
-              )}
-              <div className="nav-links"></div>
-            <button className="restockSuggestions">Restock Suggestions</button>
-          </div> */}
+          </div>
+          <div className="buttonContainer">
+            
+            <div className="tag">
+              <button className="tagButton" onClick={toggleTagDropdown}>Tag</button>
+              {isTag &&
+              <div className="tagDropdown">
+                <button>Food</button>
+                <button>Others</button>
+              </div>}
+
+            </div>
+            <div className="sort">
+            <button className="sortButton" onClick={toggleSortDropdown}>Sort</button>
+            {isSort &&
+              <div className="sortDropdown">
+                <button>A-Z</button>
+                <button>Z-A</button>
+                <button>Quantity ↑</button>
+                <button>Quantity ↓</button>
+              </div>}
+            </div>
+            <button className="restock">Restock suggestions</button>
+          </div>
           <ItemLists
             products={products}
             handleIncreaseQuantity={handleIncreaseQuantity}
