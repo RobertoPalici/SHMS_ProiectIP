@@ -11,12 +11,12 @@ interface MidProps {
   chores: ChoreProps;
   newChore: string;
   newDesc: string;
-  newDuration: number;
+  newDuration: string;
   fetchError: any;
   setChores: React.Dispatch<React.SetStateAction<ChoreProps>>;
   setNewChore: React.Dispatch<React.SetStateAction<string>>;
   setNewDesc: React.Dispatch<React.SetStateAction<string>>;
-  setNewDuration: React.Dispatch<React.SetStateAction<number>>;
+  setNewDuration: React.Dispatch<React.SetStateAction<string>>;
   setFetchError: React.Dispatch<any>; 
 }
 
@@ -25,7 +25,7 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
 
     const [updatedChore, setUpdatedChore] = useState('');
     const [updatedDesc, setUpdatedDesc] = useState('');
-    const [updatedDuration, setUpdatedDuration] = useState(0);
+    const [updatedDuration, setUpdatedDuration] = useState('');
 
     const saveChores = (newChores : ChoresList[]) => {
       console.log(chores);
@@ -46,12 +46,12 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
     const handleSubmitUpdate = (e : React.FormEvent<HTMLFormElement>, oldChore: string) => {
       e.preventDefault();
       handleUpdate(oldChore ,updatedChore, updatedDesc, updatedDuration);
-      setUpdatedChore('');
+      setUpdatedChore('p');
       setUpdatedDesc('');
-      setUpdatedDuration(0);
+      setUpdatedDuration('');
     }
 
-    const handleUpdate = async (oldName: string, updatedName: string, description: string, duration: number) => {
+    const handleUpdate = async (oldName: string, updatedName: string, description: string, duration: string) => {
       if(chores.choresList !== undefined){
         const listChores = chores.choresList.map((chore) => chore.name === oldName ? {...chore, name: updatedName, description, personID: -1, duration} : chore); 
         console.log('1');
@@ -77,14 +77,14 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
           })
         }
         console.log('2');
-        const response = await APIRequest(`${API_URL}/changeItemDetails?id=${index}&name=${targetChore[0].name}&description=${targetChore[0].description}&personID=${targetChore[0].personID}&duration=${targetChore[0].duration}`, options);
+        const response = await APIRequest(`${API_URL}/changeItemDetails?id=${index}&name=${targetChore[0].name}&description=${targetChore[0].description}&personID="-1"&duration=${targetChore[0].duration}`, options);
         //const response = await APIRequest(`${API_URL}/${targetProduct[0].id}`, options);     
         if(response)
           setFetchError(response);
       }
     }
 
-    const addChore = async (name: string, description: string, duration: number) => {
+    const addChore = async (name: string, description: string, duration: string) => {
       if(name.trim() === ''){
         alert('Please enter a title for the chore');
       } else {

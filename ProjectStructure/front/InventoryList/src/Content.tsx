@@ -112,7 +112,6 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     const handleDelete = async (name : string) => {
       if(products.itemList !== undefined){
         const listItems = products.itemList.filter((item) => item.item.name !== name);
-        const targetProduct = products.itemList.filter((item) => item.item.name === name);
         const index = products.itemList.findIndex(item => item.item.name === name); 
         saveProducts(listItems);
 

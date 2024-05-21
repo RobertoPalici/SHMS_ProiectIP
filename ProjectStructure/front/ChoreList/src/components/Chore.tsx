@@ -7,7 +7,7 @@ export type ChoresList = {
   name : string | null;
   description: string;
   personID: number;
-  duration: number;
+  duration: string;
   imageSrc: string | null;
 }
 
@@ -19,19 +19,19 @@ interface ChoreDeclareProps {
     handleDelete: (name : string) => void;
     handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
     handleSubmitUpdate?: (e: React.FormEvent<HTMLFormElement>, oldName: string) => void ;
-    handleUpdate: (oldName: string, updatedName: string, description: string, duration: number) => void;
+    handleUpdate: (oldName: string, updatedName: string, description: string, duration: string) => void;
     newChore?: string;
     setNewChore?: React.Dispatch<React.SetStateAction<string>>;
     newDesc?: string;
     setNewDesc?: React.Dispatch<React.SetStateAction<string>>;
-    newDuration?: number;
-    setNewDuration?: React.Dispatch<React.SetStateAction<number>>;
+    newDuration?: string;
+    setNewDuration?: React.Dispatch<React.SetStateAction<string>>;
     updatedChore?: string;
     setUpdatedChore: React.Dispatch<React.SetStateAction<string>>;
     updatedDesc?: string;
     setUpdatedDesc: React.Dispatch<React.SetStateAction<string>>;
-    updatedDuration?: number;
-    setUpdatedDuration: React.Dispatch<React.SetStateAction<number>>;
+    updatedDuration?: string;
+    setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, duration, personID, imageSrc, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
@@ -40,9 +40,6 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
     const inputRef2 = useRef<HTMLInputElement>(null);
     const inputRef3 = useRef<HTMLInputElement>(null);
     const [edit, setEdit] = useState(true);
-    const [inputValue, setInputValue] = useState(name || '');
-    const [inputValue2, setInputValue2] = useState(description || '');
-    const [inputValue3, setInputValue3] = useState(duration || -1);
 
     const handleButton = () => {
         setTimeout(() => {
@@ -64,31 +61,15 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
     }
     const handleSubmitEdit = (e : React.FormEvent<HTMLFormElement>, oldName: string) => {
         e.preventDefault();
-        handleEdit();
         if(handleSubmitUpdate){
-            console.log('AM INTTRAT');
             handleSubmitUpdate(e, oldName);}
-        console.log(updatedChore);
+        handleEdit();
     }
-    useEffect(() => {
-        setUpdatedChore(name || '');
-        setUpdatedDesc(description || '');
-        setUpdatedDuration(duration || 0);
-    }, [name, description, duration]);
-
-    const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>, index: number) => {
-        switch(index){
-            case 0:
-                setUpdatedChore(e.target.value);
-                break;
-            case 1:
-                setUpdatedDesc(e.target.value);
-                break;
-            case 2:
-                setUpdatedDuration(parseInt(e.target.value));
-                break;
-        }
-    }
+    /*useEffect(() => {
+        if (name && setUpdatedChore) setUpdatedChore(name);
+        if (description && setUpdatedDesc) setUpdatedDesc(description);
+        if (duration && setUpdatedDuration) setUpdatedDuration(duration);
+      }, [name, description, duration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration]);  */  
 
     return (
         <>
@@ -117,7 +98,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
                 type="text"
                 placeholder="Deadline"
                 value={newDuration}
-                onChange={(e) => {if(setNewDuration) setNewDuration(parseInt(e.target.value))}}
+                onChange={(e) => {if(setNewDuration) setNewDuration(e.target.value)}}
                 />
                 <button type="submit" onClick={handleButton}>Add chore</button>
             </form>)}
@@ -164,7 +145,8 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
                             placeholder="Details"
                             value={updatedDesc}
                             ref={inputRef2}
-                            onChange={(e) => {if(setUpdatedDesc) setUpdatedDesc(e.target.value)}}
+                            onChange={(e) => {
+                                console.log(updatedDesc); if(setUpdatedDesc) setUpdatedDesc(e.target.value)}}
                             />
                     </div>
                     <div className ={styles.duration}>
@@ -174,14 +156,14 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
                         placeholder="Deadline"
                         value={updatedDuration}
                         ref={inputRef3}
-                        onChange={(e) => {if(setUpdatedDuration) setUpdatedDuration(parseInt(e.target.value))}}
+                        onChange={(e) => {if(setUpdatedDuration) setUpdatedDuration(e.target.value)}}
                         />
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
                     <button className={styles.buttonStyle} onClick={() => {if(name) handleDelete(name)}}>Remove</button>
                     <button className={styles.button2Style} onClick={handleEdit}>Return</button>
-                    <button className={styles.button4Style} type="submit" onClick={handleButton2}>Confirm</button>
+                    <button className={styles.button4Style} type="submit">Confirm</button>
                 </div>
             </div>
             </form>

@@ -14,7 +14,7 @@ const App: React.FC = () => {
   const [chores, setChores] = useState<ChoreProps>({choresList: []});
   const [newChore, setNewChore] = useState('');
   const [newDesc, setNewDesc] = useState('');
-  const [newDuration, setNewDuration] = useState(0);
+  const [newDuration, setNewDuration] = useState('');
   const [fetchError, setFetchError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 

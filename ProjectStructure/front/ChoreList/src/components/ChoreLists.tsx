@@ -9,13 +9,13 @@ interface MidProps{
   handleSubmit: (e : React.FormEvent<HTMLFormElement>) => void;
   handleSubmitUpdate: (e : React.FormEvent<HTMLFormElement>, oldName: string) => void;
   handleDelete: (name : string) => void;
-  handleUpdate: (oldName: string, updatedName: string, description: string, duration: number) => void;
+  handleUpdate: (oldName: string, updatedName: string, description: string, duration: string) => void;
   setNewChore: React.Dispatch<React.SetStateAction<string>>;
   setNewDesc: React.Dispatch<React.SetStateAction<string>>;
-  setNewDuration: React.Dispatch<React.SetStateAction<number>>;
+  setNewDuration: React.Dispatch<React.SetStateAction<string>>;
   setUpdatedChore: React.Dispatch<React.SetStateAction<string>>;
   setUpdatedDesc: React.Dispatch<React.SetStateAction<string>>;
-  setUpdatedDuration: React.Dispatch<React.SetStateAction<number>>;
+  setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
@@ -29,7 +29,7 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, hand
               imageSrc={null}
               description={"No details"}
               personID={-1}
-              duration={-1}
+              duration={"No deadline"}
               handleSubmit={handleSubmit}
               handleSubmitUpdate={handleSubmitUpdate}
               handleDelete={handleDelete}
@@ -58,6 +58,9 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, hand
               setNewChore={setNewChore}
               setNewDesc={setNewDesc}
               setNewDuration={setNewDuration}
+              updatedChore={chore.name ?? ''}
+              updatedDesc={chore.description}
+              updatedDuration={chore.duration}
               setUpdatedChore={setUpdatedChore}
               setUpdatedDuration={setUpdatedDuration}
               setUpdatedDesc={setUpdatedDesc}
