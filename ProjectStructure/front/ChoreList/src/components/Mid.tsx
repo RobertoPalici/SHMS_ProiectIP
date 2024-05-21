@@ -62,7 +62,8 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
         console.log('5');
         console.log(listChores[0].name);
         console.log(targetChore[0].name);
-        const index = chores.choresList.findIndex(chore => chore.name === updatedName);
+        const index = chores.choresList.findIndex(chore => chore.name === oldName);
+        console.log(index);
         const options = {
           method: 'PATCH',
           headers: {
@@ -76,7 +77,7 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
           })
         }
         console.log('2');
-        const response = await APIRequest(`${API_URL}/updateChore?id=${index}&name=${targetChore[0].name}&description=${targetChore[0].description}&personID=${targetChore[0].personID}&duration=${targetChore[0].duration}`, options);
+        const response = await APIRequest(`${API_URL}/changeItemDetails?id=${index}&name=${targetChore[0].name}&description=${targetChore[0].description}&personID=${targetChore[0].personID}&duration=${targetChore[0].duration}`, options);
         //const response = await APIRequest(`${API_URL}/${targetProduct[0].id}`, options);     
         if(response)
           setFetchError(response);
