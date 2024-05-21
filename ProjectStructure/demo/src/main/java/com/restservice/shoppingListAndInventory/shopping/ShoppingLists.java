@@ -28,7 +28,6 @@ public class ShoppingLists {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<ShoppingList> shoppingLists=new ArrayList<>();;
     public ShoppingLists(ShoppingRepository shoppingRepository){
-        shoppingRepository.shoppingListsRepository.save(this);
         this.addList(shoppingRepository);
     }
 

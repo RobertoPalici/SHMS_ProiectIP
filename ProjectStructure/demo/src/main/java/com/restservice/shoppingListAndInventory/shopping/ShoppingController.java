@@ -125,9 +125,13 @@ public class ShoppingController {
             shoppingLists = iterLists.next();
             if(shoppingLists.getShoppingLists().isEmpty())
                 shoppingLists.addList(shoppingRepository);
-            return shoppingLists;
         }
-        shoppingLists = new ShoppingLists(shoppingRepository);
+        else
+        {
+            shoppingLists = new ShoppingLists();
+            shoppingRepository.shoppingListsRepository.save(shoppingLists);
+            shoppingLists.addList(shoppingRepository);
+        }
         return shoppingLists;
     }
 
