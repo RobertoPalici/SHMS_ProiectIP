@@ -1,0 +1,43 @@
+.containerStyle{
+    position: relative;
+    width:100%;
+    height:auto;
+    margin-left: 0;
+    align-items: center;
+}
+.containerStyle img{
+    width:100%;
+    height: auto;
+    filter: brightness(0.5);
+    border-top: 2px solid #1BBC9B;
+    z-index: -1;
+    
+}
+.textStyle{
+    position: absolute;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index:10;
+    top:30%;
+}
+h1{
+    color:white;;
+    text-align: left;
+    font-size: 4vw;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.contact{
+    color:white;
+    text-align: left;
+    font-size: 1vw;
+}
+
+.contact p{
+    background-color: #1BBC9B;
+    border-radius: 5px;
+    padding:5px;
+    width:min-content;
+    font-weight: 500;
+}
