@@ -48,7 +48,7 @@ public class InventoryItem {
     @Override
     public String toString() {
         return "InventoryItem{" +
-                ", quantity=" + quantity +
+                "quantity=" + quantity +
                 ", averageConsumption=" + averageConsumption +
                 ", item=" + item +
                 '}';
