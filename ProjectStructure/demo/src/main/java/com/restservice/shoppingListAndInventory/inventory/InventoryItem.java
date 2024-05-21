@@ -29,16 +29,14 @@ public class InventoryItem {
             @AttributeOverride(name="type", column = @Column(name="quantity_type") )
     } )
     Quantity quantity;
-
+    @Column(name = "average_consumption")
+    int averageConsumption;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product item;
-    @Column(name = "buy_date")
-    LocalDate dateOfBuying;
     public InventoryItem(String name, Quantity quantity){
         item=new Product(name);
         this.quantity=quantity;
-        this.dateOfBuying=LocalDate.now();
     }
     public void addQuantity(float quantity){
         if(this.quantity.getValue() + quantity<0)

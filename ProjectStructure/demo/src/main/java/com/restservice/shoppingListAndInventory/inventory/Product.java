@@ -23,11 +23,7 @@ public class Product {
 
     @Column(name = "name")
     String name;
-    @Column(name = "expiry_date")
-    LocalDate expiryDate;
 
-    @Column(name = "average_consumption")
-    int averageConsumption;
 
     @Column(name = "is_eatable")
     boolean isEatable = false;
