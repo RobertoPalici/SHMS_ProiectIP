@@ -121,7 +121,7 @@ public class ChoresController {
     @GetMapping
     public ChoresList getChores(){
         if(choresList!=null)
-            return choresList;
+            return  choresList;
         Iterator<ChoresList> iter = choreRepository.choreListRepository.findAll().iterator();
         if(iter.hasNext()){
             choresList=iter.next();

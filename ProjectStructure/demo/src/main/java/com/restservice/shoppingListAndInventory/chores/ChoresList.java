@@ -106,7 +106,7 @@ public class ChoresList {
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         }
         if(id<0)
-            throw new ChoresException("Chore ID has to be a non-negative integer.");
+            throw new  ChoresException("Chore ID has to be a non-negative integer.");
         if(id>=choresList.size())
             throw new ChoresException("Chore ID cannot be bigger than the list's size.");
         this.setPersonID(idString, personIDString);
