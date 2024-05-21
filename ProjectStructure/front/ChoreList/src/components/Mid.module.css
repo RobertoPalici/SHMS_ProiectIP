@@ -196,6 +196,99 @@
     width: 60%;
 }
 
+.historyContainer{
+    width:70vw;
+    height:auto;
+    margin: 2vw;
+    display:flex;
+    flex-direction: column;
+    background-color: #1bbc9c94;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+
+}
+
+.historyContainer h2{
+
+    color: White;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 5vh;
+}
+.historyContainer button{
+    border:none;
+    background-color: red;
+    color:white;
+    padding:7px;
+    border-radius: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    margin-bottom: 5vh;
+
+}
+.historyContainer button:hover{
+    background-color: rgb(171, 0, 0);
+}
+
+.history_chores_css{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5vw;
+    margin:20px;
+}
+.hChoreTile img{
+    width: 15vw;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+.hChoreTile{
+    display: flex;
+    width:15vw;
+    height:auto;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hbottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    background-color: white;
+}
+.htextStyle{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-left:5px;
+}
+
+.htextStyle h3{
+    font-size: 13px;
+
+}
+.htextStyle p{
+    font-size: 13px;
+    overflow-wrap: break-word;
+
+}
+.hbottom button{
+    border:none;
+    background-color: #1BBC9B;
+    color:white;
+    padding:7px;
+    border-radius: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+
 }
 
 @media (max-width: 950px ) and (min-width: 300px){

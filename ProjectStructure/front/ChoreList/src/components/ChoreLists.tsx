@@ -21,6 +21,10 @@ interface MidProps{
 const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
 
   const {choresList} = chores;
+  const [history, setHistory] = useState(false)
+  const handleHistory = () => {
+    setHistory(!history);
+  }
 
   return (
     <div className={styles.midsection}>
@@ -41,7 +45,101 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, hand
               setUpdatedDuration={setUpdatedDuration}
               setUpdatedDesc={setUpdatedDesc}
             />
-            <button className={styles.historyButton}>History</button>
+             <button className={styles.historyButton} onClick={handleHistory}>History</button>
+            {history && 
+            <div className={styles.historyContainer}>
+              <h2>Chore History</h2>
+              <button>Clear History</button>
+              <div className={styles.history_chores_css}>
+                <div className={styles.hChoreTile}>
+                  <img src={placeholder} alt=""></img>
+                  <div className={styles.hbottom}>
+                    <div className={styles.htextStyle}>
+                      <h3>Titlu</h3>
+                      <div className={styles.hdetails}>
+                        <h3>Details</h3>
+                        <p>Descriere</p>
+                    </div>
+                    <div className={styles.hduration}>
+                      <h3>Deadline</h3>
+                      <p>Marti la 10am</p>
+                    </div>
+                </div>
+                <button className={styles.addFromHistory}>Add chore</button>
+              </div>
+            </div>
+            <div className={styles.hChoreTile}>
+                  <img src={placeholder} alt=""></img>
+                  <div className={styles.hbottom}>
+                    <div className={styles.htextStyle}>
+                      <h3>Titlu</h3>
+                      <div className={styles.hdetails}>
+                        <h3>Details</h3>
+                        <p>Descriere</p>
+                    </div>
+                    <div className={styles.hduration}>
+                      <h3>Deadline</h3>
+                      <p>Marti la 10am</p>
+                    </div>
+                </div>
+                <button className={styles.addFromHistory}>Add chore</button>
+              </div>
+            </div>
+            <div className={styles.hChoreTile}>
+                  <img src={placeholder} alt=""></img>
+                  <div className={styles.hbottom}>
+                    <div className={styles.htextStyle}>
+                      <h3>Titlu</h3>
+                      <div className={styles.hdetails}>
+                        <h3>Details</h3>
+                        <p>Descriere</p>
+                    </div>
+                    <div className={styles.hduration}>
+                      <h3>Deadline</h3>
+                      <p>Marti la 10am</p>
+                    </div>
+                </div>
+                <button className={styles.addFromHistory}>Add chore</button>
+              </div>
+            </div>
+            <div className={styles.hChoreTile}>
+                  <img src={placeholder} alt=""></img>
+                  <div className={styles.hbottom}>
+                    <div className={styles.htextStyle}>
+                      <h3>Titlu</h3>
+                      <div className={styles.hdetails}>
+                        <h3>Details</h3>
+                        <p>Descriere</p>
+                    </div>
+                    <div className={styles.hduration}>
+                      <h3>Deadline</h3>
+                      <p>Marti la 10am</p>
+                    </div>
+                </div>
+                <button className={styles.addFromHistory}>Add chore</button>
+              </div>
+            </div>
+            <div className={styles.hChoreTile}>
+                  <img src={placeholder} alt=""></img>
+                  <div className={styles.hbottom}>
+                    <div className={styles.htextStyle}>
+                      <h3>Titlu</h3>
+                      <div className={styles.hdetails}>
+                        <h3>Details</h3>
+                        <p>Descriere</p>
+                    </div>
+                    <div className={styles.hduration}>
+                      <h3>Deadline</h3>
+                      <p>Marti la 10am</p>
+                    </div>
+                </div>
+                <button className={styles.addFromHistory}>Add chore</button>
+              </div>
+            </div>
+            </div>
+            
+            </div>
+            }
         <div className={styles.chores_css}>
         {choresList?.map((chore, index) => (
           <div className={styles.choreTile} key={index}>
