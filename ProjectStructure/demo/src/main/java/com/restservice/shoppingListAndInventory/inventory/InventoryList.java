@@ -130,4 +130,11 @@ public class InventoryList{
         itemList.get(id).setQuantity(quantity);
         inventoryRepository.inventoryItemRepository.save(itemList.get(id));
     }
+
+    @Override
+    public String toString() {
+        return "InventoryList{" +
+                "itemList=" + itemList +
+                '}';
+    }
 }

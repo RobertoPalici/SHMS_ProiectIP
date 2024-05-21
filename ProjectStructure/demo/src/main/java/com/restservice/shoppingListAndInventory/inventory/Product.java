@@ -32,4 +32,11 @@ public class Product {
     }
     public void computeAverageConsumption(){
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -44,4 +44,13 @@ public class InventoryItem {
         else
             this.quantity.setValue(this.quantity.getValue() + quantity);
     }
+
+    @Override
+    public String toString() {
+        return "InventoryItem{" +
+                ", quantity=" + quantity +
+                ", averageConsumption=" + averageConsumption +
+                ", item=" + item +
+                '}';
+    }
 }
