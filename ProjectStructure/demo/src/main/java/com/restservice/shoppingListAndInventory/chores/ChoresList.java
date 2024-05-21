@@ -169,4 +169,11 @@ public class ChoresList {
             throw new ChoresException("Duration has to be a non-negative integer.");
         choresList.get(id).setDuration(duration);
     }
+
+    @Override
+    public String toString() {
+        return "ChoresList{" +
+                "choresList=" + choresList +
+                '}';
+    }
 }

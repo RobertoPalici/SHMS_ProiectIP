@@ -52,4 +52,13 @@ public class ShoppingItem {
         else
             this.quantity.setValue(this.quantity.getValue() + quantity);
     }
+
+    @Override
+    public String toString() {
+        return "ShoppingItem{" +
+                "quantity=" + quantity +
+                ", item=" + item +
+                ", price=" + price +
+                '}';
+    }
 }

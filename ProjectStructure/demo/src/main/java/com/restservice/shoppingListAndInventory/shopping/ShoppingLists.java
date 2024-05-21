@@ -150,5 +150,10 @@ public class ShoppingLists {
             }
     }
 
-
+    @Override
+    public String toString() {
+        return "ShoppingLists{" +
+                "shoppingLists=" + shoppingLists +
+                '}';
+    }
 }

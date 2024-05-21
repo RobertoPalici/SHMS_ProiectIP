@@ -147,5 +147,10 @@ public class ShoppingList {
         else shoppingList.get(id).setPrice(price + shoppingList.get(id).getPrice());
     }
 
-
+    @Override
+    public String toString() {
+        return "ShoppingList{" +
+                "shoppingList=" + shoppingList +
+                '}';
+    }
 }

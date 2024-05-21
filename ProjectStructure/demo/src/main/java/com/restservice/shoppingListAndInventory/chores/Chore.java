@@ -37,4 +37,14 @@ public class Chore {
     int duration;
 
     public Chore(String name, String description, int personID, int duration) {this.name=name; this.description=description; this.duration=duration; this.personID=personID; }
+
+    @Override
+    public String toString() {
+        return "Chore{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", personID=" + personID +
+                ", duration=" + duration +
+                '}';
+    }
 }
