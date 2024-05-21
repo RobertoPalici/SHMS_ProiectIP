@@ -101,6 +101,21 @@ public class ShoppingList {
         shoppingList.remove(id);
         shoppingRepository.shoppingItemRepository.delete(item);
     }
+    public void setItemDetails(String idString, String name, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
+        int id;
+        try{
+            id=Integer.parseInt(idString);
+        } catch (NumberFormatException e){
+            throw new ShoppingException("Index has to be a number.");
+        }
+        if (id<0)
+            throw new ShoppingException("Item id cannot be negative!");
+        if (id > shoppingList.size() - 1)
+            throw new ShoppingException("Item id cannot be bigger than list size!");
+        this.changeQuantity(idString, quantityString, shoppingRepository);
+        shoppingList.get(id).getItem().setName(name);
+        shoppingRepository.shoppingItemRepository.save(shoppingList.get(id));
+    }
     public void changeQuantity(String idString, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
         float quantity;
         try {

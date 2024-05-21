@@ -1,5 +1,6 @@
 package com.restservice.shoppingListAndInventory.shopping;
 
+import com.restservice.shoppingListAndInventory.inventory.InventoryException;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import com.restservice.shoppingListAndInventory.inventory.QuantityType;
@@ -75,7 +76,20 @@ public class ShoppingController {
         System.out.println(shoppingLists);
         return shoppingLists;
     }
-
+    @PatchMapping("/changeItemDetails")
+    public ShoppingLists changeItemDetails(@RequestParam(value = "index", defaultValue = "-1") String indexString,
+                                           @RequestParam(value = "id", defaultValue = "-1") String idString,
+                                           @RequestParam(value = "quantity", defaultValue = "0") String quantityString,
+                                           @RequestParam(value = "name", defaultValue = "") String nameString) {
+        try {
+            shoppingLists.setItemDetails(indexString, idString, nameString, quantityString, shoppingRepository);
+        } catch (ShoppingException e) {
+            System.out.println("Error: " + e.getMessage());
+            return shoppingLists;
+        }
+        System.out.println(shoppingLists);
+        return shoppingLists;
+    }
     @PatchMapping("/changeQuantity")
     public ShoppingLists changeQuantity(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                         @RequestParam(value = "id", defaultValue = "-1") String idString,

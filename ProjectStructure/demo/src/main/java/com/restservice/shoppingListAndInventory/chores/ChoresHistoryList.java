@@ -21,21 +21,21 @@ import java.util.Objects;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "chores_list")
+@Table(name = "chores_history_list")
 @JsonIgnoreProperties(value = {"id"})
-public class ChoresList {
+public class ChoresHistoryList {
     @Id
     @Column(name = "id")
     //@GeneratedValue(strategy=GenerationType.AUTO)
     private int id=1;
 
+
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    List<Chore> choresList = new ArrayList<>();
+    List<ChoreHistoryItem> choresList = new ArrayList<>();
 
-
-    public ChoresList(ChoreRepository choreRepository) {
-        for (Chore item : choreRepository.choreItemRepository.findAll()) {
+    public ChoresHistoryList(ChoreRepository choreRepository) {
+        for (ChoreHistoryItem item : choreRepository.choreHistoryItemRepository.findAll()) {
             choresList.add(item);
         }
     }
@@ -52,10 +52,10 @@ public class ChoresList {
         }
         return -1;
     }
-    public Chore getChoreAt(int index) {
+    public ChoreHistoryItem getChoreAt(int index) {
         return choresList.get(index);
     }
-    public void addChore(Chore chore){
+    public void addChore(ChoreHistoryItem chore){
         choresList.add(chore);
     }
     public void addChore(String name, String description, int personID, String duration, ChoreRepository choreRepository) throws ChoresException {
@@ -66,9 +66,9 @@ public class ChoresList {
         int index=findChoreIndex(name);
         if(index!=-1)
             throw new ChoresException("Chore already exists.");
-        Chore chore = new Chore(name, description, personID, duration);
+        ChoreHistoryItem chore = new ChoreHistoryItem(name, description, personID, duration);
         chore.setList(this);
-        choreRepository.choreItemRepository.save(chore);
+        choreRepository.choreHistoryItemRepository.save(chore);
         choresList.add(chore);
     }
     public void addChore(String name, String description, String personIDString, String durationString, ChoreRepository choreRepository) throws ChoresException {
@@ -96,7 +96,7 @@ public class ChoresList {
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         if(id>=choresList.size())
             throw new ChoresException("Chore ID cannot be bigger than the list's size.");
-        choreRepository.choreItemRepository.delete(choresList.get(id));
+        choreRepository.choreHistoryItemRepository.delete(choresList.get(id));
         choresList.remove(id);
     }
     public void setItemDetails(String idString, String name, String description, String durationString, String personIDString, ChoreRepository choreRepository) throws ChoresException{
@@ -114,7 +114,7 @@ public class ChoresList {
         choresList.get(id).setName(name);
         choresList.get(id).setDescription(description);
         choresList.get(id).setDuration(durationString);
-        choreRepository.choreItemRepository.save(choresList.get(id));
+        choreRepository.choreHistoryItemRepository.save(choresList.get(id));
 
     }
     public void setPersonID(String idString, String personIDString) throws ChoresException {

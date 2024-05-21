@@ -67,7 +67,7 @@ public class InventoryController {
     @PatchMapping("/changeItemDetails")
     public InventoryList changeItemDetails(@RequestParam(value = "id", defaultValue = "-1") String idString,
                                            @RequestParam(value = "quantity", defaultValue = "0") String quantityString,
-                                           @RequestParam(value = "quantity", defaultValue = "0") String nameString) {
+                                           @RequestParam(value = "name", defaultValue = "") String nameString) {
         try {
             itemList.setItemDetails(idString, nameString, quantityString, inventoryRepository);
         } catch (InventoryException e) {
@@ -77,7 +77,17 @@ public class InventoryController {
         System.out.println(itemList);
         return itemList;
     }
-
+    @PatchMapping("/sortItems")
+    public InventoryList sortItems(@RequestParam(value = "sortFilter", defaultValue = "0") String filterString){
+        try {
+            itemList.sortItems(filterString, inventoryRepository);
+        } catch (InventoryException e) {
+            System.out.println("Error: " + e.getMessage());
+            return itemList;
+        }
+        System.out.println(itemList);
+        return itemList;
+    }
     @GetMapping
     public InventoryList getInventory() {
         if (itemList != null)

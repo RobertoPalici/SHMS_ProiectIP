@@ -97,6 +97,19 @@ public class ShoppingLists {
         }
         this.removeItem(index, idString, shoppingRepository);
     }
+    public void setItemDetails(String indexString, String idString, String name, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
+        int index;
+        try{
+            index=Integer.parseInt(indexString);
+        } catch (NumberFormatException e){
+            throw new ShoppingException("Index has to be a number.");
+        }
+        if (index<0)
+            throw new ShoppingException("List index cannot be negative!");
+        if (index > shoppingLists.size() - 1)
+            throw new ShoppingException("List index cannot be bigger than list size!");
+        shoppingLists.get(index).setItemDetails(idString,  name,  quantityString,  shoppingRepository);
+    }
     public void changeQuantity(int index, String idString, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");

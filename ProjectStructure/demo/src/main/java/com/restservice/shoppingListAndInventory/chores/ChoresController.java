@@ -27,6 +27,7 @@ public class ChoresController {
     @Autowired
     private ChoreRepository choreRepository;
     ChoresList choresList;
+    ChoresHistoryList choresHistoryList;
     ChoresController() {
     }
 
@@ -34,9 +35,13 @@ public class ChoresController {
     public ChoresList addChore(@RequestParam(value = "name", defaultValue = "") String name,
                                @RequestParam(value = "description", defaultValue = "") String description,
                                @RequestParam(value="personID", defaultValue = "-1") String personIDString,
-                               @RequestParam(value="duration", defaultValue = "-1") String durationString){
+                               @RequestParam(value="duration", defaultValue = "-1") String durationString,
+                               @RequestParam(value="addToHistory", defaultValue = "0") String addToHistoryString){
         try{
             choresList.addChore(name, description, personIDString, durationString, choreRepository);
+            if(addToHistoryString.equals("1")){
+                choresHistoryList.addChore(name, description, personIDString, durationString, choreRepository);
+            }
         }
         catch (ChoresException e){
             System.out.println("Error: "+e.getMessage());
@@ -120,6 +125,17 @@ public class ChoresController {
     }
     @GetMapping
     public ChoresList getChores(){
+        if(choresHistoryList==null) {
+            Iterator<ChoresHistoryList> iter = choreRepository.choreHistoryListRepository.findAll().iterator();
+            if(iter.hasNext()){
+                choresHistoryList=iter.next();
+            }
+            else
+            {
+                choresHistoryList=new ChoresHistoryList();
+                choreRepository.choreHistoryListRepository.save(choresHistoryList);
+            }
+        }
         if(choresList!=null)
             return  choresList;
         Iterator<ChoresList> iter = choreRepository.choreListRepository.findAll().iterator();
@@ -132,5 +148,9 @@ public class ChoresController {
             choreRepository.choreListRepository.save(choresList);
         }
         return choresList;
+    }
+    @GetMapping("getHistory")
+    public ChoresHistoryList getHistory(){
+        return choresHistoryList;
     }
 }

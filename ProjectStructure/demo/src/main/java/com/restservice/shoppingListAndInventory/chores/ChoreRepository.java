@@ -9,4 +9,8 @@ public class ChoreRepository {
     public ChoreListRepository choreListRepository;
     @Autowired
     public ChoreItemRepository choreItemRepository;
+    @Autowired
+    public ChoreHistoryItemRepository choreHistoryItemRepository;
+    @Autowired
+    public ChoreHistoryListRepository choreHistoryListRepository;
 }
