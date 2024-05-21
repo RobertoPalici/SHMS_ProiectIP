@@ -14,6 +14,7 @@ const App: React.FC = () => {
   const [chores, setChores] = useState<ChoreProps>({choresList: []});
   const [newChore, setNewChore] = useState('');
   const [newDesc, setNewDesc] = useState('');
+  const [newDuration, setNewDuration] = useState(0);
   const [fetchError, setFetchError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -52,14 +53,16 @@ const App: React.FC = () => {
         {loading && <p>Chores List is loading...</p>}
         {fetchError && <p style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !loading && <Mid 
-        chores = {chores}
-        newChore = {newChore}
-        newDesc = {newDesc}
-        fetchError = {fetchError}
-        setChores = {setChores}
-        setNewChore = {setNewChore}
-        setNewDesc = {setNewDesc}
-        setFetchError = {setFetchError}
+          chores = {chores}
+          newChore = {newChore}
+          newDesc = {newDesc}
+          newDuration={newDuration}
+          fetchError = {fetchError}
+          setChores = {setChores}
+          setNewChore = {setNewChore}
+          setNewDesc = {setNewDesc}
+          setNewDuration={setNewDuration}
+          setFetchError = {setFetchError}
         />}
       </main>
       <Footer />  
