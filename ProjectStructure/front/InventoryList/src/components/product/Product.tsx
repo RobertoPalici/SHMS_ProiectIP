@@ -11,14 +11,14 @@ type Quantity = {
 export type Item = {
   name: string;
   expiryDate: string | null;
-  quantity: Quantity;
   averageConsumption: number;
+  eatable: boolean;
 }
 
 export type ItemList = {
   item: Item;
-  imageSrc : string;
-  dateOfBuying: string | null;
+  quantity: Quantity;
+  imageSrc: string;
   id : any;
 }
 
@@ -38,7 +38,7 @@ interface ProductDeclareProps {
 }
 
 
-const Product: React.FC<ItemList & ProductDeclareProps> = ({item, imageSrc, dateOfBuying, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
+const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imageSrc, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
@@ -61,7 +61,7 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, imageSrc, date
           >-
           </button>
           <span className="current-quantity">
-              {item.quantity.value}
+              {quantity.value}
           </span>
           <button className="quantity-button" 
               onClick={() => handleIncreaseQuantity(item.name)}

@@ -41,7 +41,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const handleIncreaseQuantity = async (name : string) =>{
       if(products.itemList!==undefined){
-        const listItems = products.itemList.map((item) => item.item.name === name && item.item.quantity.value >= 0 ? {...item, item: {...item.item, quantity: {...item.item.quantity, value: item.item.quantity.value + 1}}} : item); 
+        const listItems = products.itemList.map((item) => item.item.name === name && item.quantity.value >= 0 ? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}} : item); 
         saveProducts(listItems);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
@@ -55,14 +55,15 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
             item: {
               name: targetProduct[0].item.name,
               expiryDate: targetProduct[0].item.expiryDate,
-              quantity: {
-                value: targetProduct[0].item.quantity.value,
-                type: targetProduct[0].item.quantity.type 
-              }
+              eatable: targetProduct[0].item.eatable
+            },
+            quantity: {
+              value: targetProduct[0].quantity.value,
+              type: targetProduct[0].quantity.type 
             }
           })
         }
-        const response = await APIRequest(`${API_URL}/changeQuantity?id=${index}&quantity=${targetProduct[0].item.quantity.value}`, options);
+        const response = await APIRequest(`${API_URL}/changeQuantity?id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
         if(response)
           setFetchError(response);
       }
@@ -70,7 +71,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const handleDecreaseQuantity = async (name : string) =>{
       if(products.itemList !== undefined){
-        const listItems = products.itemList.map((item) => item.item.name === name && item.item.quantity.value > 0? {...item, item: {...item.item, quantity: {...item.item.quantity, value: item.item.quantity.value - 1}}} : item); 
+        const listItems = products.itemList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}} : item); 
         saveProducts(listItems);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
@@ -84,15 +85,15 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
             item: {
               name: targetProduct[0].item.name,
               expiryDate: targetProduct[0].item.expiryDate,
-              quantity: {
-                value: targetProduct[0].item.quantity.value,
-                type: targetProduct[0].item.quantity.type 
-              }
+              eatable: targetProduct[0].item.eatable
+            },
+            quantity: {
+              value: targetProduct[0].quantity.value,
+              type: targetProduct[0].quantity.type 
             }
           })
-          
         }
-        const response = await APIRequest(`${API_URL}/changeQuantity?id=${index}&quantity=${targetProduct[0].item.quantity.value}`, options);
+        const response = await APIRequest(`${API_URL}/changeQuantity?id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
         //const response = await APIRequest(`${API_URL}/${targetProduct[0].id}`, options);     
         if(response)
           setFetchError(response);
@@ -125,7 +126,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     const addProduct = async (name : string, value : number) => {
       console.log(products);
       console.log(products.itemList);
-      const newProductItem = {id: undefined, item: {name, expiryDate: null, quantity: {value, type: 'Amount'}, averageConsumption: 0}, dateOfBuying: null, imageSrc: '' };
+      const newProductItem = {id: undefined, item: {name, expiryDate: null, eatable: false, averageConsumption: 0}, quantity: {value, type: 'Amount'}, imageSrc: '' };
       if (!products.itemList) {
         const listProducts = [products.itemList, newProductItem];
         saveProducts(listProducts);
