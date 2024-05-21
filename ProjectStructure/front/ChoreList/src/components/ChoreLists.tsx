@@ -29,6 +29,7 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, setN
               setNewChore={setNewChore}
               setNewDesc={setNewDesc}
             />
+            <button className={styles.historyButton}>History</button>
         <div className={styles.chores_css}>
         {choresList?.map((chore, index) => (
           <div className={styles.choreTile} key={index}>
@@ -40,6 +41,8 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, setN
               duration={chore.duration}
               handleSubmit={handleSubmit}
               handleDelete={handleDelete}
+              setNewChore={setNewChore}
+              setNewDesc={setNewDesc}
             />
           </div>
         ))}

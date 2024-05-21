@@ -8,6 +8,20 @@
     margin-bottom: 5vw;
     
 }
+.historyButton{
+    border:none;
+    background-color: #1BBC9B;
+    color:white;
+    padding:10px;
+    border-radius: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin-bottom: 5vh;
+}
+.historyButton:hover{
+    background-color: #42e9c7;
+}
 .chores_css{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -43,15 +57,72 @@
     margin-left: 10px;
     width: 70%;
 }
+.buttonContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
 .buttonStyle{
     border: none;
-    background-color: #FF1B1C;
+    background-color: #f40a0a;
     color: white;
     padding: 5px 10px;
     border-radius: 7px;
     margin-right: 10px;
+    margin-top : 10px;
+    width:5vw;
     
 }
+.buttonStyle:hover{
+    background-color: #be0909;
+    
+}
+
+.button2Style{
+    border: none;
+    background-color: #0079EB;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 7px;
+    margin-right: 10px;
+    margin-top : 10px;
+    width:5vw;
+}
+.button2Style:hover{
+
+    background-color: #01539f;
+}
+.button3Style{
+    border: none;
+    background-color: #1BBC9B;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 7px;
+    margin-right: 10px;
+    margin-top : 10px;
+    width:5vw;
+}
+.button3Style:hover{
+
+    background-color: #42e9c7;
+}
+
+.button4Style{
+    border: none;
+    background-color: #ffbb00;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 7px;
+    margin-right: 10px;
+    margin-top : 10px;
+    width:5vw;
+}
+.button4Style:hover{
+
+    background-color: #dfa300;
+}
+
 .details{
     width:100%;
 }
@@ -114,6 +185,23 @@
   background-color: #42e9c7;
   
 }
+.editStyles1{
+    margin-top: 2vh;
+
+}
+.editStyles1 input{
+    padding:5px;
+    border-radius: 10px;
+}
+
+.editStyles{
+    margin-bottom: 1vh;
+}
+.editStyles input{
+    padding:5px;
+    border-radius: 10px;
+}
+
 }
 
 @media (max-width: 950px ) and (min-width: 300px){
