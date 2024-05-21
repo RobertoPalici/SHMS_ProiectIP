@@ -79,7 +79,7 @@ public class ChoresController {
                                         @RequestParam(value="name", defaultValue = "") String nameString,
                                         @RequestParam(value="description", defaultValue = "") String descriptionString,
                                         @RequestParam(value="duration", defaultValue = "") String durationString,
-                                        @RequestParam(value="personId", defaultValue = "") String persodIdString
+                                        @RequestParam(value="personId", defaultValue = "-1") String persodIdString
                                         ){
 
         try{
