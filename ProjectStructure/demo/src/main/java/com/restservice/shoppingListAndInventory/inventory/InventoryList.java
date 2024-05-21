@@ -91,6 +91,9 @@ public class InventoryList{
         }
         this.addItem(name, new Quantity(quantity, QuantityType.Amount), inventoryRepository);
     }
+    public void setItemDetails(String idString, String name, String quantityString, InventoryRepository inventoryRepository) throws InventoryException{
+
+    }
     public void removeItem(String idString, InventoryRepository inventoryRepository) throws InventoryException{
         int id;
         try {

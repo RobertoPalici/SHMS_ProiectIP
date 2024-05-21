@@ -22,43 +22,56 @@ public class InventoryController {
     @Autowired
     private InventoryRepository inventoryRepository;
     InventoryList itemList;
-    public InventoryController(){
+
+    public InventoryController() {
     }
 
     @PostMapping("/addItem")
     public InventoryList addItem(@RequestParam(value = "name", defaultValue = "") String name,
-                        @RequestParam(value = "quantity", defaultValue = "1") String quantityString){
-        try{
-            itemList.addItem(name,quantityString,inventoryRepository);
-        }
-        catch (InventoryException e){
-            System.out.println("Error: "+e.getMessage());
+                                 @RequestParam(value = "quantity", defaultValue = "1") String quantityString) {
+        try {
+            itemList.addItem(name, quantityString, inventoryRepository);
+        } catch (InventoryException e) {
+            System.out.println("Error: " + e.getMessage());
             return itemList;
         }
         System.out.println(itemList);
         return itemList;
     }
+
     @DeleteMapping("/removeItem")
-    public InventoryList removeItem(@RequestParam(value="id", defaultValue = "-1") String idString){
-        try{
-            itemList.removeItem(idString,inventoryRepository);
-        }
-        catch (InventoryException e){
-            System.out.println("Error: "+e.getMessage());
+    public InventoryList removeItem(@RequestParam(value = "id", defaultValue = "-1") String idString) {
+        try {
+            itemList.removeItem(idString, inventoryRepository);
+        } catch (InventoryException e) {
+            System.out.println("Error: " + e.getMessage());
             return itemList;
         }
         System.out.println(itemList);
         return itemList;
     }
+
     @PatchMapping("/changeQuantity")
-    public InventoryList changeQuantity(@RequestParam(value="id", defaultValue = "-1") String idString,
-                               @RequestParam(value="quantity", defaultValue = "0") String quantityString){
-        try{
-            itemList.changeQuantity(idString,quantityString,inventoryRepository);
+    public InventoryList changeQuantity(@RequestParam(value = "id", defaultValue = "-1") String idString,
+                                        @RequestParam(value = "quantity", defaultValue = "0") String quantityString) {
+        try {
+            itemList.changeQuantity(idString, quantityString, inventoryRepository);
+        } catch (InventoryException e) {
+            System.out.println("Error: " + e.getMessage());
+            return itemList;
         }
-        catch (InventoryException e)
-        {
-            System.out.println("Error: "+e.getMessage());
+        System.out.println(itemList);
+        return itemList;
+    }
+
+    @PatchMapping("/changeItemDetails")
+    public InventoryList changeItemDetails(@RequestParam(value = "id", defaultValue = "-1") String idString,
+                                           @RequestParam(value = "quantity", defaultValue = "0") String quantityString,
+                                           @RequestParam(value = "quantity", defaultValue = "0") String nameString) {
+        try {
+            itemList.setItemDetails(idString, nameString, quantityString, inventoryRepository);
+        } catch (InventoryException e) {
+            System.out.println("Error: " + e.getMessage());
             return itemList;
         }
         System.out.println(itemList);
@@ -66,30 +79,33 @@ public class InventoryController {
     }
 
     @GetMapping
-    public InventoryList getInventory(){
-        if(itemList!=null)
+    public InventoryList getInventory() {
+        if (itemList != null)
             return itemList;
         Iterator<InventoryList> iter = inventoryRepository.inventoryListRepository.findAll().iterator();
-        if(iter.hasNext()){
-            itemList=iter.next();
-        }
-        else{
-            itemList=new InventoryList();
+        if (iter.hasNext()) {
+            itemList = iter.next();
+        } else {
+            itemList = new InventoryList();
             inventoryRepository.inventoryListRepository.save(itemList);
         }
         return itemList;
     }
-    @GetMapping(path="/start")
+
+    @GetMapping(path = "/start")
     public InventoryList start() {
         // This returns a JSON or XML with the users
-        itemList=new InventoryList(inventoryRepository);
+        itemList = new InventoryList(inventoryRepository);
         return itemList;
     }
+
     Map<Product, Integer> averageConsumptionForAll;
-    public void computeAverageConsumptionForAll(){
+
+    public void computeAverageConsumptionForAll() {
 
     }
-    public void suggestItems(){
+
+    public void suggestItems() {
 
     }
 }
