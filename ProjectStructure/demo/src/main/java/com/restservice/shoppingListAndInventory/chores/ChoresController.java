@@ -161,6 +161,6 @@ public class ChoresController {
     }
     @GetMapping("getHistory")
     public ChoresHistoryList getHistory(){
-        return household.getChoresHistoryList();
+        return household.choresHistoryList;
     }
 }
