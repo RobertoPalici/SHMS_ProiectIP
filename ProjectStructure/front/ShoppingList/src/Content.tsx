@@ -34,14 +34,18 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const saveProducts = (newProducts : ShoppingList[]) => {
       console.log(products);
+      console.log(newProducts);
       setProducts(prevProducts => {
         return {...prevProducts, shoppingList: newProducts};  
       });
+      setTimeout(() => {
+        console.log(products);
+      }, 200);
     }
 
     const handleIncreaseQuantity = async (name : string) =>{
-      if(products.shoppingLists[0].shoppingList!==undefined){
-        const listItems = products.shoppingLists[0].shoppingList.map((item) => item.item.name === name && item.item.quantity.value >= 0 ? {...item, item: {...item.item, quantity: {...item.item.quantity, value: item.item.quantity.value + 1}}} : item); 
+      if(products.shoppingLists[0].shoppingList !== undefined){
+        const listItems = products.shoppingLists[0].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
         saveProducts(listItems);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
@@ -53,16 +57,16 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
           },
           body: JSON.stringify({
             item: {
-              name: targetProduct[0].item.name,
-              expiryDate: targetProduct[0].item.expiryDate,
-              quantity: {
-                value: targetProduct[0].item.quantity.value,
-                type: targetProduct[0].item.quantity.type 
-              }
-            }
+              name: targetProduct[0].item.name
+            },
+            quantity: {
+              value: targetProduct[0].quantity.value,
+              type: targetProduct[0].quantity.type 
+            },
+            price: targetProduct[0].price
           })
         }
-        const response = await APIRequest(`${API_URL}/changeQuantity?index=-1&id=${index}&quantity=${targetProduct[0].item.quantity.value}`, options);
+        const response = await APIRequest(`${API_URL}/changeQuantity?index=-1&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
         if(response)
           setFetchError(response);
       }
@@ -70,7 +74,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const handleDecreaseQuantity = async (name : string) =>{
       if(products.shoppingLists !== undefined){
-        const listItems = products.shoppingLists[0].shoppingList.map((item) => item.item.name === name && item.item.quantity.value > 0? {...item, item: {...item.item, quantity: {...item.item.quantity, value: item.item.quantity.value - 1}}} : item); 
+        const listItems = products.shoppingLists[0].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
         saveProducts(listItems);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
@@ -82,17 +86,17 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
           },
           body: JSON.stringify({
             item: {
-              name: targetProduct[0].item.name,
-              expiryDate: targetProduct[0].item.expiryDate,
-              quantity: {
-                value: targetProduct[0].item.quantity.value,
-                type: targetProduct[0].item.quantity.type 
-              }
-            }
+              name: targetProduct[0].item.name
+            },
+            quantity: {
+              value: targetProduct[0].quantity.value,
+              type: targetProduct[0].quantity.type 
+            },
+            price: targetProduct[0].price
           })
           
         }
-        const response = await APIRequest(`${API_URL}/changeQuantity?index=0&id=${index}&quantity=${targetProduct[0].item.quantity.value}`, options);    
+        const response = await APIRequest(`${API_URL}/changeQuantity?index=0&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);    
         if(response)
           setFetchError(response);
       }
@@ -103,6 +107,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
       e.preventDefault();
       if(!newProduct) return;
       addProduct(newProduct, newQuantity);
+      console.log(products);
       setNewProduct('');
       setNewQuantity(0);
     }
@@ -124,7 +129,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     const addProduct = async (name : string, value : number) => {
       console.log(products);
       console.log(products.shoppingLists[1].shoppingList);
-      const newProductItem = {id: undefined, item: {name, expiryDate: null, quantity: {value, type: 'Amount'}, averageConsumption: 0}, price: 0, imageSrc: '' };
+      const newProductItem = {id: undefined, item: {name}, quantity: {value, type: 'Amount'}, price: 0, imageSrc: '' };
       if (!products.shoppingLists[1].shoppingList) {
         console.log(products.shoppingLists[1].shoppingList);
         const listProducts = [products.shoppingLists[1].shoppingList, newProductItem];

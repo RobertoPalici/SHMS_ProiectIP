@@ -37,11 +37,14 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
       setProducts(prevProducts => {
         return {...prevProducts, itemList: newProducts};  
       });
+      setTimeout(() => {
+        console.log(products);
+      }, 200);
     }
 
     const handleIncreaseQuantity = async (name : string) =>{
       if(products.itemList!==undefined){
-        const listItems = products.itemList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, averageConsumption: item.averageConsumption} : item); 
+        const listItems = products.itemList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, averageConsumption: item.averageConsumption} : item); 
         saveProducts(listItems);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
@@ -105,6 +108,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
       e.preventDefault();
       if(!newProduct) return;
       addProduct(newProduct, newQuantity);
+      console.log(products);
       setNewProduct('');
       setNewQuantity(0);
     }

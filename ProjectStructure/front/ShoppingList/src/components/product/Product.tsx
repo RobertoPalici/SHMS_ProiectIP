@@ -10,13 +10,11 @@ type Quantity = {
 
 export type Item = {
   name: string;
-  expiryDate: string | null;
-  quantity: Quantity;
-  averageConsumption: number;
 }
 
 export type ShoppingList = {
   item: Item;
+  quantity: Quantity;
   price: number;
   imageSrc: string;
   id: any;
@@ -42,7 +40,7 @@ interface ProductDeclareProps {
 }
 
 
-const Product: React.FC<ShoppingList & ProductDeclareProps> = ({item, imageSrc, price, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
+const Product: React.FC<ShoppingList & ProductDeclareProps> = ({item, imageSrc, price, quantity, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
@@ -65,7 +63,7 @@ const Product: React.FC<ShoppingList & ProductDeclareProps> = ({item, imageSrc, 
           >-
           </button>
           <span className="current-quantity">
-              {item.quantity.value}
+              {quantity.value}
           </span>
           <button className="quantity-button" 
               onClick={() => handleIncreaseQuantity(item.name)}
