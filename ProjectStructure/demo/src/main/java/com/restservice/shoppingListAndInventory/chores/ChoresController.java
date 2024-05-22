@@ -8,6 +8,7 @@ import com.restservice.shoppingListAndInventory.inventory.QuantityType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -159,8 +160,9 @@ public class ChoresController {
         }
         return choresList;*/
     }
-    @GetMapping("getHistory")
+    @GetMapping("/getHistory")
     public ChoresHistoryList getHistory(){
+        Hibernate.initialize(household.choresHistoryList);
         return household.choresHistoryList;
     }
 }

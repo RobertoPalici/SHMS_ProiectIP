@@ -43,12 +43,6 @@ public class ChoresHistoryList {
             choresList.add(item);
         }
     }
-    private static List<Chore> loadAllData(Session session) {
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Chore> criteria = builder.createQuery(Chore.class);
-        criteria.from(Chore.class);
-        return session.createQuery(criteria).getResultList();
-    }
     public int findChoreIndex(String name){
         for(int i=0; i<choresList.size(); i++) {
             if(Objects.equals(choresList.get(i).getName(), name))
