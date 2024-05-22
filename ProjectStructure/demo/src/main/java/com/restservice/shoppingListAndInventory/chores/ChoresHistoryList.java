@@ -67,9 +67,6 @@ public class ChoresHistoryList {
             throw new ChoresException("Chore name cannot be empty.");
         if(personID < 0 && personID != -1)
             throw new ChoresException("Person ID cannot be negative.");
-        int index=findChoreIndex(name);
-        if(index!=-1)
-            throw new ChoresException("Chore already exists.");
         ChoreHistoryItem chore = new ChoreHistoryItem(name, description, personID, duration);
         chore.setList(this);
         choreRepository.choreHistoryItemRepository.save(chore);
