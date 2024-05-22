@@ -1,5 +1,5 @@
 import React from 'react'
-import Product, { ProductProps , ShoppingLists, ShoppingList} from './components/product/Product';
+import Product, { ProductProps , ShoppingList, ShoppingItem} from './components/product/Product';
 import questionmark from './components/pictures/questionmark.png';
 import productIcon from './components/pictures/product.png';
 

@@ -12,7 +12,7 @@ export type Item = {
   name: string;
 }
 
-export type ShoppingList = {
+export type ShoppingItem = {
   item: Item;
   quantity: Quantity;
   price: number;
@@ -20,12 +20,12 @@ export type ShoppingList = {
   id: any;
 }
 
-export type ShoppingLists = {
-  shoppingList: ShoppingList[];
+export type ShoppingList = {
+  shoppingList: ShoppingItem[];
 };
 
 export type ProductProps = {
-  shoppingLists: ShoppingLists[];
+  shoppingLists: ShoppingList[];
 }
 
 interface ProductDeclareProps {
@@ -40,7 +40,7 @@ interface ProductDeclareProps {
 }
 
 
-const Product: React.FC<ShoppingList & ProductDeclareProps> = ({item, imageSrc, price, quantity, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
+const Product: React.FC<ShoppingItem & ProductDeclareProps> = ({item, imageSrc, price, quantity, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);

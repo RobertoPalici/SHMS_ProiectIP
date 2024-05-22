@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Product, { ProductProps , ShoppingList, ShoppingLists} from './components/product/Product';
+import Product, { ProductProps , ShoppingList, ShoppingItem} from './components/product/Product';
 import image_1 from './components/pictures/image 3.png';
 import image_2 from './components/pictures/background-overlay.png';
 import image_3 from './components/pictures/vector.png';
@@ -32,7 +32,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const API_URL = 'http://localhost:8081/shopping';
 
-    const saveProducts = (newProducts : ShoppingList[]) => {
+    const saveProducts = (newProducts : ShoppingItem[]) => {
       console.log(products);
       console.log(newProducts);
       setProducts(prevProducts => {
