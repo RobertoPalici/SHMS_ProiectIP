@@ -76,7 +76,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
             price: targetProduct[0].price
           })
         }
-        const response = await APIRequest(`${API_URL}/changeQuantity?index=-1&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
+        const response = await APIRequest(`${API_URL}/changeQuantity?index=0&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
         if(response)
           setFetchError(response);
       }
