@@ -56,7 +56,6 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
     const handleSubmitUpdate = (e : React.FormEvent<HTMLFormElement>, oldChore: string) => {
       e.preventDefault();
       handleUpdate(oldChore ,updatedChore, updatedDesc, updatedDuration);
-      console.log('UOTE')
       setUpdatedChore(oldChore);
       setUpdatedDesc('No details');
       setUpdatedDuration('No deadline');
@@ -126,7 +125,17 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
     }
     const handleDelete = async (name : string) => {
       if(chores.choresList !== undefined){
-        const listChores = chores.choresList.filter((item) => item.name !== name);
+        let found = false;
+        const foundChore = chores.choresList.find(item => {
+          if (item.name === name && !found) {
+            found = true;
+            return true;
+          }
+          return false;
+        });
+
+        const listChores = foundChore ? [foundChore] : [];
+
         const index = chores.choresList.findIndex(item => item.name === name); 
         saveChores(listChores);
 

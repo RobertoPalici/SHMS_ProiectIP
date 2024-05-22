@@ -56,7 +56,7 @@ const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore,
             {history && 
               <div className={styles.historyContainer}>
                 <h2>Chore History</h2>
-                <button onClick={handleClearHistory}>Clear History</button>
+                <button className={styles.clearHistory} onClick={handleClearHistory}>Clear History</button>
                 <div className={styles.history_chores_css}>
                   {choresListHistory?.map((chore, index) => (
                     <div className={styles.hChoreTile} key={index}>

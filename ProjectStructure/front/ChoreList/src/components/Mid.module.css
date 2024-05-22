@@ -227,7 +227,7 @@
     font-size: 30px;
     margin-bottom: 5vh;
 }
-.historyContainer button{
+.clearHistory{
     border:none;
     background-color: red;
     color:white;
@@ -238,7 +238,7 @@
     margin-bottom: 5vh;
 
 }
-.historyContainer button:hover{
+.clearHistory :hover{
     background-color: rgb(171, 0, 0);
 }
 
@@ -289,7 +289,7 @@
     overflow-wrap: break-word;
 
 }
-.hbottom button{
+.addFromHistory{
     border:none;
     background-color: #1BBC9B;
     color:white;
@@ -298,8 +298,27 @@
     border-radius: 5px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     min-width: fit-content;
+    margin-bottom: 10px;
 }
+.addFromHistory:hover{
+    background-color: #42e9c7;
 
+}
+.removeFromHistory{
+    border:none;
+    background-color: #ff1717;
+    color:white;
+    font-size: 1vw;
+    padding:7px;
+    border-radius: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    min-width: fit-content;
+    margin-bottom: 10px;
+    
+}
+.removeFromHistory:hover{
+    background-color: #b81313;
+}
 
 }
 
@@ -563,7 +582,7 @@
         font-size: 30px;
         margin-bottom: 5vh;
     }
-    .historyContainer button{
+    .clearHistory{
         border:none;
         background-color: red;
         color:white;
@@ -574,7 +593,7 @@
         margin-bottom: 5vh;
     
     }
-    .historyContainer button:hover{
+    .clearHistory :hover{
         background-color: rgb(171, 0, 0);
     }
     
@@ -625,18 +644,7 @@
         overflow-wrap: break-word;
     
     }
-    .hbottom button{
-        border:none;
-        background-color: #1BBC9B;
-        color:white;
-        font-size: 0.80vw;
-        padding:7px;
-        border-radius: 5px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        font-size: 15px;
-        margin-right: 5px;
-        min-width: fit-content;
-    }
+    
     .historyButton{
         border:none;
         background-color: #1BBC9B;
@@ -650,6 +658,36 @@
     }
     .historyButton:hover{
         background-color: #42e9c7;
+    }
+    .addFromHistory{
+        border:none;
+        background-color: #1BBC9B;
+        color:white;
+        font-size: 1vw;
+        padding:7px;
+        border-radius: 5px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        min-width: fit-content;
+        margin-bottom: 10px;
+    }
+    .addFromHistory:hover{
+        background-color: #42e9c7;
+    
+    }
+    .removeFromHistory{
+        border:none;
+        background-color: #ff1717;
+        color:white;
+        font-size: 1vw;
+        padding:7px;
+        border-radius: 5px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        min-width: fit-content;
+        margin-bottom: 10px;
+        
+    }
+    .removeFromHistory:hover{
+        background-color: #b81313;
     }
     }
 

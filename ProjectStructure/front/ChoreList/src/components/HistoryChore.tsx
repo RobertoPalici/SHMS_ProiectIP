@@ -38,6 +38,9 @@ interface ChoreDeclareProps {
 
 const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, addChore, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
 
+    const handleAddToHistory = (name: string, desc: string, duration: string) => {
+        addChore(name, desc, duration, 0);
+    }
     return (
         <>
             {imageSrc!== null && (
@@ -58,7 +61,8 @@ const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, d
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                <button className={styles.addFromHistory} /*onClick={addChore(name, description, duration, 0)}*/>Add Chore</button>
+                <button className={styles.addFromHistory} onClick={() => {if(name) handleAddToHistory(name, description, duration)}}>Add Chore</button>
+                <button className={styles.removeFromHistory}>Clear Chore</button>
                 </div>
             </div>
             </>)}
