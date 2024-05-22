@@ -34,7 +34,7 @@ public class ChoresHistoryList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
-    @OneToMany(mappedBy = "list")
+    @OneToMany(mappedBy = "list", fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<ChoreHistoryItem> choresList = new ArrayList<>();
 
