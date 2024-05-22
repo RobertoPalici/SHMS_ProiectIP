@@ -136,33 +136,17 @@ public class ChoresController {
             household=new Household(repositories);
         }
         return household.getChoresList();
-        /*if(choresHistoryList==null) {
-            Iterator<ChoresHistoryList> iter = choreRepository.choreHistoryListRepository.findAll().iterator();
-            if(iter.hasNext()){
-                choresHistoryList=iter.next();
-            }
-            else
-            {
-                choresHistoryList=new ChoresHistoryList();
-                choreRepository.choreHistoryListRepository.save(choresHistoryList);
-            }
-        }
-        if(choresList!=null)
-            return  choresList;
-        Iterator<ChoresList> iter = choreRepository.choreListRepository.findAll().iterator();
-        if(iter.hasNext()){
-            choresList=iter.next();
-        }
-        else
-        {
-            choresList=new ChoresList();
-            choreRepository.choreListRepository.save(choresList);
-        }
-        return choresList;*/
     }
     @GetMapping("/getHistory")
     public ChoresHistoryList getHistory(){
-        Hibernate.initialize(household.choresHistoryList);
-        return household.choresHistoryList;
+        if (household != null)
+            return household.getChoresHistoryList();
+        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
+        if (iter.hasNext()) {
+            household = iter.next();
+        } else {
+            household=new Household(repositories);
+        }
+        return household.getChoresHistoryList();
     }
 }
