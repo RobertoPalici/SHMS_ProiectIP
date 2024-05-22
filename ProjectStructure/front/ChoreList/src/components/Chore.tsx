@@ -16,6 +16,7 @@ export type ChoreProps = {
 }
 
 interface ChoreDeclareProps {
+    onData:(updatedChore: string) => void;
     handleDelete: (name : string) => void;
     handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
     handleSubmitUpdate?: (e: React.FormEvent<HTMLFormElement>, oldName: string) => void ;
@@ -34,7 +35,7 @@ interface ChoreDeclareProps {
     setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, duration, personID, imageSrc, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
+const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const inputRef2 = useRef<HTMLInputElement>(null);
@@ -44,6 +45,8 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
     const handleButton = () => {
         setTimeout(() => {
           if(inputRef.current) {inputRef.current.value = '';}
+          if(inputRef2.current) {inputRef2.current.value = '';}
+          if(inputRef3.current) {inputRef3.current.value = '';}
         }, 30);
     };
 
@@ -64,6 +67,11 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
         if(handleSubmitUpdate){
             handleSubmitUpdate(e, oldName);}
         handleEdit();
+    }
+
+    const sendUpdates = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(`Update: ${e.target.value}`);
+        onData(e.target.value);
     }
     /*useEffect(() => {
         if (name && setUpdatedChore) setUpdatedChore(name);
@@ -114,7 +122,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
                         <h2>Details: </h2>
                         <p>{description}</p>
                     </div>
-                    <div className ={styles.duration}>
+                    <div className ={styles.details}>
                         <h2>Deadline: </h2>
                         <p>{duration}</p>
 
@@ -136,7 +144,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
                     placeholder="Name"
                     value={updatedChore}
                     ref={inputRef}
-                    onChange={(e) => {if(setUpdatedChore) setUpdatedChore(e.target.value)}}
+                    onChange={(e) => {sendUpdates(e)/*if(setUpdatedChore) {console.log(e.target.value); setUpdatedChore(e.target.value)}*/}}
                     />
                     <div className={styles.details}>
                         <h2>Details: </h2>
@@ -145,8 +153,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({name, description, dur
                             placeholder="Details"
                             value={updatedDesc}
                             ref={inputRef2}
-                            onChange={(e) => {
-                                console.log(updatedDesc); if(setUpdatedDesc) setUpdatedDesc(e.target.value)}}
+                            onChange={(e) => {console.log(updatedDesc); if(setUpdatedDesc) setUpdatedDesc(e.target.value)}}
                             />
                     </div>
                     <div className ={styles.duration}>

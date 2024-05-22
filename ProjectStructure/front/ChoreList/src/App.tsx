@@ -15,8 +15,18 @@ const App: React.FC = () => {
   const [newChore, setNewChore] = useState('');
   const [newDesc, setNewDesc] = useState('');
   const [newDuration, setNewDuration] = useState('');
+  const [updatedChore, setUpdatedChore] = useState('');
+  const [updatedDesc, setUpdatedDesc] = useState('');
+  const [updatedDuration, setUpdatedDuration] = useState('');
   const [fetchError, setFetchError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  const handleUpdates = (chore: string) => {
+    console.log(`Update22: ${chore}`);
+    setUpdatedChore(chore);
+  }
+
+  console.log(updatedChore);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -52,16 +62,23 @@ const App: React.FC = () => {
       <main>
         {loading && <p>Chores List is loading...</p>}
         {fetchError && <p style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
-        {!fetchError && !loading && <Mid 
+        {!fetchError && !loading && <Mid
+          onData={handleUpdates} 
           chores = {chores}
           newChore = {newChore}
           newDesc = {newDesc}
           newDuration={newDuration}
+          updatedChore = {updatedChore}
+          updatedDesc = {updatedDesc}
+          updatedDuration={updatedDuration}
           fetchError = {fetchError}
           setChores = {setChores}
           setNewChore = {setNewChore}
           setNewDesc = {setNewDesc}
           setNewDuration={setNewDuration}
+          setUpdatedChore={setUpdatedChore}
+          setUpdatedDesc={setUpdatedDesc}
+          setUpdatedDuration={setUpdatedDuration}
           setFetchError = {setFetchError}
         />}
       </main>

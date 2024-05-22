@@ -5,6 +5,7 @@ import APIRequest from '../APIRequest';
 import Chore, { ChoreProps } from './Chore';
 
 interface MidProps{
+  onData:(updatedChore: string) => void;
   chores: ChoreProps;
   handleSubmit: (e : React.FormEvent<HTMLFormElement>) => void;
   handleSubmitUpdate: (e : React.FormEvent<HTMLFormElement>, oldName: string) => void;
@@ -18,7 +19,7 @@ interface MidProps{
   setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
+const ChoreList: React.FC<MidProps> = ({onData, chores, handleDelete, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
 
   const {choresList} = chores;
   const [history, setHistory] = useState(false)
@@ -29,6 +30,7 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, hand
   return (
     <div className={styles.midsection}>
           <Chore
+              onData={onData}
               name = {null}
               imageSrc={null}
               description={"No details"}
@@ -144,6 +146,7 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, hand
         {choresList?.map((chore, index) => (
           <div className={styles.choreTile} key={index}>
             <Chore
+              onData={onData}
               name = {chore.name}
               imageSrc={placeholder}
               description={chore.description}
@@ -156,9 +159,9 @@ const ChoreList: React.FC<MidProps> = ({chores, handleDelete, handleSubmit, hand
               setNewChore={setNewChore}
               setNewDesc={setNewDesc}
               setNewDuration={setNewDuration}
-              updatedChore={chore.name ?? ''}
+              /*updatedChore={chore.name ?? ''} 
               updatedDesc={chore.description}
-              updatedDuration={chore.duration}
+              updatedDuration={chore.duration}*/
               setUpdatedChore={setUpdatedChore}
               setUpdatedDuration={setUpdatedDuration}
               setUpdatedDesc={setUpdatedDesc}

@@ -337,10 +337,15 @@
         align-items: center;
     }
     .textStyle{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
         border-bottom-left-radius: 7px;
         border-bottom-right-radius: 7px;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         font-size: 2vw;
+        width:90%;
     }
     .buttonStyle{
         border: none;
@@ -352,9 +357,10 @@
         
     }
     .details{
-        width:100%;
+        width:70%;
     }
     .textStyle h1{
+        width: 80%;
         color: #181d4e;
         overflow-wrap: break-word;
         text-align: center;

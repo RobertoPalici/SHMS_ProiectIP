@@ -8,24 +8,29 @@ import { ChoresList, ChoreProps } from './Chore';
 
 
 interface MidProps {
+  onData:(updatedChore: string) => void;
   chores: ChoreProps;
   newChore: string;
   newDesc: string;
   newDuration: string;
+  updatedChore: string;
+  updatedDesc: string;
+  updatedDuration: string;
   fetchError: any;
   setChores: React.Dispatch<React.SetStateAction<ChoreProps>>;
   setNewChore: React.Dispatch<React.SetStateAction<string>>;
   setNewDesc: React.Dispatch<React.SetStateAction<string>>;
   setNewDuration: React.Dispatch<React.SetStateAction<string>>;
+  setUpdatedChore: React.Dispatch<React.SetStateAction<string>>;
+  setUpdatedDesc: React.Dispatch<React.SetStateAction<string>>;
+  setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
   setFetchError: React.Dispatch<any>; 
 }
 
-const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchError, setChores, setNewChore, setNewDesc, setNewDuration, setFetchError}) =>{
+const Mid: React.FC<MidProps> = ({onData, chores, newChore, newDesc, newDuration, updatedChore, updatedDesc, updatedDuration, fetchError, setChores, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration, setFetchError}) =>{
     const API_URL = 'http://localhost:8081/chores';
 
-    const [updatedChore, setUpdatedChore] = useState('');
-    const [updatedDesc, setUpdatedDesc] = useState('');
-    const [updatedDuration, setUpdatedDuration] = useState('');
+    console.log(updatedChore);
 
     const saveChores = (newChores : ChoresList[]) => {
       console.log(chores);
@@ -46,9 +51,10 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
     const handleSubmitUpdate = (e : React.FormEvent<HTMLFormElement>, oldChore: string) => {
       e.preventDefault();
       handleUpdate(oldChore ,updatedChore, updatedDesc, updatedDuration);
-      setUpdatedChore('p');
-      setUpdatedDesc('');
-      setUpdatedDuration('');
+      console.log('UOTE')
+      setUpdatedChore('pa');
+      setUpdatedDesc('da');
+      setUpdatedDuration('fa');
     }
 
     const handleUpdate = async (oldName: string, updatedName: string, description: string, duration: string) => {
@@ -77,8 +83,7 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
           })
         }
         console.log('2');
-        const response = await APIRequest(`${API_URL}/changeItemDetails?id=${index}&name=${targetChore[0].name}&description=${targetChore[0].description}&personID="-1"&duration=${targetChore[0].duration}`, options);
-        //const response = await APIRequest(`${API_URL}/${targetProduct[0].id}`, options);     
+        const response = await APIRequest(`${API_URL}/changeItemDetails?id=${index}&name=${targetChore[0].name}&description=${targetChore[0].description}&personID="-1"&duration=${targetChore[0].duration}`, options);   
         if(response)
           setFetchError(response);
       }
@@ -117,7 +122,6 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
     const handleDelete = async (name : string) => {
       if(chores.choresList !== undefined){
         const listChores = chores.choresList.filter((item) => item.name !== name);
-        const targetChore = chores.choresList.filter((item) => item.name === name);
         const index = chores.choresList.findIndex(item => item.name === name); 
         saveChores(listChores);
 
@@ -130,6 +134,7 @@ const Mid: React.FC<MidProps> = ({chores, newChore, newDesc, newDuration, fetchE
 
     return(
       <ChoreLists
+        onData={onData}
         chores={chores}
         handleDelete={handleDelete}
         handleSubmit={handleSubmit}
