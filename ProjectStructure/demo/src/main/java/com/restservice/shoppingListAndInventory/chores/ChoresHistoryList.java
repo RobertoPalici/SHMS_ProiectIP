@@ -34,13 +34,19 @@ public class ChoresHistoryList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
-    @OneToMany(mappedBy = "list", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "list", fetch = FetchType.EAGER   )
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<ChoreHistoryItem> choresList = new ArrayList<>();
 
     public ChoresHistoryList(ChoreRepository choreRepository) {
         for (ChoreHistoryItem item : choreRepository.choreHistoryItemRepository.findAll()) {
             choresList.add(item);
+        }
+    }
+    public void clearHistory(ChoreRepository choreRepository){
+        while(!choresList.isEmpty()){
+            choreRepository.choreHistoryItemRepository.delete(choresList.get(0));
+            choresList.remove(0);
         }
     }
     public int findChoreIndex(String name){

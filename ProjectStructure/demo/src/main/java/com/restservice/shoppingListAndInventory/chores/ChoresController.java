@@ -66,6 +66,13 @@ public class ChoresController {
         return household.choresList;
     }
 
+    @DeleteMapping("/clearHistory")
+    public ChoresHistoryList clearHistory(){
+        household.choresHistoryList.clearHistory(repositories.choreRepository);
+        System.out.println(household.choresList);
+        return household.choresHistoryList;
+    }
+
     @PatchMapping("/changePersonID")
     public ChoresList changePersonID(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="personID", defaultValue = "-1") String personIDString){
