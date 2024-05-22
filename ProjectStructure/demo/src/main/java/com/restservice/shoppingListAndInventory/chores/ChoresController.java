@@ -66,6 +66,19 @@ public class ChoresController {
         return household.choresList;
     }
 
+    @DeleteMapping("/removeHistoryChore")
+    public ChoresHistoryList removeHistoryChore(@RequestParam(value="id", defaultValue = "-1") String idString){
+        try{
+            household.choresHistoryList.removeChore(idString, repositories.choreRepository);
+        }
+        catch (ChoresException e) {
+            System.out.println("Error: "+e.getMessage());
+            return household.choresHistoryList;
+        }
+        System.out.println(household.choresList);
+        return household.choresHistoryList;
+    }
+
     @DeleteMapping("/clearHistory")
     public ChoresHistoryList clearHistory(){
         household.choresHistoryList.clearHistory(repositories.choreRepository);
