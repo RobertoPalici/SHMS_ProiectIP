@@ -58,6 +58,7 @@ const Product: React.FC<ShoppingItem & ProductDeclareProps> = ({item, imageSrc, 
       <div className="product-info">
         {imageSrc !== questionmark && (
         <div className="quantity-controls">
+          <button className="markStyle">Mark as bought</button>
           <button className="quantity-button"
               onClick={() => handleDecreaseQuantity(item.name)}
           >-

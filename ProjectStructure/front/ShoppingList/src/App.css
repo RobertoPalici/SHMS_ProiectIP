@@ -154,6 +154,10 @@ p {
   margin-top: 1vh;
 }
 
+.restock{
+  height:50px;
+}
+
 
 .shopping-list {
   position: absolute;
@@ -166,3 +170,81 @@ p {
   color: #1BBC9B;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+.itemListButtons{
+  display:flex;
+  justify-content: space-evenly ;
+  margin-top: 100px;
+}
+
+.bigButtons{
+  height:10vw;
+  border:none;
+    background-color: #1BBC9B;
+    color:white;
+    padding:10px;
+    border-radius: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 300;
+    font-size: 1.75vw;
+    width:15vw;
+}
+.itemListButtons button:hover{
+  background-color: #42e9c7;
+}
+
+.existingListDropdown{
+  display: flex;
+  flex-direction: column;
+}
+
+.existingListDropdown button{
+  display:flex;
+  border:none;
+  background-color: #1BBC9B;
+  color:white;
+  justify-content: center;
+  align-items: center;
+  padding:10px;
+  border-radius: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 1.5vw;
+  margin-top: 2vh;
+  height: 40px;
+  
+}
+.newListPrompt{
+  display:flex;
+  flex-direction: column; 
+  align-items: center;
+  width: 15vw;
+  margin-top:2vh;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.newListPrompt img{
+  width: 50%;
+  margin: 1vw;
+}
+.newListPrompt input{
+  margin: 1vw;
+  padding:0.5vw;
+  border-radius:7px;
+  width: 10vw;
+}
+
+.addNewList{
+  border:none;
+  background-color: #1BBC9B;
+  color:white;
+  padding:10px;
+  border-radius: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 1vw;
+  width: 5vw;
+  margin-bottom: 1vh;
+
+}
+ 

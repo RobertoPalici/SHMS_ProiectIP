@@ -29,6 +29,15 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
  
     const [isTag, setTag] = useState(false);
     const [isSort, setSort] = useState(false);
+    const [slist, setSlist] = useState(false);
+    const [nlist, setNlist] = useState(false);
+    const handleSlistDropdown = () =>{
+      setSlist(!slist);
+    };
+    const handleNlistDropdown = () =>{
+      setNlist(!nlist);
+    };
+
 
     const API_URL = 'http://localhost:8081/shopping';
 
@@ -179,8 +188,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
         
           <div className="shopping-list">Shopping Lists</div>
           </div>
-          {<div className="buttonContainer">
-            
+          <div className="buttonContainer">
             <div className="tag">
               <button className="tagButton" onClick={toggleTagDropdown}>Tag</button>
               {isTag &&
@@ -201,7 +209,32 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
               </div>}
             </div>
             <button className="restock">Restock suggestions</button>
-          </div>}
+          </div>
+          <div className="itemListButtons">
+            <div className="newList">
+              <button className="bigButtons" onClick={handleNlistDropdown}>Add new shopping list</button>
+              {nlist &&
+              <div className="newListPrompt">
+                <img src={productIcon}></img>
+                <form>
+                  <input>
+                  </input>
+                </form>
+                <button className="addNewList">Add list</button>
+              </div>
+              }
+            </div>
+            <div className="existingList">
+            <button className="bigButtons" onClick={handleSlistDropdown}>Select existing shopping list</button>
+            {slist &&
+            <div className="existingListDropdown">
+              <button>1</button>
+              <button>2</button>
+              <button>3</button>
+            </div>
+            }
+            </div>
+          </div>
           <ItemLists
             products={products}
             handleIncreaseQuantity={handleIncreaseQuantity}

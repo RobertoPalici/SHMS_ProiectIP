@@ -125,6 +125,8 @@
 .inputStyle{
   width:2vw;
   margin: 0px 10px;
+  border-radius: 10px;
+  padding: 5px;
 }
 }
   
@@ -259,6 +261,8 @@
   .inputStyle{
     width:2vw;
     margin: 0px 10px;
+    border-radius: 10px;
+    padding: 5px;
   }
   }
 
@@ -392,6 +396,8 @@
     .inputStyle{
       width:2vw;
       margin: 0px 10px;
+      border-radius: 10px;
+      padding: 5px;
     }
     }
 
