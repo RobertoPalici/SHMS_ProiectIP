@@ -9,7 +9,7 @@ interface MidProps{
   onData:(updatedChore: string) => void;
   chores: ChoreProps;
   choresHistory: ChoreProps;
-  addChore: (name: string, description: string, duration: string) => void;
+  addChore: (name: string, description: string, duration: string, addToHistoryCheck: number) => void;
   handleSubmit: (e : React.FormEvent<HTMLFormElement>) => void;
   handleClearHistory: () => void;
   handleSubmitUpdate: (e : React.FormEvent<HTMLFormElement>, oldName: string) => void;

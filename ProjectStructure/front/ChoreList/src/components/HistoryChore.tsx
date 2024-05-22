@@ -17,6 +17,7 @@ export type ChoreProps = {
 
 interface ChoreDeclareProps {
     onData:(updatedChore: string) => void;
+    addChore: (name: string, description: string, duration: string, addToHistoryCheck: number) => void;
     handleDelete: (name : string) => void;
     handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
     handleSubmitUpdate?: (e: React.FormEvent<HTMLFormElement>, oldName: string) => void ;
@@ -35,7 +36,7 @@ interface ChoreDeclareProps {
     setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
+const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, addChore, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
 
     return (
         <>
@@ -57,7 +58,7 @@ const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, d
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                <button className={styles.addFromHistory}>Add Chore</button>
+                <button className={styles.addFromHistory} /*onClick={addChore(name, description, duration, 0)}*/>Add Chore</button>
                 </div>
             </div>
             </>)}

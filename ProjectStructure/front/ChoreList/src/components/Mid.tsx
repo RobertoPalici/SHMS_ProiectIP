@@ -47,7 +47,7 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
         setNewDesc('No details');
         setNewDuration('No deadline');
         return;}
-      addChore(newChore, newDesc, newDuration);
+      addChore(newChore, newDesc, newDuration, 1);
       setNewChore('');
       setNewDesc("No details");
       setNewDuration("No deadline");
@@ -94,7 +94,7 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
       }
     }
 
-    const addChore = async (name: string, description: string, duration: string) => {
+    const addChore = async (name: string, description: string, duration: string, addToHistoryCheck: number) => {
       if(name.trim() === ''){
         alert('Please enter a title for the chore');
       } else {
@@ -119,7 +119,7 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
           },
           body: JSON.stringify(newChoreItem)
         }
-        const response = await APIRequest(`${API_URL}/addChore?name=${name}&description=${description}&duration=${duration}&addToHistory=1`, options);
+        const response = await APIRequest(`${API_URL}/addChore?name=${name}&description=${description}&duration=${duration}&addToHistory=${addToHistoryCheck}`, options);
         if(response)
           setFetchError(response);
       }
