@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Product, { ProductProps , ShoppingList, ShoppingItem} from './components/product/Product';
 import image_1 from './components/pictures/image 3.png';
 import image_2 from './components/pictures/background-overlay.png';
@@ -32,24 +32,34 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const API_URL = 'http://localhost:8081/shopping';
 
+    useEffect(() => {
+        console.log('Products have been updated:', products);
+    }, [products]);
+
     const saveProducts = (newProducts : ShoppingItem[]) => {
-      console.log(products);
-      console.log(newProducts);
       setProducts(prevProducts => {
-        return {...prevProducts, shoppingList: newProducts};  
+        const updatedProducts = { ...prevProducts };
+
+        if (updatedProducts.shoppingLists.length >= 2) {
+          updatedProducts.shoppingLists[1] = {
+            ...updatedProducts.shoppingLists[1],
+            shoppingList: newProducts,
+          };
+        } else {
+          console.error('There are not enough shoppingLists to update.');
+        }
+
+        return updatedProducts;  
       });
-      setTimeout(() => {
-        console.log(products);
-      }, 200);
     }
 
     const handleIncreaseQuantity = async (name : string) =>{
-      if(products.shoppingLists[0].shoppingList !== undefined){
-        const listItems = products.shoppingLists[0].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
+      if(products.shoppingLists[1].shoppingList !== undefined){
+        const listItems = products.shoppingLists[1].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
         saveProducts(listItems);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[0].shoppingList.findIndex(item => item.item.name === name);
+        const index = products.shoppingLists[1].shoppingList.findIndex(item => item.item.name === name);
         const options = {
           method: 'PATCH',
           headers: {
@@ -74,11 +84,11 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const handleDecreaseQuantity = async (name : string) =>{
       if(products.shoppingLists !== undefined){
-        const listItems = products.shoppingLists[0].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
+        const listItems = products.shoppingLists[1].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
         saveProducts(listItems);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[0].shoppingList.findIndex(item => item.item.name === name);
+        const index = products.shoppingLists[1].shoppingList.findIndex(item => item.item.name === name);
         const options = {
           method: 'PATCH',
           headers: {
