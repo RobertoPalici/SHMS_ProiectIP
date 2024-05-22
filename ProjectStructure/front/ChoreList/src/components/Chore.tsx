@@ -45,7 +45,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, descript
     const handleButton = () => {
         setTimeout(() => {
           if(inputRef.current) {inputRef.current.value = '';}
-          if(inputRef2.current) {inputRef2.current.value = '';}
+          //if(inputRef2.current) {inputRef2.current.value = '';}
           if(inputRef3.current) {inputRef3.current.value = '';}
         }, 30);
     };
@@ -72,12 +72,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, descript
     const sendUpdates = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(`Update: ${e.target.value}`);
         onData(e.target.value);
-    }
-    /*useEffect(() => {
-        if (name && setUpdatedChore) setUpdatedChore(name);
-        if (description && setUpdatedDesc) setUpdatedDesc(description);
-        if (duration && setUpdatedDuration) setUpdatedDuration(duration);
-      }, [name, description, duration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration]);  */  
+    }  
 
     return (
         <>

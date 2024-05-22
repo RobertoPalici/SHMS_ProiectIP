@@ -10,6 +10,7 @@ import { ChoresList, ChoreProps } from './Chore';
 interface MidProps {
   onData:(updatedChore: string) => void;
   chores: ChoreProps;
+  choresHistory: ChoreProps;
   newChore: string;
   newDesc: string;
   newDuration: string;
@@ -27,7 +28,7 @@ interface MidProps {
   setFetchError: React.Dispatch<any>; 
 }
 
-const Mid: React.FC<MidProps> = ({onData, chores, newChore, newDesc, newDuration, updatedChore, updatedDesc, updatedDuration, fetchError, setChores, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration, setFetchError}) =>{
+const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDesc, newDuration, updatedChore, updatedDesc, updatedDuration, fetchError, setChores, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration, setFetchError}) =>{
     const API_URL = 'http://localhost:8081/chores';
 
     console.log(updatedChore);
@@ -42,19 +43,23 @@ const Mid: React.FC<MidProps> = ({onData, chores, newChore, newDesc, newDuration
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       console.log(chores);
       e.preventDefault();
-      if(!newChore) return;
+      if(!newChore) {
+        setNewDesc('No details');
+        setNewDuration('No deadline');
+        return;}
       addChore(newChore, newDesc, newDuration);
       setNewChore('');
       setNewDesc("No details");
+      setNewDuration("No deadline");
     }
 
     const handleSubmitUpdate = (e : React.FormEvent<HTMLFormElement>, oldChore: string) => {
       e.preventDefault();
       handleUpdate(oldChore ,updatedChore, updatedDesc, updatedDuration);
       console.log('UOTE')
-      setUpdatedChore('pa');
-      setUpdatedDesc('da');
-      setUpdatedDuration('fa');
+      setUpdatedChore(oldChore);
+      setUpdatedDesc('No details');
+      setUpdatedDuration('No deadline');
     }
 
     const handleUpdate = async (oldName: string, updatedName: string, description: string, duration: string) => {
@@ -114,7 +119,7 @@ const Mid: React.FC<MidProps> = ({onData, chores, newChore, newDesc, newDuration
           },
           body: JSON.stringify(newChoreItem)
         }
-        const response = await APIRequest(`${API_URL}/addChore?name=${name}&description=${description}&duration=${duration}`, options);
+        const response = await APIRequest(`${API_URL}/addChore?name=${name}&description=${description}&duration=${duration}&addToHistory=1`, options);
         if(response)
           setFetchError(response);
       }
@@ -132,11 +137,21 @@ const Mid: React.FC<MidProps> = ({onData, chores, newChore, newDesc, newDuration
       }
     }
 
+    const handleClearHistory = async () => {
+      const options = {method: 'DELETE'};
+      const response = await APIRequest(`${API_URL}`, options);
+      if(response)
+        setFetchError(response);
+    }
+
     return(
       <ChoreLists
         onData={onData}
         chores={chores}
+        choresHistory={choresHistory}
+        addChore={addChore}
         handleDelete={handleDelete}
+        handleClearHistory={handleClearHistory}
         handleSubmit={handleSubmit}
         handleSubmitUpdate={handleSubmitUpdate}
         handleUpdate={handleUpdate}

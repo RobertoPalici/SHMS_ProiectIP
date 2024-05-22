@@ -45,6 +45,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
 }
 .textStyle{
     display: flex;
@@ -55,7 +56,8 @@
     border-bottom-right-radius: 7px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin-left: 10px;
-    width: 70%;
+    width: 60%;
+    height: 100%;
 }
 .buttonContainer{
     display: flex;
@@ -263,17 +265,19 @@
 
 .hbottom{
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
     background-color: white;
+    height: 100%;
 }
 .htextStyle{
     display: flex;
     flex-direction: column;
-    text-align: left;
-    margin-left:5px;
+    text-align: center;
+    width: 65%;
 }
 
 .htextStyle h3{
@@ -293,7 +297,6 @@
     padding:7px;
     border-radius: 5px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin-right: 5px;
     min-width: fit-content;
 }
 
@@ -329,6 +332,7 @@
         flex-direction: column;
         border-radius: 10px;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        margin-top: 4vh;
     }
     .bottom{
         display: flex;
@@ -609,6 +613,7 @@
         display: flex;
         flex-direction: column;
         text-align: center;
+        width: 80%;
     }
     
     .htextStyle h3{
