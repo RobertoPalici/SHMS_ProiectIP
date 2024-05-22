@@ -41,6 +41,10 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imag
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
+  const[edit, setEdit] = useState(true)
+  const handleEdit = () => {
+    setEdit(!edit);
+  }
 
   const handleButton = () => {
     setTimeout(() => {
@@ -53,8 +57,10 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imag
     <div className="product">
       <img style={{margin: '10px'}} src={imageSrc} alt={item.name} className="product-image" />
       <div className="product-info">
-        {imageSrc !== questionmark && (
-        <div className="quantity-controls">
+        {imageSrc !== questionmark && edit && (
+        <div className="quantity-controls"> 
+
+        <button className="editButton" onClick={handleEdit}>Edit</button>
           <button className="quantity-button"
               onClick={() => handleDecreaseQuantity(item.name)}
           >-
@@ -72,6 +78,29 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imag
           </button>
         </div>
         )}
+        {!edit &&
+        <div className="quantity-controls"> 
+
+        <button className="editButton" onClick={handleEdit}>Confirm</button>
+          <button className="quantity-button"
+              onClick={() => handleDecreaseQuantity(item.name)}
+          >-
+          </button>
+          <form>
+            <input className="inputStyle"
+            type="text"
+            placeholder="20"/>
+          </form>
+          <button className="quantity-button" 
+              onClick={() => handleIncreaseQuantity(item.name)}
+          >+
+          </button>
+          <button className="remove-button" 
+              onClick={() => handleDelete(item.name)}
+          >X
+          </button>
+          </div>
+        }
         <form className="product-info" onSubmit={handleSubmit}>
         {imageSrc === questionmark ? (
           <div className='product-info'>

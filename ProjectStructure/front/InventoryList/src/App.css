@@ -161,7 +161,7 @@ p {
   color:white;
   background-color: #1BBC9B;
   padding: 5px 10px;
-  width: 8vh;
+  width: 6vw;
   font-size: 1.25vw;
 }
 
@@ -202,7 +202,6 @@ p {
 .sortDropdown button{
   margin-top: 1vh;
 }
-
 .restock{
-  height: 3vh; 
+  height: 4vh;
 }
