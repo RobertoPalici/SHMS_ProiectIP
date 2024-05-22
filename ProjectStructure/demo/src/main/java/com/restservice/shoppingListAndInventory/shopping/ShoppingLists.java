@@ -1,5 +1,6 @@
 package com.restservice.shoppingListAndInventory.shopping;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.restservice.household.Household;
 import com.restservice.shoppingListAndInventory.inventory.InventoryItem;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -17,12 +18,16 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "shopping_lists")
-@JsonIgnoreProperties(value = {"id"})
+@JsonIgnoreProperties(value = {"id", "household"})
 public class ShoppingLists {
     @Id
     @Column(name = "id")
     //@GeneratedValue(strategy=GenerationType.AUTO)
     private int id=1;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "household_id", referencedColumnName = "id")
+    private Household household;
 
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
@@ -81,21 +86,21 @@ public class ShoppingLists {
         }
         this.addItem(index, name, quantityString, priceString, shoppingRepository);
     }
-    public void removeItem(int index, String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
+    public ShoppingItem removeItem(int index, String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");
-        shoppingLists.get(index).removeItem(idString, shoppingRepository);
+        return shoppingLists.get(index).removeItem(idString, shoppingRepository);
     }
-    public void removeItem(String indexString, String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
+    public ShoppingItem removeItem(String indexString, String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int index;
         try{
             index=Integer.parseInt(indexString);
         } catch (NumberFormatException e){
             throw new ShoppingException("Index has to be a number.");
         }
-        this.removeItem(index, idString, shoppingRepository);
+        return this.removeItem(index, idString, shoppingRepository);
     }
     public void setItemDetails(String indexString, String idString, String name, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int index;

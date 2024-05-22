@@ -1,6 +1,7 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.restservice.household.Household;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import lombok.Getter;
@@ -21,12 +22,16 @@ import org.hibernate.annotations.Cascade;
 @Entity
 @NoArgsConstructor
 @Table(name = "inventory_list")
-@JsonIgnoreProperties(value = {"id", "itemBuyHistoryList"})
+@JsonIgnoreProperties(value = {"id", "itemBuyHistoryList", "household"})
 public class InventoryList {
     @Id
     @Column(name = "id")
     //@GeneratedValue(strategy=GenerationType.AUTO)
     private int id = 1;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "household_id", referencedColumnName = "id")
+    private Household household;
 
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)

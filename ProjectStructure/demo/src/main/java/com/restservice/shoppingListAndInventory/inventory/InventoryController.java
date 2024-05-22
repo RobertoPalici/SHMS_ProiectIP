@@ -1,5 +1,8 @@
 package com.restservice.shoppingListAndInventory.inventory;
 
+import com.restservice.household.Household;
+import com.restservice.household.HouseholdRepositoriesGroup;
+import com.restservice.household.HouseholdRepository;
 import com.restservice.shoppingListAndInventory.chores.ChoresList;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -20,8 +23,8 @@ import java.util.Objects;
 @RequestMapping("/inventory")
 public class InventoryController {
     @Autowired
-    private InventoryRepository inventoryRepository;
-    InventoryList itemList;
+    private HouseholdRepositoriesGroup repositories;
+    Household household;
 
     public InventoryController() {
     }
@@ -30,38 +33,38 @@ public class InventoryController {
     public InventoryList addItem(@RequestParam(value = "name", defaultValue = "") String name,
                                  @RequestParam(value = "quantity", defaultValue = "1") String quantityString) {
         try {
-            itemList.addItem(name, quantityString, inventoryRepository);
+            household.inventoryList.addItem(name, quantityString, repositories.inventoryRepository);
         } catch (InventoryException e) {
             System.out.println("Error: " + e.getMessage());
-            return itemList;
+            return household.inventoryList;
         }
-        System.out.println(itemList);
-        return itemList;
+        System.out.println(household.inventoryList);
+        return household.inventoryList;
     }
 
     @DeleteMapping("/removeItem")
     public InventoryList removeItem(@RequestParam(value = "id", defaultValue = "-1") String idString) {
         try {
-            itemList.removeItem(idString, inventoryRepository);
+            household.inventoryList.removeItem(idString, repositories.inventoryRepository);
         } catch (InventoryException e) {
             System.out.println("Error: " + e.getMessage());
-            return itemList;
+            return household.inventoryList;
         }
-        System.out.println(itemList);
-        return itemList;
+        System.out.println(household.inventoryList);
+        return household.inventoryList;
     }
 
     @PatchMapping("/changeQuantity")
     public InventoryList changeQuantity(@RequestParam(value = "id", defaultValue = "-1") String idString,
                                         @RequestParam(value = "quantity", defaultValue = "0") String quantityString) {
         try {
-            itemList.changeQuantity(idString, quantityString, inventoryRepository);
+            household.inventoryList.changeQuantity(idString, quantityString, repositories.inventoryRepository);
         } catch (InventoryException e) {
             System.out.println("Error: " + e.getMessage());
-            return itemList;
+            return household.inventoryList;
         }
-        System.out.println(itemList);
-        return itemList;
+        System.out.println(household.inventoryList);
+        return household.inventoryList;
     }
 
     @PatchMapping("/changeItemDetails")
@@ -69,44 +72,38 @@ public class InventoryController {
                                            @RequestParam(value = "quantity", defaultValue = "0") String quantityString,
                                            @RequestParam(value = "name", defaultValue = "") String nameString) {
         try {
-            itemList.setItemDetails(idString, nameString, quantityString, inventoryRepository);
+            household.inventoryList.setItemDetails(idString, nameString, quantityString, repositories.inventoryRepository);
         } catch (InventoryException e) {
             System.out.println("Error: " + e.getMessage());
-            return itemList;
+            return household.inventoryList;
         }
-        System.out.println(itemList);
-        return itemList;
-    }
-    @PatchMapping("/sortItems")
-    public InventoryList sortItems(@RequestParam(value = "sortFilter", defaultValue = "0") String filterString){
-        try {
-            itemList.sortItems(filterString, inventoryRepository);
-        } catch (InventoryException e) {
-            System.out.println("Error: " + e.getMessage());
-            return itemList;
-        }
-        System.out.println(itemList);
-        return itemList;
-    }
-    @GetMapping
-    public InventoryList getInventory() {
-        if (itemList != null)
-            return itemList;
-        Iterator<InventoryList> iter = inventoryRepository.inventoryListRepository.findAll().iterator();
-        if (iter.hasNext()) {
-            itemList = iter.next();
-        } else {
-            itemList = new InventoryList();
-            inventoryRepository.inventoryListRepository.save(itemList);
-        }
-        return itemList;
+        System.out.println(household.inventoryList);
+        return household.inventoryList;
     }
 
-    @GetMapping(path = "/start")
-    public InventoryList start() {
-        // This returns a JSON or XML with the users
-        itemList = new InventoryList(inventoryRepository);
-        return itemList;
+    @PatchMapping("/sortItems")
+    public InventoryList sortItems(@RequestParam(value = "sortFilter", defaultValue = "0") String filterString) {
+        try {
+            household.inventoryList.sortItems(filterString, repositories.inventoryRepository);
+        } catch (InventoryException e) {
+            System.out.println("Error: " + e.getMessage());
+            return household.inventoryList;
+        }
+        System.out.println(household.inventoryList);
+        return household.inventoryList;
+    }
+
+    @GetMapping
+    public InventoryList getInventory() {
+        if (household != null)
+            return household.getInventoryList();
+        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
+        if (iter.hasNext()) {
+            household = iter.next();
+        } else {
+            household=new Household(repositories);
+        }
+        return household.getInventoryList();
     }
 
     Map<Product, Integer> averageConsumptionForAll;

@@ -83,16 +83,16 @@ public class ShoppingList {
         }
         this.addItem(name, new Quantity(quantity, QuantityType.Amount), price, shoppingRepository);
     }
-    public void removeItem(String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
+    public ShoppingItem removeItem(String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int id;
         try {
             id = Integer.parseInt(idString);
         } catch (NumberFormatException e) {
             throw new ShoppingException("Item ID has to be a non-negative integer.");
         }
-        this.removeItem(id, shoppingRepository);
+        return this.removeItem(id, shoppingRepository);
     }
-    public void removeItem(int id, ShoppingRepository shoppingRepository) throws ShoppingException{
+    public ShoppingItem removeItem(int id, ShoppingRepository shoppingRepository) throws ShoppingException{
         if(id<0)
             throw new ShoppingException("Item ID has to be a non-negative integer.");
         if(id>=shoppingList.size())
@@ -100,6 +100,7 @@ public class ShoppingList {
         ShoppingItem item = shoppingList.get(id);
         shoppingList.remove(id);
         shoppingRepository.shoppingItemRepository.delete(item);
+        return item;
     }
     public void setItemDetails(String idString, String name, String quantityString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int id;

@@ -1,5 +1,7 @@
 package com.restservice.shoppingListAndInventory.shopping;
 
+import com.restservice.household.Household;
+import com.restservice.household.HouseholdRepositoriesGroup;
 import com.restservice.shoppingListAndInventory.inventory.InventoryException;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
@@ -21,8 +23,8 @@ import java.util.Objects;
 @RequestMapping("/shopping")
 public class ShoppingController {
     @Autowired
-    ShoppingRepository shoppingRepository;
-    ShoppingLists shoppingLists;
+    private HouseholdRepositoriesGroup repositories;
+    Household household;
 
     public ShoppingController() {
 
@@ -30,22 +32,22 @@ public class ShoppingController {
 
     @PostMapping("/addList")
     public ShoppingLists addList() {
-        shoppingLists.addList(shoppingRepository);
-        System.out.println(shoppingLists);
-        return shoppingLists;
+        household.shoppingLists.addList(repositories.shoppingRepository);
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
     }
 
     @DeleteMapping("/removeList")
     public ShoppingLists removeList(@RequestParam(value = "index", defaultValue = "-1") String indexString) {
         try {
-            shoppingLists.removeList(indexString, shoppingRepository);
+            household.shoppingLists.removeList(indexString, repositories.shoppingRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
-            return shoppingLists;
+            return household.shoppingLists;
         }
 
-        System.out.println(shoppingLists);
-        return shoppingLists;
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
     }
 
     @PostMapping("/addItem")
@@ -56,26 +58,26 @@ public class ShoppingController {
 
 
         try {
-            shoppingLists.addItem(indexString, name, quantityString, priceString, shoppingRepository);
+            household.shoppingLists.addItem(indexString, name, quantityString, priceString, repositories.shoppingRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
-            return shoppingLists;
+            return household.shoppingLists;
         }
-        System.out.println(shoppingLists);
-        return shoppingLists;
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
     }
 
     @DeleteMapping("/removeItem")
     public ShoppingLists removeItem(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                     @RequestParam(value = "id", defaultValue = "-1") String idString) {
         try {
-            shoppingLists.removeItem(indexString, idString, shoppingRepository);
+            household.shoppingLists.removeItem(indexString, idString, repositories.shoppingRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
-            return shoppingLists;
+            return household.shoppingLists;
         }
-        System.out.println(shoppingLists);
-        return shoppingLists;
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
     }
     @PatchMapping("/changeItemDetails")
     public ShoppingLists changeItemDetails(@RequestParam(value = "index", defaultValue = "-1") String indexString,
@@ -83,13 +85,13 @@ public class ShoppingController {
                                            @RequestParam(value = "quantity", defaultValue = "0") String quantityString,
                                            @RequestParam(value = "name", defaultValue = "") String nameString) {
         try {
-            shoppingLists.setItemDetails(indexString, idString, nameString, quantityString, shoppingRepository);
+            household.shoppingLists.setItemDetails(indexString, idString, nameString, quantityString, repositories.shoppingRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
-            return shoppingLists;
+            return household.shoppingLists;
         }
-        System.out.println(shoppingLists);
-        return shoppingLists;
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
     }
     @PatchMapping("/changeQuantity")
     public ShoppingLists changeQuantity(@RequestParam(value = "index", defaultValue = "-1") String indexString,
@@ -97,24 +99,35 @@ public class ShoppingController {
                                         @RequestParam(value = "quantity", defaultValue = "0") String quantityString) {
 
         try {
-            shoppingLists.changeQuantity(indexString, idString, quantityString, shoppingRepository);
+            household.shoppingLists.changeQuantity(indexString, idString, quantityString, repositories.shoppingRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
-            return shoppingLists;
+            return household.shoppingLists;
         }
-        System.out.println(shoppingLists);
-        return shoppingLists;
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
 
     }
-
+    @PostMapping("/buyItem")
+    public ShoppingLists buyItem(@RequestParam(value = "index", defaultValue = "-1") String indexString,
+                                    @RequestParam(value = "id", defaultValue = "-1") String idString) {
+        try {
+            household.markItemAsBought(indexString, idString, repositories);
+        } catch (ShoppingException | InventoryException e) {
+            System.out.println("Error: " + e.getMessage());
+            return household.shoppingLists;
+        }
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
+    }
     @PostMapping("/autocomplete")
     public ShoppingLists autocomplete(@RequestParam(value = "name", defaultValue = "") String name) {
         try {
-            shoppingLists.autocomplete(name);
+            household.shoppingLists.autocomplete(name);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        return shoppingLists;
+        return household.shoppingLists;
     }
 
     @PatchMapping("/changePrice")
@@ -122,17 +135,27 @@ public class ShoppingController {
                                      @RequestParam(value = "id", defaultValue = "-1") String idString,
                                      @RequestParam(value = "price", defaultValue = "0") String priceString) {
         try {
-            shoppingLists.changePrice(indexString, idString, priceString);
+            household.shoppingLists.changePrice(indexString, idString, priceString);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
-            return shoppingLists;
+            return household.shoppingLists;
         }
-        System.out.println(shoppingLists);
-        return shoppingLists;
+        System.out.println(household.shoppingLists);
+        return household.shoppingLists;
     }
 
     @GetMapping
     public ShoppingLists getShoppingLists() {
+        if (household != null)
+            return household.getShoppingLists();
+        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
+        if (iter.hasNext()) {
+            household = iter.next();
+        } else {
+            household=new Household(repositories);
+        }
+        return household.getShoppingLists();
+        /*
         if (shoppingLists != null)
             return shoppingLists;
         Iterator<ShoppingLists> iterLists = shoppingRepository.shoppingListsRepository.findAll().iterator();
@@ -147,14 +170,6 @@ public class ShoppingController {
             shoppingRepository.shoppingListsRepository.save(shoppingLists);
             shoppingLists.addList(shoppingRepository);
         }
-        return shoppingLists;
+        return shoppingLists;*/
     }
-
-    @GetMapping(path = "/start")
-    public ShoppingLists start() {
-        // This returns a JSON or XML with the users
-        shoppingLists = new ShoppingLists(shoppingRepository);
-        return shoppingLists;
-    }
-
 }

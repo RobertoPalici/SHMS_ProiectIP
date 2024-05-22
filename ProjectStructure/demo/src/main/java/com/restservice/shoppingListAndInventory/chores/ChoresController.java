@@ -1,5 +1,7 @@
 package com.restservice.shoppingListAndInventory.chores;
 
+import com.restservice.household.Household;
+import com.restservice.household.HouseholdRepositoriesGroup;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import com.restservice.shoppingListAndInventory.inventory.QuantityType;
@@ -25,9 +27,8 @@ import static java.lang.Integer.parseInt;
 @RequestMapping("/chores")
 public class ChoresController {
     @Autowired
-    private ChoreRepository choreRepository;
-    ChoresList choresList;
-    ChoresHistoryList choresHistoryList;
+    private HouseholdRepositoriesGroup repositories;
+    Household household;
     ChoresController() {
     }
 
@@ -38,30 +39,30 @@ public class ChoresController {
                                @RequestParam(value="duration", defaultValue = "-1") String durationString,
                                @RequestParam(value="addToHistory", defaultValue = "0") String addToHistoryString){
         try{
-            choresList.addChore(name, description, personIDString, durationString, choreRepository);
+            household.choresList.addChore(name, description, personIDString, durationString, repositories.choreRepository);
             if(addToHistoryString.equals("1")){
-                choresHistoryList.addChore(name, description, personIDString, durationString, choreRepository);
+                household.choresHistoryList.addChore(name, description, personIDString, durationString, repositories.choreRepository);
             }
         }
         catch (ChoresException e){
             System.out.println("Error: "+e.getMessage());
-            return choresList;
+            return household.choresList;
         }
-        System.out.println(choresList);
-        return choresList;
+        System.out.println(household.choresList);
+        return household.choresList;
     }
 
     @DeleteMapping("/removeChore")
     public ChoresList removeChore(@RequestParam(value="id", defaultValue = "-1") String idString){
         try{
-            choresList.removeChore(idString, choreRepository);
+            household.choresList.removeChore(idString, repositories.choreRepository);
         }
         catch (ChoresException e) {
             System.out.println("Error: "+e.getMessage());
-            return choresList;
+            return household.choresList;
         }
-        System.out.println(choresList);
-        return choresList;
+        System.out.println(household.choresList);
+        return household.choresList;
     }
 
     @PatchMapping("/changePersonID")
@@ -69,14 +70,14 @@ public class ChoresController {
                                      @RequestParam(value="personID", defaultValue = "-1") String personIDString){
 
         try{
-            choresList.setPersonID(idString, personIDString);
+            household.choresList.setPersonID(idString, personIDString);
         }
         catch (ChoresException e) {
             System.out.println("Error: "+e.getMessage());
-            return choresList;
+            return household.choresList;
         }
-        System.out.println(choresList);
-        return choresList;
+        System.out.println(household.choresList);
+        return household.choresList;
     }
 
     @PatchMapping("/changeItemDetails")
@@ -88,44 +89,53 @@ public class ChoresController {
                                         ){
 
         try{
-            choresList.setItemDetails(idString, nameString, descriptionString, durationString, persodIdString, choreRepository);
+            household.choresList.setItemDetails(idString, nameString, descriptionString, durationString, persodIdString, repositories.choreRepository);
         }
         catch (ChoresException e) {
             System.out.println("Error: "+e.getMessage());
-            return choresList;
+            return household.choresList;
         }
-        System.out.println(choresList);
-        return choresList;
+        System.out.println(household.choresList);
+        return household.choresList;
     }
     @PatchMapping("/changeDescription")
     public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
                                         @RequestParam(value="description", defaultValue = "") String descriptionString){
         try{
-            choresList.setDescription(idString, descriptionString);
+            household.choresList.setDescription(idString, descriptionString);
         }
         catch (ChoresException e) {
             System.out.println("Error: "+e.getMessage());
-            return choresList;
+            return household.choresList;
         }
-        System.out.println(choresList);
-        return choresList;
+        System.out.println(household.choresList);
+        return household.choresList;
     }
     @PatchMapping("/changeDuration")
     public ChoresList changeDuration(@RequestParam(value="id", defaultValue = "-1") String idString,
                                      @RequestParam(value="duration", defaultValue = "-1") String durationString){
         try{
-            choresList.setDuration(idString, durationString);
+            household.choresList.setDuration(idString, durationString);
         }
         catch (ChoresException e) {
             System.out.println("Error: "+e.getMessage());
-            return choresList;
+            return household.choresList;
         }
-        System.out.println(choresList);
-        return choresList;
+        System.out.println(household.choresList);
+        return household.choresList;
     }
     @GetMapping
     public ChoresList getChores(){
-        if(choresHistoryList==null) {
+        if (household != null)
+            return household.getChoresList();
+        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
+        if (iter.hasNext()) {
+            household = iter.next();
+        } else {
+            household=new Household(repositories);
+        }
+        return household.getChoresList();
+        /*if(choresHistoryList==null) {
             Iterator<ChoresHistoryList> iter = choreRepository.choreHistoryListRepository.findAll().iterator();
             if(iter.hasNext()){
                 choresHistoryList=iter.next();
@@ -147,10 +157,10 @@ public class ChoresController {
             choresList=new ChoresList();
             choreRepository.choreListRepository.save(choresList);
         }
-        return choresList;
+        return choresList;*/
     }
     @GetMapping("getHistory")
     public ChoresHistoryList getHistory(){
-        return choresHistoryList;
+        return household.getChoresHistoryList();
     }
 }

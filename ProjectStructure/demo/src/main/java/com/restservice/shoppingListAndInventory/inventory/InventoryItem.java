@@ -2,6 +2,7 @@ package com.restservice.shoppingListAndInventory.inventory;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.restservice.household.Household;
 import jakarta.persistence.*;
 import lombok.*;
 

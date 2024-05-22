@@ -1,6 +1,7 @@
 package com.restservice.shoppingListAndInventory.chores;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.restservice.household.Household;
 import com.restservice.shoppingListAndInventory.inventory.InventoryItem;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import jakarta.persistence.*;
@@ -22,13 +23,16 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @Table(name = "chores_history_list")
-@JsonIgnoreProperties(value = {"id"})
+@JsonIgnoreProperties(value = {"id", "household"})
 public class ChoresHistoryList {
     @Id
     @Column(name = "id")
     //@GeneratedValue(strategy=GenerationType.AUTO)
     private int id=1;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "household_id", referencedColumnName = "id")
+    private Household household;
 
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
