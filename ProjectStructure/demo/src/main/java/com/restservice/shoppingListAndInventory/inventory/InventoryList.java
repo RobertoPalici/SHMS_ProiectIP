@@ -16,6 +16,8 @@ import java.util.Objects;
 import jakarta.persistence.*;
 import org.hibernate.Session;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Getter
 @Setter
@@ -33,6 +35,7 @@ public class InventoryList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<InventoryItem> itemList = new ArrayList<>();

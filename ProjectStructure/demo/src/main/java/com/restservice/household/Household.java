@@ -20,6 +20,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
@@ -82,5 +83,14 @@ public class Household {
                 return;
             }
         inventoryList.addItem(shoppingItem.getItem().getName(), shoppingItem.getQuantity(), repositories.inventoryRepository);
+    }
+
+    public Household loadHousehold(HouseholdRepositoriesGroup repositories){
+        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
+        if (iter.hasNext()) {
+            return iter.next();
+        } else {
+            return new Household(repositories);
+        }
     }
 }
