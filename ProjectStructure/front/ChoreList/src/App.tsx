@@ -81,6 +81,7 @@ const App: React.FC = () => {
           updatedDuration={updatedDuration}
           fetchError = {fetchError}
           setChores = {setChores}
+          setChoresHistory={setChoresHistory}
           setNewChore = {setNewChore}
           setNewDesc = {setNewDesc}
           setNewDuration={setNewDuration}

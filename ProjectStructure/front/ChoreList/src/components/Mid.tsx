@@ -19,6 +19,7 @@ interface MidProps {
   updatedDuration: string;
   fetchError: any;
   setChores: React.Dispatch<React.SetStateAction<ChoreProps>>;
+  setChoresHistory: React.Dispatch<React.SetStateAction<ChoreProps>>;
   setNewChore: React.Dispatch<React.SetStateAction<string>>;
   setNewDesc: React.Dispatch<React.SetStateAction<string>>;
   setNewDuration: React.Dispatch<React.SetStateAction<string>>;
@@ -28,7 +29,7 @@ interface MidProps {
   setFetchError: React.Dispatch<any>; 
 }
 
-const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDesc, newDuration, updatedChore, updatedDesc, updatedDuration, fetchError, setChores, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration, setFetchError}) =>{
+const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDesc, newDuration, updatedChore, updatedDesc, updatedDuration, fetchError, setChores, setChoresHistory, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration, setFetchError}) =>{
     const API_URL = 'http://localhost:8081/chores';
 
     console.log(updatedChore);
@@ -97,20 +98,29 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
       if(name.trim() === ''){
         alert('Please enter a title for the chore');
       } else {
-        console.log(name);
-        console.log(chores);
-        console.log(chores.choresList);
         const newChoreItem = {id: undefined, name, description, personID: -1, duration, imageSrc: '' };
-        console.log(newChoreItem);
         if (!chores) {
           const listChores = [chores, newChoreItem];
-          console.log(listChores);
           saveChores(listChores);
         }
         else{
-        const listChores = [...chores.choresList, newChoreItem];
-        console.log(listChores);
-        saveChores(listChores);}
+          const listChores = [...chores.choresList, newChoreItem];
+          saveChores(listChores);
+        }
+        if(addToHistoryCheck === 1){
+          if(!choresHistory){
+            const listChoresHistory = [choresHistory, newChoreItem];
+            setChoresHistory(prevChoresHistory => {
+              return {...prevChoresHistory, choresList: listChoresHistory};  
+            });
+          }
+          else{
+            const listChoresHistory = [...choresHistory.choresList, newChoreItem];
+            setChoresHistory(prevChoresHistory => {
+              return {...prevChoresHistory, choresList: listChoresHistory};  
+            });
+          }
+        }
         const options = {
           method: 'POST',
           headers: {
@@ -125,30 +135,23 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
     }
     const handleDelete = async (name : string) => {
       if(chores.choresList !== undefined){
-        let found = false;
-        const foundChore = chores.choresList.find(item => {
-          if (item.name === name && !found) {
-            found = true;
-            return true;
-          }
-          return false;
-        });
 
-        const listChores = foundChore ? [foundChore] : [];
-
-        const index = chores.choresList.findIndex(item => item.name === name); 
+        const indexChore = chores.choresList.findIndex(item => item.name === name);
+        const listChores = chores.choresList.filter((item, index) => index !== indexChore);
+        console.log(listChores);
         saveChores(listChores);
 
         const options = {method: 'DELETE'};
-        const response = await APIRequest(`${API_URL}/removeChore?id=${index}`, options);
+        const response = await APIRequest(`${API_URL}/removeChore?id=${indexChore}`, options);
         if(response)
           setFetchError(response);
       }
     }
 
     const handleClearHistory = async () => {
+      setChoresHistory({choresList: []});
       const options = {method: 'DELETE'};
-      const response = await APIRequest(`${API_URL}`, options);
+      const response = await APIRequest(`${API_URL}/clearHistory`, options);
       if(response)
         setFetchError(response);
     }

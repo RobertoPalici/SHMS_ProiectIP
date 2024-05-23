@@ -126,7 +126,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, descript
                 <div className={styles.buttonContainer}>
                 <button className={styles.buttonStyle} onClick={() => {if(name) handleDelete(name)}}>Remove</button>
                 <button className={styles.button2Style} onClick={handleEdit}>Edit</button>
-                <button className={styles.button3Style}>Done</button>
+                <button className={styles.button3Style} onClick={() => {if(name) handleDelete(name)}}>Done</button>
                 </div>
                 
             </div>}
