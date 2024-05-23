@@ -15,7 +15,7 @@ public class NotificationController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
     Household household;
-    @DeleteMapping("/clearNotifications")
+    @DeleteMapping
     public NotificationsList clearNotifications() {
         household.notificationsList.clearNotifications(repositories.notificationRepository);
         System.out.println(household.notificationsList);
