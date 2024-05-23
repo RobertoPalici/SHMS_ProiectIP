@@ -30,6 +30,7 @@ export type ProductProps = {
 }
 
 interface ProductDeclareProps {
+  buyItem?: (name: string) => void;
   handleIncreaseQuantity: (name : string) => void;
   handleDecreaseQuantity: (name : string) => void;
   handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
@@ -41,7 +42,7 @@ interface ProductDeclareProps {
 }
 
 
-const Product: React.FC<ShoppingItem & ProductDeclareProps> = ({item, imageSrc, price, quantity, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
+const Product: React.FC<ShoppingItem & ProductDeclareProps> = ({item, imageSrc, price, quantity, buyItem, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
@@ -59,7 +60,7 @@ const Product: React.FC<ShoppingItem & ProductDeclareProps> = ({item, imageSrc, 
       <div className="product-info">
         {imageSrc !== questionmark && (
         <div className="quantity-controls">
-          <button className="markStyle">Mark as bought</button>
+          <button className="markStyle" onClick={() => {if(buyItem) buyItem(item.name)}}>Mark as bought</button>
           <button className="quantity-button"
               onClick={() => handleDecreaseQuantity(item.name)}
           >-

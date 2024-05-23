@@ -178,6 +178,23 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
         setFetchError(response);
     }
 
+    const buyItem = async (name : string) => {
+      const listItems = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name !== name);
+      const targetProduct = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name === name);
+      const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name); 
+      saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      const response = await APIRequest(`${API_URL}/buyItem?index=${listIndex}&id=${index}`, options);
+      if(response)
+        setFetchError(response);
+    }
+
     const addList = async (name : string) => {
       const newList: ShoppingList = {shoppingList: [], listName: name};
       if (products.shoppingLists) {
@@ -267,6 +284,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
           <ItemLists
             products={products}
             listIndex={listIndex}
+            buyItem={buyItem}
             handleIncreaseQuantity={handleIncreaseQuantity}
             handleDecreaseQuantity={handleDecreaseQuantity}
             handleSubmit={handleSubmit}

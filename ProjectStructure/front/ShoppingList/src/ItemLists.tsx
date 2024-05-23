@@ -6,6 +6,7 @@ import productIcon from './components/pictures/product.png';
 interface ContentProps{
   products: ProductProps;
   listIndex: number;
+  buyItem: (name: string) => void;
   handleIncreaseQuantity: (name : string) => void;
   handleDecreaseQuantity: (name : string) => void;
   handleSubmit: (e : React.FormEvent<HTMLFormElement>) => void;
@@ -14,7 +15,7 @@ interface ContentProps{
   setNewQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ItemLists: React.FC<ContentProps> = ({products, listIndex, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, setNewProduct, setNewQuantity}) => {
+const ItemLists: React.FC<ContentProps> = ({products, listIndex, buyItem, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, setNewProduct, setNewQuantity}) => {
   const {shoppingLists} = products;
   /*console.log(products);
   console.log(products.shoppingLists);
@@ -30,6 +31,7 @@ const ItemLists: React.FC<ContentProps> = ({products, listIndex, handleIncreaseQ
                           imageSrc={productIcon}
                           price={item.price}
                           quantity={item.quantity}
+                          buyItem={buyItem}
                           handleIncreaseQuantity={handleIncreaseQuantity}
                           handleDecreaseQuantity={handleDecreaseQuantity}
                           handleDelete={handleDelete}
