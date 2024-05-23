@@ -35,7 +35,7 @@ public class NotificationsList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
-    @OneToMany(mappedBy = "list", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<Notification> notificationList = new ArrayList<>();
 

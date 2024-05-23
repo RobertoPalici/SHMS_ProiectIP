@@ -46,7 +46,7 @@ public class ChoresController {
             if (addToHistoryString.equals("1")) {
                 household.choresHistoryList.addChore(name, description, personIDString, durationString, repositories.choreRepository);
             }
-            household.notificationsList.addNotification(NotificationType.ChoreAdded, repositories.notificationRepository);
+            //household.notificationsList.addNotification(NotificationType.ChoreAdded, repositories.notificationRepository);
         } catch (ChoresException e) {
             System.out.println("Error: " + e.getMessage());
             return household.choresList;
@@ -59,7 +59,7 @@ public class ChoresController {
     public ChoresList removeChore(@RequestParam(value = "id", defaultValue = "-1") String idString) {
         try {
             household.choresList.removeChore(idString, repositories.choreRepository);
-            household.notificationsList.addNotification(NotificationType.ChoreRemoved, repositories.notificationRepository);
+            //household.notificationsList.addNotification(NotificationType.ChoreRemoved, repositories.notificationRepository);
         } catch (ChoresException e) {
             System.out.println("Error: " + e.getMessage());
             return household.choresList;
