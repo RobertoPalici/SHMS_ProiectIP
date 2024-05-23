@@ -46,7 +46,7 @@ public class ChoresController {
             if (addToHistoryString.equals("1")) {
                 household.choresHistoryList.addChore(name, description, personIDString, durationString, repositories.choreRepository);
             }
-            //household.notificationsList.addNotification(NotificationType.ChoreAdded, repositories.notificationRepository);
+            household.notificationsList.addNotification(NotificationType.ChoreAdded, repositories.notificationRepository);
         } catch (ChoresException e) {
             System.out.println("Error: " + e.getMessage());
             return household.choresList;
@@ -59,7 +59,7 @@ public class ChoresController {
     public ChoresList removeChore(@RequestParam(value = "id", defaultValue = "-1") String idString) {
         try {
             household.choresList.removeChore(idString, repositories.choreRepository);
-            //household.notificationsList.addNotification(NotificationType.ChoreRemoved, repositories.notificationRepository);
+            household.notificationsList.addNotification(NotificationType.ChoreRemoved, repositories.notificationRepository);
         } catch (ChoresException e) {
             System.out.println("Error: " + e.getMessage());
             return household.choresList;
@@ -147,8 +147,9 @@ public class ChoresController {
 
     @GetMapping
     public ChoresList getChores() {
-        if (household != null)
+        if (household != null) {
             return household.getChoresList();
+        }
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();
@@ -160,14 +161,17 @@ public class ChoresController {
 
     @GetMapping("/getHistory")
     public ChoresHistoryList getHistory() {
-        if (household != null)
+        if (household != null) {
+            Hibernate.initialize(household.notificationsList);
             return household.getChoresHistoryList();
+        }
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();
         } else {
             household = new Household(repositories);
         }
+        Hibernate.initialize(household.notificationsList);
         return household.getChoresHistoryList();
     }
 }

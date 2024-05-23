@@ -23,8 +23,8 @@ public class NotificationController {
     }
     @GetMapping
     public NotificationsList getNotifications(){
-        if (household != null)
-            return household.notificationsList;
+//        if (household != null)
+//            return household.notificationsList;
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();

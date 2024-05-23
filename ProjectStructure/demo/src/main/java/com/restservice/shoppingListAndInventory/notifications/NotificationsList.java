@@ -14,6 +14,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Session;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class NotificationsList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<Notification> notificationList = new ArrayList<>();
@@ -53,6 +56,7 @@ public class NotificationsList {
         for (Notification value : notificationList)
             if (value.getType() == type) {
                 value.incrementNotification();
+                notificationRepository.notificationItemRepository.save(value);
                 return;
             }
         Notification notification=new Notification(type);

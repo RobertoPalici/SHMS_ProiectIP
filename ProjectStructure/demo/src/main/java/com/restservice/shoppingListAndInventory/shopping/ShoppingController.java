@@ -34,7 +34,7 @@ public class ShoppingController {
     @PostMapping("/addList")
     public ShoppingLists addList() {
         household.shoppingLists.addList(repositories.shoppingRepository);
-        //household.notificationsList.addNotification(NotificationType.ShoppingListAdded, repositories.notificationRepository);
+        household.notificationsList.addNotification(NotificationType.ShoppingListAdded, repositories.notificationRepository);
         System.out.println(household.shoppingLists);
         return household.shoppingLists;
     }
@@ -43,7 +43,7 @@ public class ShoppingController {
     public ShoppingLists removeList(@RequestParam(value = "index", defaultValue = "-1") String indexString) {
         try {
             household.shoppingLists.removeList(indexString, repositories.shoppingRepository);
-            //household.notificationsList.addNotification(NotificationType.ShoppingListRemoved, repositories.notificationRepository);
+            household.notificationsList.addNotification(NotificationType.ShoppingListRemoved, repositories.notificationRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
             return household.shoppingLists;
@@ -62,7 +62,7 @@ public class ShoppingController {
 
         try {
             household.shoppingLists.addItem(indexString, name, quantityString, priceString, repositories.shoppingRepository);
-            //household.notificationsList.addNotification(NotificationType.ShoppingItemAdded, repositories.notificationRepository);
+            household.notificationsList.addNotification(NotificationType.ShoppingItemAdded, repositories.notificationRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
             return household.shoppingLists;
@@ -76,7 +76,7 @@ public class ShoppingController {
                                     @RequestParam(value = "id", defaultValue = "-1") String idString) {
         try {
             household.shoppingLists.removeItem(indexString, idString, repositories.shoppingRepository);
-            //household.notificationsList.addNotification(NotificationType.ShoppingItemRemoved, repositories.notificationRepository);
+            household.notificationsList.addNotification(NotificationType.ShoppingItemRemoved, repositories.notificationRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
             return household.shoppingLists;
@@ -118,7 +118,7 @@ public class ShoppingController {
                                     @RequestParam(value = "id", defaultValue = "-1") String idString) {
         try {
             household.markItemAsBought(indexString, idString, repositories);
-            //household.notificationsList.addNotification(NotificationType.ShoppingItemBought, repositories.notificationRepository);
+            household.notificationsList.addNotification(NotificationType.ShoppingItemBought, repositories.notificationRepository);
         } catch (ShoppingException | InventoryException e) {
             System.out.println("Error: " + e.getMessage());
             return household.shoppingLists;

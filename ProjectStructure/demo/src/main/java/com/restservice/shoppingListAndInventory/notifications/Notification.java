@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @Table(name = "notifications")
-@JsonIgnoreProperties(value = {"id", "list", "type", "amount"})
+@JsonIgnoreProperties(value = {"id", "list", "type", "amount", "typeText"})
 public class Notification {
     @Id
     @Column(name = "id")
@@ -28,7 +28,6 @@ public class Notification {
     private String message;
 
     @Column(name="type")
-    @Enumerated(EnumType.STRING)
     private NotificationType type;
 
     @Column(name ="amount")
@@ -41,20 +40,20 @@ public class Notification {
 
     public void incrementNotification(){
         amount=amount+1;
-        this.message=amount+this.getTypeText();
+        message=amount+this.getTypeText();
     }
 
     public String getTypeText(){
         return switch (type){
-            case InventoryItemAdded -> " inventory items added.";
-            case InventoryItemRemoved -> " inventory items removed.";
-            case ShoppingItemAdded -> " shopping items added.";
-            case ShoppingItemRemoved -> " shopping items removed.";
-            case ShoppingListAdded -> " shopping lists added.";
-            case ShoppingListRemoved -> " shopping lists removed.";
-            case ChoreAdded -> " chores added.";
-            case ChoreRemoved -> " chores removed.";
-            case ShoppingItemBought -> " shopping items bought.";
+            case InventoryItemAdded -> " inventory items have been added.";
+            case InventoryItemRemoved -> " inventory items have been removed.";
+            case ShoppingItemAdded -> " shopping items have been added.";
+            case ShoppingItemRemoved -> " shopping items have been removed.";
+            case ShoppingListAdded -> " shopping lists have been added.";
+            case ShoppingListRemoved -> " shopping lists have been removed.";
+            case ChoreAdded -> " chores have been added.";
+            case ChoreRemoved -> " chores have been removed.";
+            case ShoppingItemBought -> " shopping items have been bought.";
         };
     }
 }
