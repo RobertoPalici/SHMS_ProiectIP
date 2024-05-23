@@ -67,6 +67,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     }
 
     const handleIncreaseQuantity = async (name : string) =>{
+      console.log('inc')
       if(products.shoppingLists[listIndex].shoppingList !== undefined){
         const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
         saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
@@ -89,14 +90,15 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
             price: targetProduct[0].price
           })
         }
-        const response = await APIRequest(`${API_URL}/changeQuantity?index=0&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
+        const response = await APIRequest(`${API_URL}/changeQuantity?index=${listIndex}&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
         if(response)
           setFetchError(response);
       }
     }
 
     const handleDecreaseQuantity = async (name : string) =>{
-      if(!products.shoppingLists[listIndex].shoppingList){
+      console.log('dec');
+      if(products.shoppingLists[listIndex].shoppingList !== undefined){
         const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
         saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
@@ -119,7 +121,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
           })
           
         }
-        const response = await APIRequest(`${API_URL}/changeQuantity?index=0&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);    
+        const response = await APIRequest(`${API_URL}/changeQuantity?index=${listIndex}&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);    
         if(response)
           setFetchError(response);
       }
