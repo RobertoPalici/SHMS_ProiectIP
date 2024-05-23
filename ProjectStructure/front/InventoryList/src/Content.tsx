@@ -221,7 +221,7 @@ const Content: React.FC<ContentProps> = ({handleSort, products, setProducts, new
           </div>
           <ItemLists
             products={products}
-            updatedQuantity={updatedQuantity}
+            
             setUpdatedQuantity={setUpdatedQuantity}
             handleIncreaseQuantity={handleIncreaseQuantity}
             handleDecreaseQuantity={handleDecreaseQuantity}

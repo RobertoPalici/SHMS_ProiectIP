@@ -5,7 +5,7 @@ import productIcon from './components/pictures/product.png';
 
 interface ContentProps{
   products: ProductProps;
-  updatedQuantity: number;
+  
   setUpdatedQuantity: React.Dispatch<React.SetStateAction<number>>;
   handleIncreaseQuantity: (name : string) => void;
   handleDecreaseQuantity: (name : string) => void;
@@ -17,7 +17,7 @@ interface ContentProps{
   setNewQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ItemLists: React.FC<ContentProps> = ({products, updatedQuantity, setUpdatedQuantity, handleChangeQuantity, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleSubmitUpdate, handleDelete, setNewProduct, setNewQuantity}) => {
+const ItemLists: React.FC<ContentProps> = ({products, setUpdatedQuantity, handleChangeQuantity, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleSubmitUpdate, handleDelete, setNewProduct, setNewQuantity}) => {
   const {itemList} = products;
   console.log(products);
   console.log(products.itemList);
@@ -29,7 +29,7 @@ const ItemLists: React.FC<ContentProps> = ({products, updatedQuantity, setUpdate
                         <div className="product-container" key={index}>
                                 <Product
                           item={item.item}
-                          updatedQuantity={updatedQuantity}
+                          
                           setUpdatedQuantity={setUpdatedQuantity}
                           quantity={item.quantity}
                           averageConsumption={item.averageConsumption}
@@ -52,7 +52,7 @@ const ItemLists: React.FC<ContentProps> = ({products, updatedQuantity, setUpdate
                             "value": 0,
                             "type": "Amount"
                           }}
-                          updatedQuantity={updatedQuantity}
+                          
                           averageConsumption={0}
                           imageSrc={questionmark}
                           handleChangeQuantity={handleChangeQuantity}

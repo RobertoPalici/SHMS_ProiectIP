@@ -36,7 +36,7 @@ interface ProductDeclareProps {
   setNewProduct ?: React.Dispatch<React.SetStateAction<string>>;
   newQuantity ?: number;
   setNewQuantity?: React.Dispatch<React.SetStateAction<number>>;
-  updatedQuantity: number;
+  updatedQuantity ?: number;
   setUpdatedQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -100,13 +100,13 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, upda
               onClick={() => handleDecreaseQuantity(item.name)}
           >-
           </button>
-          
             <input className="inputStyle"
-            type="text"
-            placeholder="Quantity"
-            value={updatedQuantity}
-            ref={inputRef}
-            onChange={(e) => {if(setUpdatedQuantity) setUpdatedQuantity(parseInt(e.target.value))}}
+              autoFocus
+              type="text"
+              placeholder="Quantity"
+              value={updatedQuantity}
+              ref={inputRef}
+              onChange={(e) => {if(setUpdatedQuantity) setUpdatedQuantity(parseInt(e.target.value))}}
             />
           
           <button className="quantity-button" 
@@ -135,7 +135,7 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, upda
             }}
           /> 
           <input
-          autoFocus
+          
           ref={inputRef2}
           type='string'
           placeholder='Add Quantity' 
