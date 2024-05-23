@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Product, { ProductProps , ShoppingList, ShoppingItem} from './components/product/Product';
 import image_1 from './components/pictures/image 3.png';
 import image_2 from './components/pictures/background-overlay.png';
@@ -27,32 +27,39 @@ interface ContentProps{
 
 const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, setNewProduct, newQuantity, setNewQuantity, fetchError, setFetchError}) => {
  
+    const API_URL = 'http://localhost:8081/shopping';
     const [isTag, setTag] = useState(false);
     const [isSort, setSort] = useState(false);
     const [slist, setSlist] = useState(false);
     const [nlist, setNlist] = useState(false);
+    const [listIndex, setListIndex] = useState(0);
+    const [newList, setNewList] = useState('');
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const handleSlistDropdown = () =>{
+      console.log('Slist')
       setSlist(!slist);
     };
+
     const handleNlistDropdown = () =>{
       setNlist(!nlist);
     };
-
-
-    const API_URL = 'http://localhost:8081/shopping';
 
     useEffect(() => {
         console.log('Products have been updated:', products);
     }, [products]);
 
-    const saveProducts = (newProducts : ShoppingItem[]) => {
+    const saveProducts = (newProducts : ShoppingItem[], name: string, listIndex: number) => {
+      console.log("apel");
       setProducts(prevProducts => {
         const updatedProducts = { ...prevProducts };
 
-        if (updatedProducts.shoppingLists.length >= 2) {
-          updatedProducts.shoppingLists[1] = {
-            ...updatedProducts.shoppingLists[1],
-            shoppingList: newProducts,
+        if (updatedProducts.shoppingLists.length >= 1) {
+          console.log(updatedProducts.shoppingLists);
+          updatedProducts.shoppingLists[listIndex] = {
+            ...updatedProducts.shoppingLists[listIndex],
+            shoppingList: newProducts, listName: name
           };
         } else {
           console.error('There are not enough shoppingLists to update.');
@@ -63,12 +70,12 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     }
 
     const handleIncreaseQuantity = async (name : string) =>{
-      if(products.shoppingLists[1].shoppingList !== undefined){
-        const listItems = products.shoppingLists[1].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
-        saveProducts(listItems);
+      if(products.shoppingLists[listIndex].shoppingList !== undefined){
+        const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
+        saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[1].shoppingList.findIndex(item => item.item.name === name);
+        const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name);
         const options = {
           method: 'PATCH',
           headers: {
@@ -92,12 +99,12 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     }
 
     const handleDecreaseQuantity = async (name : string) =>{
-      if(products.shoppingLists !== undefined){
-        const listItems = products.shoppingLists[1].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
-        saveProducts(listItems);
+      if(!products.shoppingLists[listIndex].shoppingList){
+        const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
+        saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
         const targetProduct = listItems.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[1].shoppingList.findIndex(item => item.item.name === name);
+        const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name);
         const options = {
           method: 'PATCH',
           headers: {
@@ -133,10 +140,10 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
 
     const handleDelete = async (name : string) => {
       if(products.shoppingLists !== undefined){
-        const listItems = products.shoppingLists[1].shoppingList.filter((item) => item.item.name !== name);
-        const targetProduct = products.shoppingLists[1].shoppingList.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[1].shoppingList.findIndex(item => item.item.name === name); 
-        saveProducts(listItems);
+        const listItems = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name !== name);
+        const targetProduct = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name === name);
+        const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name); 
+        saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
         const options = {method: 'DELETE'};
         const response = await APIRequest(`${API_URL}/removeItem?index=0&id=${index}`, options);
@@ -145,20 +152,28 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
       }
     }
 
+    const handleListSelect = async (index: number) => {
+      console.log('SELECT');
+      if(products.shoppingLists !== undefined){
+        setListIndex(index);
+      }
+    }
+
     const addProduct = async (name : string, value : number) => {
       console.log(products);
-      console.log(products.shoppingLists[1].shoppingList);
       const newProductItem = {id: undefined, item: {name}, quantity: {value, type: 'Amount'}, price: 0, imageSrc: '' };
-      if (!products.shoppingLists[1].shoppingList) {
-        console.log(products.shoppingLists[1].shoppingList);
-        const listProducts = [products.shoppingLists[1].shoppingList, newProductItem];
+      const listCopy = products.shoppingLists[listIndex]
+      if (!listCopy.shoppingList) {
+        console.log(listCopy.shoppingList);
+        const listProducts = [listCopy.shoppingList, newProductItem];
         console.log(listProducts);
-        saveProducts(listProducts);
+        saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
       }
       else{
-      const listProducts = [...products.shoppingLists[1].shoppingList, newProductItem];
-      console.log(listProducts);
-      saveProducts(listProducts);}
+        const listProducts = [...products.shoppingLists[listIndex].shoppingList, newProductItem];
+        console.log(listProducts);
+        saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
+      }
       const options = {
         method: 'POST',
         headers: {
@@ -166,7 +181,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
         },
         body: JSON.stringify(newProductItem)
       }
-      const response = await APIRequest(`${API_URL}/addItem?index=0&name=${name}&quantity=${value}`, options);
+      const response = await APIRequest(`${API_URL}/addItem?index=${listIndex}&name=${name}&quantity=${value}`, options);
       if(response)
         setFetchError(response);
     }
@@ -195,8 +210,14 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
               <div className="newListPrompt">
                 <img src={productIcon}></img>
                 <form>
-                  <input>
-                  </input>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Name"
+                    value={newList}
+                    ref={inputRef}
+                    onChange={(e) => {if(setNewList) setNewList(e.target.value)}}
+                  />
                 </form>
                 <button className="addNewList">Add list</button>
               </div>
@@ -206,15 +227,19 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
             <button className="bigButtons" onClick={handleSlistDropdown}>Select existing shopping list</button>
             {slist &&
             <div className="existingListDropdown">
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
+              {console.log("AONFOIF")}
+              {products.shoppingLists?.map((object, index) => {
+                console.log("dap");
+                return (
+                 <button onClick={() => handleListSelect(index)} key={index}>{object.listName}</button>
+              )})}
             </div>
             }
             </div>
           </div>
           <ItemLists
             products={products}
+            listIndex={listIndex}
             handleIncreaseQuantity={handleIncreaseQuantity}
             handleDecreaseQuantity={handleDecreaseQuantity}
             handleSubmit={handleSubmit}

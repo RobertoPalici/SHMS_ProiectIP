@@ -22,6 +22,7 @@ export type ShoppingItem = {
 
 export type ShoppingList = {
   shoppingList: ShoppingItem[];
+  listName: string;
 };
 
 export type ProductProps = {

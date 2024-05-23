@@ -5,6 +5,7 @@ import productIcon from './components/pictures/product.png';
 
 interface ContentProps{
   products: ProductProps;
+  listIndex: number;
   handleIncreaseQuantity: (name : string) => void;
   handleDecreaseQuantity: (name : string) => void;
   handleSubmit: (e : React.FormEvent<HTMLFormElement>) => void;
@@ -13,7 +14,7 @@ interface ContentProps{
   setNewQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ItemLists: React.FC<ContentProps> = ({products, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, setNewProduct, setNewQuantity}) => {
+const ItemLists: React.FC<ContentProps> = ({products, listIndex, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, setNewProduct, setNewQuantity}) => {
   const {shoppingLists} = products;
   /*console.log(products);
   console.log(products.shoppingLists);
@@ -22,7 +23,7 @@ const ItemLists: React.FC<ContentProps> = ({products, handleIncreaseQuantity, ha
   console.log(shoppingLists);*/
   return (
     <div className="product-list">
-                    {products.shoppingLists[1].shoppingList?.map((item, index) => (
+                    {products.shoppingLists[listIndex].shoppingList?.map((item, index) => (
                         <div className="product-container" key={index}>
                                 <Product
                           item={item.item}
