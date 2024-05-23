@@ -4,6 +4,7 @@ import com.restservice.household.Household;
 import com.restservice.household.HouseholdRepositoriesGroup;
 import com.restservice.household.HouseholdRepository;
 import com.restservice.shoppingListAndInventory.chores.ChoresList;
+import com.restservice.shoppingListAndInventory.notifications.NotificationType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -34,6 +35,7 @@ public class InventoryController {
                                  @RequestParam(value = "quantity", defaultValue = "1") String quantityString) {
         try {
             household.inventoryList.addItem(name, quantityString, repositories.inventoryRepository);
+            household.notificationsList.addNotification(NotificationType.InventoryItemAdded, repositories.notificationRepository);
         } catch (InventoryException e) {
             System.out.println("Error: " + e.getMessage());
             return household.inventoryList;
@@ -46,6 +48,7 @@ public class InventoryController {
     public InventoryList removeItem(@RequestParam(value = "id", defaultValue = "-1") String idString) {
         try {
             household.inventoryList.removeItem(idString, repositories.inventoryRepository);
+            household.notificationsList.addNotification(NotificationType.InventoryItemRemoved, repositories.notificationRepository);
         } catch (InventoryException e) {
             System.out.println("Error: " + e.getMessage());
             return household.inventoryList;

@@ -1,12 +1,15 @@
 package com.restservice.household;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.restservice.shoppingListAndInventory.chores.Chore;
 import com.restservice.shoppingListAndInventory.chores.ChoresHistoryList;
 import com.restservice.shoppingListAndInventory.chores.ChoresList;
 import com.restservice.shoppingListAndInventory.inventory.InventoryException;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import com.restservice.shoppingListAndInventory.inventory.QuantityType;
+import com.restservice.shoppingListAndInventory.notifications.Notification;
+import com.restservice.shoppingListAndInventory.notifications.NotificationsList;
 import com.restservice.shoppingListAndInventory.shopping.ShoppingException;
 import com.restservice.shoppingListAndInventory.shopping.ShoppingItem;
 import com.restservice.shoppingListAndInventory.shopping.ShoppingLists;
@@ -14,6 +17,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 
 @Getter
@@ -35,6 +43,9 @@ public class Household {
     public ChoresList choresList;
     @OneToOne(mappedBy = "household")
     public ChoresHistoryList choresHistoryList;
+    @OneToOne(mappedBy = "household")
+    public NotificationsList notificationsList;
+
 
     public Household(HouseholdRepositoriesGroup repositories){
         repositories.householdRepository.save(this);
@@ -55,6 +66,10 @@ public class Household {
         choresHistoryList=new ChoresHistoryList();
         choresHistoryList.setHousehold(this);
         repositories.choreRepository.choreHistoryListRepository.save(choresHistoryList);
+
+        notificationsList=new NotificationsList();
+        notificationsList.setHousehold(this);
+        repositories.notificationRepository.notificationListRepository.save(notificationsList);
     }
 
     public void markItemAsBought(String indexString, String idString, HouseholdRepositoriesGroup repositories) throws ShoppingException, InventoryException {

@@ -73,6 +73,7 @@ public class InventoryList {
 
     public void addItem(InventoryItem item, InventoryRepository inventoryRepository) {
         item.setList(this);
+        inventoryRepository.inventoryItemRepository.save(item);
         itemList.add(item);
     }
 

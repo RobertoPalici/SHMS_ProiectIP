@@ -5,6 +5,7 @@ import com.restservice.household.HouseholdRepositoriesGroup;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import com.restservice.shoppingListAndInventory.inventory.QuantityType;
+import com.restservice.shoppingListAndInventory.notifications.NotificationType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -30,23 +31,24 @@ public class ChoresController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
     Household household;
+
     ChoresController() {
     }
 
     @PostMapping("/addChore")
     public ChoresList addChore(@RequestParam(value = "name", defaultValue = "") String name,
                                @RequestParam(value = "description", defaultValue = "") String description,
-                               @RequestParam(value="personID", defaultValue = "-1") String personIDString,
-                               @RequestParam(value="duration", defaultValue = "-1") String durationString,
-                               @RequestParam(value="addToHistory", defaultValue = "0") String addToHistoryString){
-        try{
+                               @RequestParam(value = "personID", defaultValue = "-1") String personIDString,
+                               @RequestParam(value = "duration", defaultValue = "-1") String durationString,
+                               @RequestParam(value = "addToHistory", defaultValue = "0") String addToHistoryString) {
+        try {
             household.choresList.addChore(name, description, personIDString, durationString, repositories.choreRepository);
-            if(addToHistoryString.equals("1")){
+            if (addToHistoryString.equals("1")) {
                 household.choresHistoryList.addChore(name, description, personIDString, durationString, repositories.choreRepository);
             }
-        }
-        catch (ChoresException e){
-            System.out.println("Error: "+e.getMessage());
+            household.notificationsList.addNotification(NotificationType.ChoreAdded, repositories.notificationRepository);
+        } catch (ChoresException e) {
+            System.out.println("Error: " + e.getMessage());
             return household.choresList;
         }
         System.out.println(household.choresList);
@@ -54,12 +56,12 @@ public class ChoresController {
     }
 
     @DeleteMapping("/removeChore")
-    public ChoresList removeChore(@RequestParam(value="id", defaultValue = "-1") String idString){
-        try{
+    public ChoresList removeChore(@RequestParam(value = "id", defaultValue = "-1") String idString) {
+        try {
             household.choresList.removeChore(idString, repositories.choreRepository);
-        }
-        catch (ChoresException e) {
-            System.out.println("Error: "+e.getMessage());
+            household.notificationsList.addNotification(NotificationType.ChoreRemoved, repositories.notificationRepository);
+        } catch (ChoresException e) {
+            System.out.println("Error: " + e.getMessage());
             return household.choresList;
         }
         System.out.println(household.choresList);
@@ -67,12 +69,11 @@ public class ChoresController {
     }
 
     @DeleteMapping("/removeHistoryChore")
-    public ChoresHistoryList removeHistoryChore(@RequestParam(value="id", defaultValue = "-1") String idString){
-        try{
+    public ChoresHistoryList removeHistoryChore(@RequestParam(value = "id", defaultValue = "-1") String idString) {
+        try {
             household.choresHistoryList.removeChore(idString, repositories.choreRepository);
-        }
-        catch (ChoresException e) {
-            System.out.println("Error: "+e.getMessage());
+        } catch (ChoresException e) {
+            System.out.println("Error: " + e.getMessage());
             return household.choresHistoryList;
         }
         System.out.println(household.choresList);
@@ -80,21 +81,20 @@ public class ChoresController {
     }
 
     @DeleteMapping("/clearHistory")
-    public ChoresHistoryList clearHistory(){
+    public ChoresHistoryList clearHistory() {
         household.choresHistoryList.clearHistory(repositories.choreRepository);
         System.out.println(household.choresList);
         return household.choresHistoryList;
     }
 
     @PatchMapping("/changePersonID")
-    public ChoresList changePersonID(@RequestParam(value="id", defaultValue = "-1") String idString,
-                                     @RequestParam(value="personID", defaultValue = "-1") String personIDString){
+    public ChoresList changePersonID(@RequestParam(value = "id", defaultValue = "-1") String idString,
+                                     @RequestParam(value = "personID", defaultValue = "-1") String personIDString) {
 
-        try{
+        try {
             household.choresList.setPersonID(idString, personIDString);
-        }
-        catch (ChoresException e) {
-            System.out.println("Error: "+e.getMessage());
+        } catch (ChoresException e) {
+            System.out.println("Error: " + e.getMessage());
             return household.choresList;
         }
         System.out.println(household.choresList);
@@ -102,70 +102,71 @@ public class ChoresController {
     }
 
     @PatchMapping("/changeItemDetails")
-    public ChoresList changeItemDetails(@RequestParam(value="id", defaultValue = "-1") String idString,
-                                        @RequestParam(value="name", defaultValue = "") String nameString,
-                                        @RequestParam(value="description", defaultValue = "") String descriptionString,
-                                        @RequestParam(value="duration", defaultValue = "") String durationString,
-                                        @RequestParam(value="personId", defaultValue = "-1") String persodIdString
-                                        ){
+    public ChoresList changeItemDetails(@RequestParam(value = "id", defaultValue = "-1") String idString,
+                                        @RequestParam(value = "name", defaultValue = "") String nameString,
+                                        @RequestParam(value = "description", defaultValue = "") String descriptionString,
+                                        @RequestParam(value = "duration", defaultValue = "") String durationString,
+                                        @RequestParam(value = "personId", defaultValue = "-1") String persodIdString
+    ) {
 
-        try{
+        try {
             household.choresList.setItemDetails(idString, nameString, descriptionString, durationString, persodIdString, repositories.choreRepository);
-        }
-        catch (ChoresException e) {
-            System.out.println("Error: "+e.getMessage());
+        } catch (ChoresException e) {
+            System.out.println("Error: " + e.getMessage());
             return household.choresList;
         }
         System.out.println(household.choresList);
         return household.choresList;
     }
+
     @PatchMapping("/changeDescription")
-    public ChoresList changeDescription(@RequestParam(value="id", defaultValue = "-1") String idString,
-                                        @RequestParam(value="description", defaultValue = "") String descriptionString){
-        try{
+    public ChoresList changeDescription(@RequestParam(value = "id", defaultValue = "-1") String idString,
+                                        @RequestParam(value = "description", defaultValue = "") String descriptionString) {
+        try {
             household.choresList.setDescription(idString, descriptionString);
-        }
-        catch (ChoresException e) {
-            System.out.println("Error: "+e.getMessage());
+        } catch (ChoresException e) {
+            System.out.println("Error: " + e.getMessage());
             return household.choresList;
         }
         System.out.println(household.choresList);
         return household.choresList;
     }
+
     @PatchMapping("/changeDuration")
-    public ChoresList changeDuration(@RequestParam(value="id", defaultValue = "-1") String idString,
-                                     @RequestParam(value="duration", defaultValue = "-1") String durationString){
-        try{
+    public ChoresList changeDuration(@RequestParam(value = "id", defaultValue = "-1") String idString,
+                                     @RequestParam(value = "duration", defaultValue = "-1") String durationString) {
+        try {
             household.choresList.setDuration(idString, durationString);
-        }
-        catch (ChoresException e) {
-            System.out.println("Error: "+e.getMessage());
+        } catch (ChoresException e) {
+            System.out.println("Error: " + e.getMessage());
             return household.choresList;
         }
         System.out.println(household.choresList);
         return household.choresList;
     }
+
     @GetMapping
-    public ChoresList getChores(){
+    public ChoresList getChores() {
         if (household != null)
             return household.getChoresList();
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();
         } else {
-            household=new Household(repositories);
+            household = new Household(repositories);
         }
         return household.getChoresList();
     }
+
     @GetMapping("/getHistory")
-    public ChoresHistoryList getHistory(){
+    public ChoresHistoryList getHistory() {
         if (household != null)
             return household.getChoresHistoryList();
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();
         } else {
-            household=new Household(repositories);
+            household = new Household(repositories);
         }
         return household.getChoresHistoryList();
     }
