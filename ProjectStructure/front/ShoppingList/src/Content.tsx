@@ -234,7 +234,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
               {nlist &&
               <div className="newListPrompt">
                 <img src={productIcon}></img>
-                <form onSubmit={(e) => handleSubmitList(e)}>
+                <form className="formStyle" onSubmit={(e) => handleSubmitList(e)}>
                   <input
                     autoFocus
                     type="text"

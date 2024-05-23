@@ -59,10 +59,8 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, upda
   };
 
   const handleSubmitEdit = (e : React.FormEvent<HTMLFormElement>, name: string) => {
-    console.log('vaca');
     e.preventDefault();
     if(handleSubmitUpdate){
-      console.log('VACA');
         handleSubmitUpdate(e, name);}
     handleEdit();
 }
@@ -94,7 +92,7 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, upda
         )}
         {!edit &&
         <div className="quantity-controls"> 
-        <form onSubmit={(e) => {console.log('dar aici?'); if(item.name) handleSubmitEdit(e, item.name)}}>
+        <form onSubmit={(e) => {if(item.name) handleSubmitEdit(e, item.name)}}>
         <button className="editButton" type='submit'>Confirm</button>
           <button className="quantity-button"
               onClick={() => handleDecreaseQuantity(item.name)}

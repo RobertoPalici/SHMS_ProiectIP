@@ -158,6 +158,11 @@ p {
   height:50px;
 }
 
+.formStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .shopping-list {
   position: absolute;
