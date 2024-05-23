@@ -4,7 +4,8 @@ import placeholder from './pictures/sweep.jpg'
 import APIRequest from '../APIRequest';
 import ChoreLists from './ChoreLists';
 import { ChoresList, ChoreProps } from './Chore';
-
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 interface MidProps {
@@ -147,6 +148,20 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
           setFetchError(response);
       }
     }
+    const handleDone = async (name : string) => {
+      if(chores.choresList !== undefined){
+        toast.success("Chore Completed, Great Job!👍");
+        const indexChore = chores.choresList.findIndex(item => item.name === name);
+        const listChores = chores.choresList.filter((item, index) => index !== indexChore);
+        console.log(listChores);
+        saveChores(listChores);
+
+        const options = {method: 'DELETE'};
+        const response = await APIRequest(`${API_URL}/removeChore?id=${indexChore}`, options);
+        if(response)
+          setFetchError(response);
+      }
+    }
 
     const handleClearHistory = async () => {
       setChoresHistory({choresList: []});
@@ -173,12 +188,25 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
     }
 
     return(
+      <div>
+        <ToastContainer
+        position="bottom-right"
+        autoClose={3600000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        transition={Bounce}
+        theme="colored"
+      />
       <ChoreLists
         onData={onData}
         chores={chores}
         choresHistory={choresHistory}
         addChore={addChore}
         handleDelete={handleDelete}
+        handleDone={handleDone}
         handleClearHistory={handleClearHistory}
         handleClearHistoryChore={handleClearHistoryChore}
         handleSubmit={handleSubmit}
@@ -191,6 +219,7 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
         setUpdatedDesc={setUpdatedDesc}
         setUpdatedDuration={setUpdatedDuration}
     />
+      </div>
   );
 };
 

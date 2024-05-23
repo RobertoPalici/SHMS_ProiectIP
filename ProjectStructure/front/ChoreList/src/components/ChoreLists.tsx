@@ -15,6 +15,7 @@ interface MidProps{
   handleClearHistoryChore: (name: string) => void;
   handleSubmitUpdate: (e : React.FormEvent<HTMLFormElement>, oldName: string) => void;
   handleDelete: (name : string) => void;
+  handleDone: (name : string) => void;
   handleUpdate: (oldName: string, updatedName: string, description: string, duration: string) => void;
   setNewChore: React.Dispatch<React.SetStateAction<string>>;
   setNewDesc: React.Dispatch<React.SetStateAction<string>>;
@@ -24,7 +25,7 @@ interface MidProps{
   setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore, handleDelete, handleClearHistory, handleClearHistoryChore, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
+const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore, handleDone, handleDelete, handleClearHistory, handleClearHistoryChore, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
 
   const {choresList} = chores;
   const choresListHistory: ChoresList[] = choresHistory.choresList;
@@ -45,6 +46,7 @@ const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore,
               handleSubmit={handleSubmit}
               handleSubmitUpdate={handleSubmitUpdate}
               handleDelete={handleDelete}
+              handleDone={handleDone}
               handleUpdate={handleUpdate}
               setNewChore={setNewChore}
               setNewDesc={setNewDesc}
@@ -102,6 +104,7 @@ const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore,
               handleSubmit={handleSubmit}
               handleSubmitUpdate={handleSubmitUpdate}
               handleDelete={handleDelete}
+              handleDone={handleDone}
               handleUpdate={handleUpdate}
               setNewChore={setNewChore}
               setNewDesc={setNewDesc}
