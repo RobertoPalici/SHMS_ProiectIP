@@ -84,7 +84,7 @@ public class InventoryController {
         return household.inventoryList;
     }
 
-    @PatchMapping("/sortItems")
+    @GetMapping("/sortItems")
     public InventoryList sortItems(@RequestParam(value = "sortFilter", defaultValue = "0") String filterString) {
         try {
             household.inventoryList.sortItems(filterString, repositories.inventoryRepository);
