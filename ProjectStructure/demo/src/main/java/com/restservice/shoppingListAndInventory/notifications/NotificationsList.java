@@ -23,7 +23,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "chores_list")
+@Table(name = "notification_list")
 @JsonIgnoreProperties(value = {"id", "household"})
 public class NotificationsList {
     @Id
