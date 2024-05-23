@@ -98,8 +98,6 @@ public class InventoryController {
 
     @GetMapping
     public InventoryList getInventory() {
-        if (household != null)
-            return household.getInventoryList();
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();
