@@ -57,7 +57,7 @@ public class Household {
         shoppingLists=new ShoppingLists();
         shoppingLists.setHousehold(this);
         repositories.shoppingRepository.shoppingListsRepository.save(shoppingLists);
-        shoppingLists.addList(repositories.shoppingRepository);
+        shoppingLists.addList("List 1", repositories.shoppingRepository);
 
         choresList=new ChoresList();
         choresList.setHousehold(this);

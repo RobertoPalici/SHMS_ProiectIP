@@ -33,6 +33,8 @@ public class ShoppingList {
     @JoinColumn(name="list_id", nullable=false)
     private ShoppingLists list;
 
+    @Column(name = "name")
+    private String name;
     @Transient
     EfficientRoute route;
     public void computeEfficientRoute(){
@@ -40,6 +42,10 @@ public class ShoppingList {
     }
     public ShoppingList(){
         shoppingList=new ArrayList<>();
+    }
+    public ShoppingList(String name){
+        shoppingList=new ArrayList<>();
+        this.name=name;
     }
     public int findItemIndex(String name){
         for(int i=0;i<shoppingList.size();i++){

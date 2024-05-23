@@ -32,8 +32,8 @@ public class ShoppingController {
     }
 
     @PostMapping("/addList")
-    public ShoppingLists addList() {
-        household.shoppingLists.addList(repositories.shoppingRepository);
+    public ShoppingLists addList(@RequestParam(value = "name", defaultValue = "") String name) {
+        household.shoppingLists.addList(name, repositories.shoppingRepository);
         household.notificationsList.addNotification(NotificationType.ShoppingListAdded, repositories.notificationRepository);
         System.out.println(household.shoppingLists);
         return household.shoppingLists;

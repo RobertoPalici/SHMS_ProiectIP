@@ -31,9 +31,10 @@ public class ShoppingLists {
 
     @OneToMany(mappedBy = "list")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    List<ShoppingList> shoppingLists=new ArrayList<>();;
-    public ShoppingLists(ShoppingRepository shoppingRepository){
-        this.addList(shoppingRepository);
+    List<ShoppingList> shoppingLists=new ArrayList<>();
+
+    public ShoppingLists(String name, ShoppingRepository shoppingRepository){
+        this.addList(name, shoppingRepository);
     }
 
     public ShoppingLists(){
@@ -45,8 +46,8 @@ public class ShoppingLists {
         criteria.from(ShoppingList.class);
         return session.createQuery(criteria).getResultList();
     }
-    public void addList(ShoppingRepository shoppingRepository){
-        ShoppingList list=new ShoppingList();
+    public void addList(String name, ShoppingRepository shoppingRepository){
+        ShoppingList list=new ShoppingList(name);
         list.setList(this);
         shoppingLists.add(list);
         shoppingRepository.shoppingListRepository.save(list);
