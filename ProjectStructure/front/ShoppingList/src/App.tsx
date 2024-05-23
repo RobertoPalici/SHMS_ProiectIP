@@ -20,33 +20,17 @@ const App: React.FC = () => {
       try{
         const response = await fetch(API_URL);
         if(!response.ok) throw Error('Data was not received');
-        const listItems = await response.json();
-        console.log(listItems);
-        console.log(listItems.shoppingLists);
-        console.log(listItems.shoppingLists[0].shoppingList);
-        console.log(listItems.shoppingLists[0]);
-        console.log(listItems.shoppingLists[1]);
+          const listItems = await response.json();
 
-        /*setProducts(prevProducts => {
-          const newList = listItems.shoppingLists[0].shoppingList;
-          const updatedShoppingLists = [...prevProducts.shoppingLists, { shoppingList: newList }];
-          return { ...prevProducts, shoppingLists: updatedShoppingLists };
-        });*/
         setProducts(prevProducts => {
-          console.log('setam');
-          console.log(prevProducts);
           const updatedShoppingLists = listItems.shoppingLists.map((shoppingList: any, index: number) => {
             const newList = listItems.shoppingLists[index].shoppingList;
             const newName = listItems.shoppingLists[index].name;
-            console.log(newList);
             return { shoppingList: newList, listName: newName };
           });
-          console.log(updatedShoppingLists)
           return { ...prevProducts, shoppingLists: updatedShoppingLists };
         });
         
-        
-        console.log(products);
         setFetchError(null);
       } catch(err : unknown){
           if (err instanceof Error) {

@@ -38,7 +38,6 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleSlistDropdown = () =>{
-      console.log('Slist')
       setSlist(!slist);
     };
 
@@ -51,12 +50,10 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     }, [products]);
 
     const saveProducts = (newProducts : ShoppingItem[], name: string, listIndex: number) => {
-      console.log("apel");
       setProducts(prevProducts => {
         const updatedProducts = { ...prevProducts };
 
         if (updatedProducts.shoppingLists.length >= 1) {
-          console.log(updatedProducts.shoppingLists);
           updatedProducts.shoppingLists[listIndex] = {
             ...updatedProducts.shoppingLists[listIndex],
             shoppingList: newProducts, listName: name
@@ -129,11 +126,9 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     }
 
     const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
-      console.log(products);
       e.preventDefault();
       if(!newProduct) return;
       addProduct(newProduct, newQuantity);
-      console.log(products);
       setNewProduct('');
       setNewQuantity(0);
     }
@@ -146,32 +141,27 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
         saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
         const options = {method: 'DELETE'};
-        const response = await APIRequest(`${API_URL}/removeItem?index=0&id=${index}`, options);
+        const response = await APIRequest(`${API_URL}/removeItem?index=${listIndex}&id=${index}`, options);
         if(response)
           setFetchError(response);
       }
     }
 
     const handleListSelect = async (index: number) => {
-      console.log('SELECT');
       if(products.shoppingLists !== undefined){
         setListIndex(index);
       }
     }
 
     const addProduct = async (name : string, value : number) => {
-      console.log(products);
       const newProductItem = {id: undefined, item: {name}, quantity: {value, type: 'Amount'}, price: 0, imageSrc: '' };
       const listCopy = products.shoppingLists[listIndex]
       if (!listCopy.shoppingList) {
-        console.log(listCopy.shoppingList);
         const listProducts = [listCopy.shoppingList, newProductItem];
-        console.log(listProducts);
         saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
       }
       else{
         const listProducts = [...products.shoppingLists[listIndex].shoppingList, newProductItem];
-        console.log(listProducts);
         saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
       }
       const options = {
@@ -185,6 +175,35 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
       if(response)
         setFetchError(response);
     }
+
+    const addList = async (name : string) => {
+      const newList: ShoppingList = {shoppingList: [], listName: name};
+      if (products.shoppingLists) {
+        products.shoppingLists.push(newList);
+        setProducts(products);
+      }
+      else{
+        products.shoppingLists = [newList];
+        setProducts(products);
+      }
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newList)
+      }
+      const response = await APIRequest(`${API_URL}/addList?name=${name}`, options);
+      if(response)
+        setFetchError(response);
+    }
+
+    const handleSubmitList = (e : React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if(!newList) return;
+      addList(newList);
+      setNewList('');
+    }
   
     const toggleTagDropdown = () => {
       setTag(!isTag);
@@ -193,6 +212,12 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
     const toggleSortDropdown = () => {
       setSort(!isSort);
 
+    };
+
+    const handleButton = () => {
+      setTimeout(() => {
+        if(inputRef.current) {inputRef.current.value = '';}
+      }, 30);
     };
 
     return (
@@ -209,8 +234,9 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
               {nlist &&
               <div className="newListPrompt">
                 <img src={productIcon}></img>
-                <form>
+                <form onSubmit={(e) => handleSubmitList(e)}>
                   <input
+                    autoFocus
                     type="text"
                     required
                     placeholder="Name"
@@ -218,8 +244,9 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
                     ref={inputRef}
                     onChange={(e) => {if(setNewList) setNewList(e.target.value)}}
                   />
+                  <button className="addNewList" type='submit' onClick={handleButton}>Add list</button>
                 </form>
-                <button className="addNewList">Add list</button>
+                
               </div>
               }
             </div>
@@ -227,9 +254,7 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
             <button className="bigButtons" onClick={handleSlistDropdown}>Select existing shopping list</button>
             {slist &&
             <div className="existingListDropdown">
-              {console.log("AONFOIF")}
               {products.shoppingLists?.map((object, index) => {
-                console.log("dap");
                 return (
                  <button onClick={() => handleListSelect(index)} key={index}>{object.listName}</button>
               )})}
