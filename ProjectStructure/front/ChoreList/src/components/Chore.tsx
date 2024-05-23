@@ -18,6 +18,7 @@ export type ChoreProps = {
 interface ChoreDeclareProps {
     onData:(updatedChore: string) => void;
     handleDelete: (name : string) => void;
+    handleDone: (name : string) => void;
     handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
     handleSubmitUpdate?: (e: React.FormEvent<HTMLFormElement>, oldName: string) => void ;
     handleUpdate: (oldName: string, updatedName: string, description: string, duration: string) => void;
@@ -35,7 +36,7 @@ interface ChoreDeclareProps {
     setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
+const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, handleDone, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const inputRef2 = useRef<HTMLInputElement>(null);
@@ -126,7 +127,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, descript
                 <div className={styles.buttonContainer}>
                 <button className={styles.buttonStyle} onClick={() => {if(name) handleDelete(name)}}>Remove</button>
                 <button className={styles.button2Style} onClick={handleEdit}>Edit</button>
-                <button className={styles.button3Style} onClick={() => {if(name) handleDelete(name)}}>Done</button>
+                <button className={styles.button3Style} onClick={() => {if(name) handleDone(name)}}>Done</button>
                 </div>
                 
             </div>}

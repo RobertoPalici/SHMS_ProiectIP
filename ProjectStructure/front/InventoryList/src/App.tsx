@@ -4,10 +4,12 @@ import {ProductProps} from './components/product/Product';
 import footer from './components/pictures/Footer.png';
 import './App.css';
 import Content from './Content';
+import Notifications from './components/Notifications';
 
 const App: React.FC = () => {
 
   const API_URL = 'http://localhost:8081/inventory';
+  const API_URL_NOTIFICATIONS = 'http://localhost:8081/notifications';
 
   const [products, setProducts] = useState<ProductProps>({itemList: []});
   const [newProduct, setNewProduct] = useState('');
@@ -15,12 +17,33 @@ const App: React.FC = () => {
   const [fetchError, setFetchError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const clearNotifications = async () => {
+    try {
+      const response = await fetch(`${API_URL_NOTIFICATIONS}/clearNotifications`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) throw Error('Notifications could not be cleared');
+    } catch (error) {
+      console.error('Error clearing notifications:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchItems = async () => {
       try{
         const response = await fetch(API_URL);
         if(!response.ok) throw Error('Data was not received');
         const listItems = await response.json();
+
+        const notifications = await fetch(API_URL_NOTIFICATIONS);
+        if (!notifications.ok) throw Error('Notifications were not received');
+        const listNotifications = await notifications.json();
+
+        setTimeout(() => {
+          clearNotifications();
+        }, 3000);
+
+
         console.log(listItems);
         console.log(listItems.itemList);
 
@@ -82,6 +105,7 @@ const App: React.FC = () => {
           setFetchError = {setFetchError}
           handleSort={handleSort}
         />}
+        <Notifications /> { }
       </main>
       <img className="footer" src={footer} alt="Footer" />
     </div>
