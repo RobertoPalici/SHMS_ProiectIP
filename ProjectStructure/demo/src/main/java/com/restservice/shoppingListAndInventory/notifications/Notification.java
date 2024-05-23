@@ -56,4 +56,14 @@ public class Notification {
             case ShoppingItemBought -> " shopping items have been bought.";
         };
     }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", type=" + type +
+                ", amount=" + amount +
+                '}';
+    }
 }

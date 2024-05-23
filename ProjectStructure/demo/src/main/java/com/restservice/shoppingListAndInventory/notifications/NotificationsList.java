@@ -38,8 +38,7 @@ public class NotificationsList {
     private Household household;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "list")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST, orphanRemoval = true)
     List<Notification> notificationList = new ArrayList<>();
 
 
@@ -48,8 +47,9 @@ public class NotificationsList {
     }
     public void clearNotifications(NotificationRepository notificationRepository){
         while(!notificationList.isEmpty()){
-            notificationRepository.notificationItemRepository.delete(notificationList.get(0));
+            Notification notification=notificationList.get(0);
             notificationList.remove(0);
+            notificationRepository.notificationItemRepository.delete(notification);
         }
     }
     public void addNotification(NotificationType type, NotificationRepository notificationRepository){
@@ -63,5 +63,13 @@ public class NotificationsList {
         notification.setList(this);
         notificationRepository.notificationItemRepository.save(notification);
         notificationList.add(notification);
+    }
+
+    @Override
+    public String toString() {
+        return "NotificationsList{" +
+                "id=" + id +
+                ", notificationList=" + notificationList +
+                '}';
     }
 }
