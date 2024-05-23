@@ -188,28 +188,6 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
         
           <div className="shopping-list">Shopping Lists</div>
           </div>
-          <div className="buttonContainer">
-            <div className="tag">
-              <button className="tagButton" onClick={toggleTagDropdown}>Tag</button>
-              {isTag &&
-              <div className="tagDropdown">
-                <button>Food</button>
-                <button>Others</button>
-              </div>}
-
-            </div>
-            <div className="sort">
-            <button className="sortButton" onClick={toggleSortDropdown}>Sort</button>
-            {isSort &&
-              <div className="sortDropdown">
-                <button>A-Z</button>
-                <button>Z-A</button>
-                <button>Quantity ↑</button>
-                <button>Quantity ↓</button>
-              </div>}
-            </div>
-            <button className="restock">Restock suggestions</button>
-          </div>
           <div className="itemListButtons">
             <div className="newList">
               <button className="bigButtons" onClick={handleNlistDropdown}>Add new shopping list</button>

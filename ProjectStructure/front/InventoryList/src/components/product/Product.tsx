@@ -28,20 +28,25 @@ export type ProductProps = {
 interface ProductDeclareProps {
   handleIncreaseQuantity: (name : string) => void;
   handleDecreaseQuantity: (name : string) => void;
+  handleChangeQuantity: (name: string, quantity: number) => void;
   handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
+  handleSubmitUpdate?: (e: React.FormEvent<HTMLFormElement>, name: string) => void ;
   handleDelete: (name : string) => void;
   newProduct ?: string;
   setNewProduct ?: React.Dispatch<React.SetStateAction<string>>;
   newQuantity ?: number;
   setNewQuantity?: React.Dispatch<React.SetStateAction<number>>;
+  updatedQuantity: number;
+  setUpdatedQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
 
-const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imageSrc, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
+const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, updatedQuantity, setUpdatedQuantity, imageSrc, handleChangeQuantity, handleIncreaseQuantity, handleDecreaseQuantity, handleSubmit, handleSubmitUpdate, handleDelete, newProduct, setNewProduct, newQuantity, setNewQuantity}) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
-  const[edit, setEdit] = useState(true)
+  const[edit, setEdit] = useState(true);
+
   const handleEdit = () => {
     setEdit(!edit);
   }
@@ -52,6 +57,15 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imag
       if(inputRef2.current) {inputRef2.current.value = '';}
     }, 30);
   };
+
+  const handleSubmitEdit = (e : React.FormEvent<HTMLFormElement>, name: string) => {
+    console.log('vaca');
+    e.preventDefault();
+    if(handleSubmitUpdate){
+      console.log('VACA');
+        handleSubmitUpdate(e, name);}
+    handleEdit();
+}
 
   return (
     <div className="product">
@@ -80,17 +94,21 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imag
         )}
         {!edit &&
         <div className="quantity-controls"> 
-
-        <button className="editButton" onClick={handleEdit}>Confirm</button>
+        <form onSubmit={(e) => {console.log('dar aici?'); if(item.name) handleSubmitEdit(e, item.name)}}>
+        <button className="editButton" type='submit'>Confirm</button>
           <button className="quantity-button"
               onClick={() => handleDecreaseQuantity(item.name)}
           >-
           </button>
-          <form>
+          
             <input className="inputStyle"
             type="text"
-            placeholder="20"/>
-          </form>
+            placeholder="Quantity"
+            value={updatedQuantity}
+            ref={inputRef}
+            onChange={(e) => {if(setUpdatedQuantity) setUpdatedQuantity(parseInt(e.target.value))}}
+            />
+          
           <button className="quantity-button" 
               onClick={() => handleIncreaseQuantity(item.name)}
           >+
@@ -99,6 +117,7 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({item, quantity, imag
               onClick={() => handleDelete(item.name)}
           >X
           </button>
+          </form>
           </div>
         }
         <form className="product-info" onSubmit={handleSubmit}>

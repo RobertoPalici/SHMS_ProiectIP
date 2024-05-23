@@ -44,6 +44,27 @@ const App: React.FC = () => {
     }, 2000);
   }, [])
 
+  const handleSort = async (filter: number) => {
+      try{
+        const response = await fetch(`${API_URL}/sortItems?sortFilter=${filter}`);
+        if(!response.ok) throw Error('Data was not received');
+        const listItems = await response.json();
+        console.log(listItems);
+        console.log(listItems.itemList);
+
+        setProducts(prevProducts => {
+          return {...prevProducts, itemList: listItems.itemList};
+        });
+        console.log(products);
+        setFetchError(null);
+      } catch(err : unknown){
+          if (err instanceof Error) {
+            setFetchError(err.message);
+          }else {
+            setFetchError('An unknown error occurred');
+          }
+      }
+  }
   return (
     <div className="appContainer">
       <Nav />
@@ -59,6 +80,7 @@ const App: React.FC = () => {
           setNewQuantity = {setNewQuantity}
           fetchError = {fetchError}
           setFetchError = {setFetchError}
+          handleSort={handleSort}
         />}
       </main>
       <img className="footer" src={footer} alt="Footer" />

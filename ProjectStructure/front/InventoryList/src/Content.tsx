@@ -23,12 +23,15 @@ interface ContentProps{
   setNewProduct: React.Dispatch<React.SetStateAction<string>>;
   setNewQuantity: React.Dispatch<React.SetStateAction<number>>;
   setFetchError: React.Dispatch<any>;
+  handleSort: (filter: number) => void;
 }
 
-const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, setNewProduct, newQuantity, setNewQuantity, fetchError, setFetchError}) => {
+const Content: React.FC<ContentProps> = ({handleSort, products, setProducts, newProduct, setNewProduct, newQuantity, setNewQuantity, fetchError, setFetchError}) => {
  
     const [isTag, setTag] = useState(false);
     const [isSort, setSort] = useState(false);
+
+    const [updatedQuantity, setUpdatedQuantity] = useState(0);
 
     const API_URL = 'http://localhost:8081/inventory';
 
@@ -103,6 +106,45 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
       }
     }
 
+    const handleChangeQuantity = async (name: string, updatedQuantity: number) =>{
+      if(products.itemList !== undefined){
+        console.log(`am intrat: ${updatedQuantity}`)
+        const listItems = products.itemList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: updatedQuantity}, averageConsumption: item.averageConsumption} : item); 
+        saveProducts(listItems);
+
+        const targetProduct = listItems.filter((item) => item.item.name === name);
+        const index = products.itemList.findIndex(item => item.item.name === name);
+        const options = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            item: {
+              name: targetProduct[0].item.name,
+              eatable: targetProduct[0].item.eatable
+            },
+            quantity: {
+              value: targetProduct[0].quantity.value,
+              type: targetProduct[0].quantity.type 
+            },
+            averageConsumption: targetProduct[0].averageConsumption
+          })
+        }
+        const response = await APIRequest(`${API_URL}/changeQuantity?id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
+        //const response = await APIRequest(`${API_URL}/${targetProduct[0].id}`, options);     
+        if(response)
+          setFetchError(response);
+      }
+    }
+
+    const handleSubmitUpdate = (e : React.FormEvent<HTMLFormElement>, name: string) => {
+      console.log('suntem');
+      e.preventDefault();
+      handleChangeQuantity(name, updatedQuantity);
+      setUpdatedQuantity(0);
+    }
+
     const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
       console.log(products);
       e.preventDefault();
@@ -165,33 +207,27 @@ const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, set
           <div className="inventory-list">Inventory List</div>
           </div>
           <div className="buttonContainer">
-            
-            <div className="tag">
-              <button className="tagButton" onClick={toggleTagDropdown}>Tag</button>
-              {isTag &&
-              <div className="tagDropdown">
-                <button>Food</button>
-                <button>Others</button>
-              </div>}
-
-            </div>
             <div className="sort">
             <button className="sortButton" onClick={toggleSortDropdown}>Sort</button>
             {isSort &&
               <div className="sortDropdown">
-                <button>A-Z</button>
-                <button>Z-A</button>
-                <button>Quantity ↑</button>
-                <button>Quantity ↓</button>
+                <button onClick={() => {handleSort(0)}}>A-Z</button>
+                <button onClick={() => {handleSort(1)}}>Z-A</button>
+                <button onClick={() => {handleSort(2)}}>Quantity ↑</button>
+                <button onClick={() => {handleSort(3)}}>Quantity ↓</button>
               </div>}
             </div>
             <button className="restock">Restock suggestions</button>
           </div>
           <ItemLists
             products={products}
+            updatedQuantity={updatedQuantity}
+            setUpdatedQuantity={setUpdatedQuantity}
             handleIncreaseQuantity={handleIncreaseQuantity}
             handleDecreaseQuantity={handleDecreaseQuantity}
+            handleChangeQuantity={handleChangeQuantity}
             handleSubmit={handleSubmit}
+            handleSubmitUpdate={handleSubmitUpdate}
             handleDelete={handleDelete}
             setNewProduct={setNewProduct}
             setNewQuantity={setNewQuantity}
