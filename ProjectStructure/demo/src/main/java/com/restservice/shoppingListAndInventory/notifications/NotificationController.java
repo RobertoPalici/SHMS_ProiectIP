@@ -23,9 +23,6 @@ public class NotificationController {
     }
     @GetMapping
     public NotificationsList getNotifications(){
-        household.notificationsList=new NotificationsList();
-        household.notificationsList.setHousehold(household);
-        repositories.notificationRepository.notificationListRepository.save(household.notificationsList);
         if (household != null)
             return household.notificationsList;
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();

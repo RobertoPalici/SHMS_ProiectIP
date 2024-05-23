@@ -19,6 +19,7 @@ interface ChoreDeclareProps {
     onData:(updatedChore: string) => void;
     addChore: (name: string, description: string, duration: string, addToHistoryCheck: number) => void;
     handleDelete: (name : string) => void;
+    handleClearHistoryChore: (name: string) => void;
     handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void ;
     handleSubmitUpdate?: (e: React.FormEvent<HTMLFormElement>, oldName: string) => void ;
     handleUpdate: (oldName: string, updatedName: string, description: string, duration: string) => void;
@@ -36,7 +37,7 @@ interface ChoreDeclareProps {
     setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, addChore, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
+const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, description, duration, personID, imageSrc, addChore, handleClearHistoryChore, handleSubmit, handleSubmitUpdate, handleDelete, handleUpdate, newChore, setNewChore, newDesc, setNewDesc, newDuration, setNewDuration, updatedChore, setUpdatedChore, updatedDesc, setUpdatedDesc, updatedDuration, setUpdatedDuration}) => {
 
     const handleAddToHistory = (name: string, desc: string, duration: string) => {
         addChore(name, desc, duration, 0);
@@ -62,7 +63,7 @@ const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, d
                 </div>
                 <div className={styles.buttonContainer}>
                 <button className={styles.addFromHistory} onClick={() => {if(name) handleAddToHistory(name, description, duration)}}>Add Chore</button>
-                <button className={styles.removeFromHistory}>Clear Chore</button>
+                <button className={styles.removeFromHistory} onClick={() => {if(name) handleClearHistoryChore(name)}}>Clear Chore</button>
                 </div>
             </div>
             </>)}

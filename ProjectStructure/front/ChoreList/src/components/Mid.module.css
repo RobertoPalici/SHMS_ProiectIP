@@ -236,10 +236,10 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 15px;
     margin-bottom: 5vh;
-
 }
+
 .clearHistory :hover{
-    background-color: rgb(171, 0, 0);
+    background-color: #b81313;
 }
 
 .history_chores_css{
@@ -594,7 +594,7 @@
     
     }
     .clearHistory :hover{
-        background-color: rgb(171, 0, 0);
+        background-color: #b81313;
     }
     
     .history_chores_css{

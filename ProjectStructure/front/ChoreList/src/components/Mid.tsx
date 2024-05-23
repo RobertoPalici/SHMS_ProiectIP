@@ -156,6 +156,22 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
         setFetchError(response);
     }
 
+    const handleClearHistoryChore = async (name: string) => {
+      if(choresHistory.choresList !== undefined){
+
+        const indexChore = choresHistory.choresList.findIndex(item => item.name === name);
+        const listChores = choresHistory.choresList.filter((item, index) => index !== indexChore);
+        setChoresHistory(prevChoresHistory => {
+          return {...prevChoresHistory, choresList: listChores};  
+        });
+
+        const options = {method: 'DELETE'};
+        const response = await APIRequest(`${API_URL}/removeHistoryChore?id=${indexChore}`, options);
+        if(response)
+          setFetchError(response);
+      }
+    }
+
     return(
       <ChoreLists
         onData={onData}
@@ -164,6 +180,7 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
         addChore={addChore}
         handleDelete={handleDelete}
         handleClearHistory={handleClearHistory}
+        handleClearHistoryChore={handleClearHistoryChore}
         handleSubmit={handleSubmit}
         handleSubmitUpdate={handleSubmitUpdate}
         handleUpdate={handleUpdate}

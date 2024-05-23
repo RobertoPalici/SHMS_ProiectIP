@@ -12,6 +12,7 @@ interface MidProps{
   addChore: (name: string, description: string, duration: string, addToHistoryCheck: number) => void;
   handleSubmit: (e : React.FormEvent<HTMLFormElement>) => void;
   handleClearHistory: () => void;
+  handleClearHistoryChore: (name: string) => void;
   handleSubmitUpdate: (e : React.FormEvent<HTMLFormElement>, oldName: string) => void;
   handleDelete: (name : string) => void;
   handleUpdate: (oldName: string, updatedName: string, description: string, duration: string) => void;
@@ -23,7 +24,7 @@ interface MidProps{
   setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore, handleDelete, handleClearHistory, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
+const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore, handleDelete, handleClearHistory, handleClearHistoryChore, handleSubmit, handleSubmitUpdate, handleUpdate, setNewChore, setNewDesc, setNewDuration, setUpdatedChore, setUpdatedDesc, setUpdatedDuration}) => {
 
   const {choresList} = chores;
   const choresListHistory: ChoresList[] = choresHistory.choresList;
@@ -68,6 +69,7 @@ const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore,
                         personID={chore.personID}
                         duration={chore.duration}
                         addChore={addChore}
+                        handleClearHistoryChore={handleClearHistoryChore}
                         handleSubmit={handleSubmit}
                         handleSubmitUpdate={handleSubmitUpdate}
                         handleDelete={handleDelete}
