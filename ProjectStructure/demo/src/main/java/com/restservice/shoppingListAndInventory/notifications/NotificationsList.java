@@ -48,8 +48,8 @@ public class NotificationsList {
     public void clearNotifications(NotificationRepository notificationRepository){
         while(!notificationList.isEmpty()){
             Notification notification=notificationList.get(0);
+            notificationRepository.notificationItemRepository.delete(notification);
             notificationList.remove(0);
-            //notificationRepository.notificationItemRepository.delete(notification);
         }
     }
     public void addNotification(NotificationType type, NotificationRepository notificationRepository){
