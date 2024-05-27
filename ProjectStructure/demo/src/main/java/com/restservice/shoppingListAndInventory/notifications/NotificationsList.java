@@ -45,12 +45,15 @@ public class NotificationsList {
     public NotificationsList(NotificationRepository notificationRepository) {
 
     }
-    public void clearNotifications(NotificationRepository notificationRepository){
+    public NotificationsList clearNotifications(NotificationRepository notificationRepository){
+        NotificationsList temp=new NotificationsList();
         while(!notificationList.isEmpty()){
             Notification notification=notificationList.get(0);
+            temp.notificationList.add(notification);
             notificationRepository.notificationItemRepository.delete(notificationList.get(0));
             notificationList.remove(0);
         }
+        return temp;
     }
     public void addNotification(NotificationType type, NotificationRepository notificationRepository){
         for (Notification value : notificationList)
