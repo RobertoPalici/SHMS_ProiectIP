@@ -49,7 +49,7 @@ public class NotificationsList {
         while(!notificationList.isEmpty()){
             Notification notification=notificationList.get(0);
             notificationList.remove(0);
-            notificationRepository.notificationItemRepository.delete(notification);
+            //notificationRepository.notificationItemRepository.delete(notification);
         }
     }
     public void addNotification(NotificationType type, NotificationRepository notificationRepository){
