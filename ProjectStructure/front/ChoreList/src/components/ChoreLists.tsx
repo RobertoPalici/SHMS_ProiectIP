@@ -30,6 +30,12 @@ const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore,
   const {choresList} = chores;
   const choresListHistory: ChoresList[] = choresHistory.choresList;
   const [history, setHistory] = useState(false)
+  const [confirmHistory, setConfirmHistory] = useState(false)
+
+  const handleConfirmHistory = () => {
+    setConfirmHistory(!confirmHistory);
+  }
+
   const handleHistory = () => {
     setHistory(!history);
   }
@@ -59,7 +65,25 @@ const ChoreList: React.FC<MidProps> = ({onData, chores, choresHistory, addChore,
             {history && 
               <div className={styles.historyContainer}>
                 <h2>Chore History</h2>
-                <button className={styles.clearHistory} onClick={handleClearHistory}>Clear History</button>
+                {confirmHistory && 
+                
+                /*<button className={styles.clearHistory} onClick={handleClearHistory}>Clear History</button>} */
+                  <button className={styles.clearHistory} onClick={handleConfirmHistory}>Clear History</button>
+                }
+                {!confirmHistory && 
+                  /*<button className={styles.clearHistory} onClick={handleClearHistory}>Clear History</button>} */
+                  <div className={styles.confirmContainer}>
+                  
+                  <h3>Are you sure you want to clear your whole history?</h3>
+                  <div className={styles.clearHistoryButtons}>
+                  <button onClick={() => {handleClearHistory(); handleConfirmHistory();}}>Yes</button>
+                  <button onClick={handleConfirmHistory}>No</button>
+                  
+                  </div>
+
+                  </div>
+                }
+                
                 <div className={styles.history_chores_css}>
                   {choresListHistory?.map((chore, index) => (
                     <div className={styles.hChoreTile} key={index}>

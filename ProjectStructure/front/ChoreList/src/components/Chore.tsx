@@ -42,6 +42,11 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, descript
     const inputRef2 = useRef<HTMLInputElement>(null);
     const inputRef3 = useRef<HTMLInputElement>(null);
     const [edit, setEdit] = useState(true);
+    const [confirm, setConfirm] = useState(false);
+
+    const handleConfirm = () => {
+        setConfirm(!confirm);
+    }
 
     const handleButton = () => {
         setTimeout(() => {
@@ -109,7 +114,7 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, descript
             {imageSrc!== null && (
             <>
             <img src={placeholder} alt="" />
-            {edit &&
+            {edit && !confirm &&
             <div className={styles.bottom}>
                 <div className={styles.textStyle}>
 
@@ -125,12 +130,28 @@ const Chore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, descript
                     </div>
                 </div>
                 <div className={styles.buttonContainer}>
-                <button className={styles.buttonStyle} onClick={() => {if(name) handleDelete(name)}}>Remove</button>
+                {/*<button className={styles.buttonStyle} onClick={() => {if(name) handleDelete(name)}}>Remove</button>*/}
+                <button className={styles.buttonStyle} onClick={handleConfirm}>Remove</button>
                 <button className={styles.button2Style} onClick={handleEdit}>Edit</button>
                 <button className={styles.button3Style} onClick={() => {if(name) handleDone(name)}}>Done</button>
                 </div>
                 
             </div>}
+            {/*test*/}
+            {edit && confirm &&
+            <div className={styles.bottomConfirm}>
+                <div className={styles.textStyleConfirm}>
+
+                    <h1>Are you sure you want to delete this chore?</h1>
+                </div>
+                <div className={styles.buttonContainerConfirm}>
+                <button className={styles.button3Style} onClick={() => {if(name) handleDelete(name); handleConfirm();}}>Yes</button>
+                <button className={styles.buttonStyle} onClick={handleConfirm}>No</button>
+                </div>
+                
+            </div>}
+            
+
             {!edit && <>
             <form className={styles.editStyles} onSubmit={(e) => {if(name) handleSubmitEdit(e,name)}}>
             <div className={styles.bottom}>

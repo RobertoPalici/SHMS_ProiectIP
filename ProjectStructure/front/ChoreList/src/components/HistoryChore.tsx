@@ -42,11 +42,29 @@ const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, d
     const handleAddToHistory = (name: string, desc: string, duration: string) => {
         addChore(name, desc, duration, 0);
     }
+
+    const [confirm, setConfirm] = useState(false)
+
+    const handleConfirm = () => {
+        setConfirm(!confirm);
+    }
     return (
         <>
             {imageSrc!== null && (
             <>
             <img src={placeholder} alt="" />
+            {confirm &&
+            <div className={styles.hbottom}>
+                <div className={styles.htextStyle}>
+
+                    <h3>Are you sure you want to delete this chore from history?</h3>
+                </div>
+                <div className={styles.buttonContainerConfirm}>
+                <button className={styles.removeFromHistory} onClick={() => {if(name) handleClearHistoryChore(name); handleConfirm();}}>Yes</button>
+                <button className={styles.removeFromHistory} onClick={handleConfirm}>No</button>
+                </div>
+            </div>}
+            {!confirm &&
             <div className={styles.hbottom}>
                 <div className={styles.htextStyle}>
 
@@ -63,9 +81,10 @@ const HistoryChore: React.FC<ChoresList & ChoreDeclareProps> = ({onData, name, d
                 </div>
                 <div className={styles.buttonContainer}>
                 <button className={styles.addFromHistory} onClick={() => {if(name) handleAddToHistory(name, description, duration)}}>Add Chore</button>
-                <button className={styles.removeFromHistory} onClick={() => {if(name) handleClearHistoryChore(name)}}>Clear Chore</button>
+                <button className={styles.removeFromHistory} onClick={handleConfirm}>Clear Chore</button>
+                {/*<button className={styles.removeFromHistory} onClick={() => {if(name) handleClearHistoryChore(name)}}>Clear Chore</button>*/}
                 </div>
-            </div>
+            </div>}
             </>)}
         </>
     )
