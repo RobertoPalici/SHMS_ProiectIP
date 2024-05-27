@@ -322,8 +322,9 @@
 .bottomConfirm{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    height:100%;
 }
 .textStyleConfirm h1{
     color:black;
@@ -758,6 +759,79 @@
     }
     .removeFromHistory:hover{
         background-color: #b81313;
+    }
+
+    .bottomConfirm{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height:100%;
+    }
+    .textStyleConfirm h1{
+        color:black;
+        font-size: 4vw;
+        margin: 10px;
+        text-align: center;
+    }
+    .buttonContainerConfirm{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px;
+    }
+    .buttonContainerConfirm button{
+        margin: 10px;
+        font-size:15px;
+    }
+    
+    .buttonContainerConfirm >:first-child{
+        background-color: #1BBC9B;
+    }
+    
+    .buttonContainerConfirm >:first-child:hover{
+        background-color: #42e9c7;
+    }
+    
+    .clearHistoryButtons{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .clearHistoryButtons button{
+        margin: 10px;
+    }
+    .clearHistoryButtons > :first-child{
+        border:none;
+        background-color: #1BBC9B;;
+        color:white;
+        padding:7px;
+        border-radius: 5px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 15px;
+    
+    }
+    
+    .clearHistoryButtons >:first-child:hover{
+        background-color: #42e9c7;
+    }
+    
+    .clearHistoryButtons > :nth-child(2) {
+        border:none;
+        background-color: red;
+        color:white;
+        padding:7px;
+        border-radius: 5px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 15px;
+      }
+    
+      .clearHistoryButtons > :nth-child(2):hover{
+        background-color: #b81313;
+      }
+    
+    .confirmContainer h3{
+        color:white;
     }
     }
 
