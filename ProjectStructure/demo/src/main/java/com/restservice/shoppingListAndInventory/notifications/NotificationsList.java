@@ -38,7 +38,7 @@ public class NotificationsList {
     private Household household;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Notification> notificationList = new ArrayList<>();
 
 
@@ -48,7 +48,6 @@ public class NotificationsList {
     public void clearNotifications(NotificationRepository notificationRepository){
         while(!notificationList.isEmpty()){
             Notification notification=notificationList.get(0);
-            notificationRepository.notificationItemRepository.delete(notification);
             notificationList.remove(0);
         }
     }
