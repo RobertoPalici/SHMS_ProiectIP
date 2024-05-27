@@ -11,4 +11,6 @@ public class InventoryRepository {
     public InventoryItemRepository inventoryItemRepository;
     @Autowired
     public ProductRepository productRepository;
+    //@Autowired
+    //public ProductRepository_temporary productRepository_temporary;
 }

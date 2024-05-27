@@ -1,35 +1,33 @@
 package com.restservice.shoppingListAndInventory.inventory;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Entity;
-import jakarta.persistence.*;
-import jakarta.persistence.Table;
-import lombok.*;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "product_temporary")
 @JsonIgnoreProperties(value = {"id", "isEatable"})
-public class Product {
+public class Product_Temporary {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    //@GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
     @Column(name = "name")
     String name;
 
-    @Transient
+    //@Transient
     //@Column(name = "is_eatable")
-    boolean isEatable = false;
+    //boolean isEatable = false;
     @Column(name = "category")
     int category;
-    public Product(String name){
+    public Product_Temporary(String name){
         this.name=name;
     }
     public void computeAverageConsumption(){
