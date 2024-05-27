@@ -188,18 +188,7 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
     }
 
     return(
-      <div>
-        <ToastContainer
-        position="bottom-right"
-        autoClose={3600000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        rtl={false}
-        pauseOnFocusLoss
-        pauseOnHover
-        transition={Bounce}
-        theme="colored"
-      />
+
       <ChoreLists
         onData={onData}
         chores={chores}
@@ -219,7 +208,6 @@ const Mid: React.FC<MidProps> = ({onData, choresHistory, chores, newChore, newDe
         setUpdatedDesc={setUpdatedDesc}
         setUpdatedDuration={setUpdatedDuration}
     />
-      </div>
   );
 };
 

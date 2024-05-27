@@ -55,9 +55,7 @@ const App: React.FC = () => {
         if (!notifications.ok) throw Error('Notifications were not received');
         const listNotifications = await notifications.json();
 
-        setTimeout(() => {
-          clearNotifications();
-        }, 3000);
+        clearNotifications();
 
         setChores(prevChores => {
           return { ...prevChores, choresList: listChores.choresList };
