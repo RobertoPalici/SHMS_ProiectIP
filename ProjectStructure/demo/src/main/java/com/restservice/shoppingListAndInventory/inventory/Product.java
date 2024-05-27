@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "product")
+@Table(name = "product_temp")
 @JsonIgnoreProperties(value = {"id", "isEatable"})
 public class Product {
     @Id
@@ -24,9 +24,11 @@ public class Product {
     @Column(name = "name")
     String name;
 
-
-    @Column(name = "is_eatable")
+    @Transient
+    //@Column(name = "is_eatable")
     boolean isEatable = false;
+    @Column(name = "category")
+    int category;
     public Product(String name){
         this.name=name;
     }
