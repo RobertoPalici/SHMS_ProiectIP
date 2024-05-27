@@ -1,11 +1,11 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import Nav from './components/header/Nav';
+import { Header } from './components/header/Header';
 import { Top } from './components/Top';
 import Mid from './components/Mid';
 import { ChoreProps } from './components/Chore';
 import { Footer } from './components/Footer';
-import Notifications from './components/Notifications'; // Import the Notifications component
+import Notifications from './components/Notifications';
 
 const App: React.FC = () => {
   const API_URL = 'http://localhost:8081/chores';
@@ -22,13 +22,6 @@ const App: React.FC = () => {
   const [fetchError, setFetchError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const handleUpdates = (chore: string) => {
-    console.log(`Update22: ${chore}`);
-    setUpdatedChore(chore);
-  };
-
-  console.log(updatedChore);
-
   const clearNotifications = async () => {
     try {
       const response = await fetch(`${API_URL_NOTIFICATIONS}/clearNotifications`, {
@@ -36,7 +29,7 @@ const App: React.FC = () => {
       });
       if (!response.ok) throw Error('Notifications could not be cleared');
     } catch (error) {
-      console.error('Error clearing notifications:', error);
+        console.error('Error clearing notifications:', error);
     }
   };
 
@@ -55,7 +48,7 @@ const App: React.FC = () => {
         if (!notifications.ok) throw Error('Notifications were not received');
         const listNotifications = await notifications.json();
 
-        clearNotifications();
+        //clearNotifications();
 
         setChores(prevChores => {
           return { ...prevChores, choresList: listChores.choresList };
@@ -82,14 +75,13 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Nav />
+      <Header />
       <Top />
       <main>
         {loading && <p>Chores List is loading...</p>}
         {fetchError && <p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !loading && (
           <Mid
-            onData={handleUpdates}
             chores={chores}
             choresHistory={choresHistory}
             newChore={newChore}
@@ -98,7 +90,6 @@ const App: React.FC = () => {
             updatedChore={updatedChore}
             updatedDesc={updatedDesc}
             updatedDuration={updatedDuration}
-            fetchError={fetchError}
             setChores={setChores}
             setChoresHistory={setChoresHistory}
             setNewChore={setNewChore}
@@ -110,7 +101,7 @@ const App: React.FC = () => {
             setFetchError={setFetchError}
           />
         )}
-        <Notifications /> {/* Add the Notifications component here */}
+        <Notifications />
       </main>
       <Footer />
     </div>

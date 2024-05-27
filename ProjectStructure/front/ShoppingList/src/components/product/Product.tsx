@@ -61,65 +61,47 @@ const Product: React.FC<ShoppingItem & ProductDeclareProps> = ({item, imageSrc, 
         {imageSrc !== questionmark && (
         <div className="quantity-controls">
           <button className="markStyle" onClick={() => {if(buyItem) buyItem(item.name)}}>Mark as bought</button>
-          <button className="quantity-button"
-              onClick={() => handleDecreaseQuantity(item.name)}
-          >-
-          </button>
-          <span className="current-quantity">
-              {quantity.value}
-          </span>
-          <button className="quantity-button" 
-              onClick={() => handleIncreaseQuantity(item.name)}
-          >+
-          </button>
-          <button className="remove-button" 
-              onClick={() => handleDelete(item.name)}
-          >X
-          </button>
+          <button className="quantity-button" onClick={() => handleDecreaseQuantity(item.name)}>-</button>
+          <span className="current-quantity">{quantity.value}</span>
+          <button className="quantity-button" onClick={() => handleIncreaseQuantity(item.name)}>+</button>
+          <button className="remove-button" onClick={() => handleDelete(item.name)}>X</button>
         </div>
         )}
         <form className="product-info" onSubmit={handleSubmit}>
-        {imageSrc === questionmark ? (
-          <div className='product-info'>
-          <input
-            autoFocus
-            ref={inputRef}
-            type='text'
-            placeholder='Add Product' 
-            required
-            className="product-name"
-            value={newProduct}
-            onChange={(e) => {if(setNewProduct) setNewProduct(e.target.value);
-            }}
-          /> 
-          <input
-          autoFocus
-          ref={inputRef2}
-          type='string'
-          placeholder='Add Quantity' 
-          required
-          className="product-name"
-          value={newQuantity}
-          onChange={(e) => {if(setNewQuantity) {
-            const value = parseInt(e.target.value, 10);
-            setNewQuantity(value);
-            }
-          }}
-        />
-        </div>
-        ) : (
-          <h2 className="product-name">{item.name}</h2>
-        )}
-        {imageSrc === questionmark && (
-          <button 
-              className="buy-button" 
-              type='submit'
-              aria-label='Add Item'
-              onClick={handleButton}
-          >
-                Add
-          </button>
-        )}
+          {imageSrc === questionmark ? (
+            <div className='product-info'>
+              <input
+                autoFocus
+                ref={inputRef}
+                type='text'
+                placeholder='Add Product' 
+                required
+                className="product-name"
+                value={newProduct}
+                onChange={(e) => {if(setNewProduct) setNewProduct(e.target.value);
+                }}
+              /> 
+              <input
+                autoFocus
+                ref={inputRef2}
+                type='string'
+                placeholder='Add Quantity' 
+                required
+                className="product-name"
+                value={newQuantity}
+                onChange={(e) => {if(setNewQuantity) {
+                  const value = parseInt(e.target.value, 10);
+                  setNewQuantity(value);
+                  }
+                }}
+              />
+            </div>
+          ) : (
+            <h2 className="product-name">{item.name}</h2>
+          )}
+          {imageSrc === questionmark && (
+            <button className="buy-button" type='submit'aria-label='Add Item'onClick={handleButton}>Add</button>
+          )}
         </form>
       </div>
     </div>

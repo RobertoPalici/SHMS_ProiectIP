@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Nav from './components/header/Nav';
+import {Header} from './components/header/Header';
 import {ProductProps} from './components/product/Product';
 import footer from './components/pictures/Footer.png';
 import './App.css';
@@ -49,20 +49,22 @@ const App: React.FC = () => {
 
   return (
     <div className="appContainer">
-      <Nav />
+      <Header />
       <main>
         {loading && <p>Shopping lists are loading...</p>}
         {fetchError && <p style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
-        {!fetchError && !loading && <Content 
-          products = {products}
-          setProducts = {setProducts}
-          newProduct = {newProduct}
-          setNewProduct = {setNewProduct}
-          newQuantity = {newQuantity}
-          setNewQuantity = {setNewQuantity}
-          fetchError = {fetchError}
-          setFetchError = {setFetchError}
-        />}
+        {!fetchError && !loading && 
+          <Content 
+            products = {products}
+            setProducts = {setProducts}
+            newProduct = {newProduct}
+            setNewProduct = {setNewProduct}
+            newQuantity = {newQuantity}
+            setNewQuantity = {setNewQuantity}
+            fetchError = {fetchError}
+            setFetchError = {setFetchError}
+          />
+        }
       </main>
       <img className="footer" src={footer} alt="Footer" />
     </div>

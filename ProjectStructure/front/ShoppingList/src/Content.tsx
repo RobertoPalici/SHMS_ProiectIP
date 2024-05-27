@@ -25,275 +25,274 @@ interface ContentProps{
   setFetchError: React.Dispatch<any>;
 }
 
-const Content: React.FC<ContentProps> = ({products, setProducts, newProduct, setNewProduct, newQuantity, setNewQuantity, fetchError, setFetchError}) => {
+const Content: React.FC<ContentProps> = ({
+  products, 
+  setProducts, 
+  newProduct, 
+  setNewProduct, 
+  newQuantity, 
+  setNewQuantity, 
+  fetchError, 
+  setFetchError
+}) => {
  
-    const API_URL = 'http://localhost:8081/shopping';
-    const [isTag, setTag] = useState(false);
-    const [isSort, setSort] = useState(false);
-    const [slist, setSlist] = useState(false);
-    const [nlist, setNlist] = useState(false);
-    const [listIndex, setListIndex] = useState(0);
-    const [newList, setNewList] = useState('');
+  const API_URL = 'http://localhost:8081/shopping';
 
-    const inputRef = useRef<HTMLInputElement>(null);
+  const [slist, setSlist] = useState(false);
+  const [nlist, setNlist] = useState(false);
+  const [listIndex, setListIndex] = useState(0);
+  const [newList, setNewList] = useState('');
 
-    const handleSlistDropdown = () =>{
-      setSlist(!slist);
-    };
+  const inputRef = useRef<HTMLInputElement>(null);
 
-    const handleNlistDropdown = () =>{
-      setNlist(!nlist);
-    };
+  const handleSlistDropdown = () =>{
+    setSlist(!slist);
+  };
 
-    useEffect(() => {
-        console.log('Products have been updated:', products);
-    }, [products]);
+  const handleNlistDropdown = () =>{
+    setNlist(!nlist);
+  };
 
-    const saveProducts = (newProducts : ShoppingItem[], name: string, listIndex: number) => {
-      setProducts(prevProducts => {
-        const updatedProducts = { ...prevProducts };
+  useEffect(() => {
+      console.log('Products have been updated:', products);
+  }, [products]);
 
-        if (updatedProducts.shoppingLists.length >= 1) {
-          updatedProducts.shoppingLists[listIndex] = {
-            ...updatedProducts.shoppingLists[listIndex],
-            shoppingList: newProducts, listName: name
-          };
-        } else {
-          console.error('There are not enough shoppingLists to update.');
-        }
+  const saveProducts = (newProducts : ShoppingItem[], name: string, listIndex: number) => {
+    setProducts(prevProducts => {
+      const updatedProducts = { ...prevProducts };
 
-        return updatedProducts;  
-      });
-    }
-
-    const handleIncreaseQuantity = async (name : string) =>{
-      console.log('inc')
-      if(products.shoppingLists[listIndex].shoppingList !== undefined){
-        const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
-        saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
-
-        const targetProduct = listItems.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name);
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            item: {
-              name: targetProduct[0].item.name
-            },
-            quantity: {
-              value: targetProduct[0].quantity.value,
-              type: targetProduct[0].quantity.type 
-            },
-            price: targetProduct[0].price
-          })
-        }
-        const response = await APIRequest(`${API_URL}/changeQuantity?index=${listIndex}&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
-        if(response)
-          setFetchError(response);
+      if (updatedProducts.shoppingLists.length >= 1) {
+        updatedProducts.shoppingLists[listIndex] = {
+          ...updatedProducts.shoppingLists[listIndex],
+          shoppingList: newProducts, listName: name
+        };
+      } else {
+        console.error('There are not enough shoppingLists to update.');
       }
-    }
 
-    const handleDecreaseQuantity = async (name : string) =>{
-      console.log('dec');
-      if(products.shoppingLists[listIndex].shoppingList !== undefined){
-        const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
-        saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
+      return updatedProducts;  
+    });
+  }
 
-        const targetProduct = listItems.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name);
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            item: {
-              name: targetProduct[0].item.name
-            },
-            quantity: {
-              value: targetProduct[0].quantity.value,
-              type: targetProduct[0].quantity.type 
-            },
-            price: targetProduct[0].price
-          })
-          
-        }
-        const response = await APIRequest(`${API_URL}/changeQuantity?index=${listIndex}&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);    
-        if(response)
-          setFetchError(response);
-      }
-    }
+  const handleIncreaseQuantity = async (name : string) =>{
+    console.log('inc')
+    if(products.shoppingLists[listIndex].shoppingList !== undefined){
+      const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value >= 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value + 1}, price:item.price} : item); 
+      saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
-    const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if(!newProduct) return;
-      addProduct(newProduct, newQuantity);
-      setNewProduct('');
-      setNewQuantity(0);
-    }
-
-    const handleDelete = async (name : string) => {
-      if(products.shoppingLists !== undefined){
-        const listItems = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name !== name);
-        const targetProduct = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name === name);
-        const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name); 
-        saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
-
-        const options = {method: 'DELETE'};
-        const response = await APIRequest(`${API_URL}/removeItem?index=${listIndex}&id=${index}`, options);
-        if(response)
-          setFetchError(response);
-      }
-    }
-
-    const handleListSelect = async (index: number) => {
-      if(products.shoppingLists !== undefined){
-        setListIndex(index);
-      }
-    }
-
-    const addProduct = async (name : string, value : number) => {
-      const newProductItem = {id: undefined, item: {name}, quantity: {value, type: 'Amount'}, price: 0, imageSrc: '' };
-      const listCopy = products.shoppingLists[listIndex]
-      if (!listCopy.shoppingList) {
-        const listProducts = [listCopy.shoppingList, newProductItem];
-        saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
-      }
-      else{
-        const listProducts = [...products.shoppingLists[listIndex].shoppingList, newProductItem];
-        saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
-      }
+      const targetProduct = listItems.filter((item) => item.item.name === name);
+      const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name);
       const options = {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newProductItem)
+        body: JSON.stringify({
+          item: {
+            name: targetProduct[0].item.name
+          },
+          quantity: {
+            value: targetProduct[0].quantity.value,
+            type: targetProduct[0].quantity.type 
+          },
+          price: targetProduct[0].price
+        })
       }
-      const response = await APIRequest(`${API_URL}/addItem?index=${listIndex}&name=${name}&quantity=${value}`, options);
+      const response = await APIRequest(`${API_URL}/changeQuantity?index=${listIndex}&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);
       if(response)
         setFetchError(response);
     }
+  }
 
-    const buyItem = async (name : string) => {
+  const handleDecreaseQuantity = async (name : string) =>{
+    console.log('dec');
+    if(products.shoppingLists[listIndex].shoppingList !== undefined){
+      const listItems = products.shoppingLists[listIndex].shoppingList.map((item) => item.item.name === name && item.quantity.value > 0? {...item, item: {...item.item}, quantity: {...item.quantity, value: item.quantity.value - 1}, price:item.price} : item); 
+      saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
+
+      const targetProduct = listItems.filter((item) => item.item.name === name);
+      const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name);
+      const options = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          item: {
+            name: targetProduct[0].item.name
+          },
+          quantity: {
+            value: targetProduct[0].quantity.value,
+            type: targetProduct[0].quantity.type 
+          },
+          price: targetProduct[0].price
+        })
+        
+      }
+      const response = await APIRequest(`${API_URL}/changeQuantity?index=${listIndex}&id=${index}&quantity=${targetProduct[0].quantity.value}`, options);    
+      if(response)
+        setFetchError(response);
+    }
+  }
+
+  const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(!newProduct) return;
+    addProduct(newProduct, newQuantity);
+    setNewProduct('');
+    setNewQuantity(0);
+  }
+
+  const handleDelete = async (name : string) => {
+    if(products.shoppingLists !== undefined){
       const listItems = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name !== name);
-      const targetProduct = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name === name);
       const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name); 
       saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-      const response = await APIRequest(`${API_URL}/buyItem?index=${listIndex}&id=${index}`, options);
+      const options = {method: 'DELETE'};
+      const response = await APIRequest(`${API_URL}/removeItem?index=${listIndex}&id=${index}`, options);
       if(response)
         setFetchError(response);
     }
+  }
 
-    const addList = async (name : string) => {
-      const newList: ShoppingList = {shoppingList: [], listName: name};
-      if (products.shoppingLists) {
-        products.shoppingLists.push(newList);
-        setProducts(products);
-      }
-      else{
-        products.shoppingLists = [newList];
-        setProducts(products);
-      }
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newList)
-      }
-      const response = await APIRequest(`${API_URL}/addList?name=${name}`, options);
-      if(response)
-        setFetchError(response);
+  const handleListSelect = async (index: number) => {
+    if(products.shoppingLists !== undefined){
+      setListIndex(index);
     }
+  }
 
-    const handleSubmitList = (e : React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if(!newList) return;
-      addList(newList);
-      setNewList('');
+  const addProduct = async (name : string, value : number) => {
+    const newProductItem = {id: undefined, item: {name}, quantity: {value, type: 'Amount'}, price: 0, imageSrc: '' };
+    const listCopy = products.shoppingLists[listIndex]
+    if (!listCopy.shoppingList) {
+      const listProducts = [listCopy.shoppingList, newProductItem];
+      saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
     }
-  
-    const toggleTagDropdown = () => {
-      setTag(!isTag);
-    };      
-  
-    const toggleSortDropdown = () => {
-      setSort(!isSort);
+    else{
+      const listProducts = [...products.shoppingLists[listIndex].shoppingList, newProductItem];
+      saveProducts(listProducts, products.shoppingLists[listIndex].listName, listIndex);
+    }
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newProductItem)
+    }
+    const response = await APIRequest(`${API_URL}/addItem?index=${listIndex}&name=${name}&quantity=${value}`, options);
+    if(response)
+      setFetchError(response);
+  }
 
-    };
+  const buyItem = async (name : string) => {
+    const listItems = products.shoppingLists[listIndex].shoppingList.filter((item) => item.item.name !== name);
+    const index = products.shoppingLists[listIndex].shoppingList.findIndex(item => item.item.name === name); 
+    saveProducts(listItems, products.shoppingLists[listIndex].listName, listIndex);
 
-    const handleButton = () => {
-      setTimeout(() => {
-        if(inputRef.current) {inputRef.current.value = '';}
-      }, 30);
-    };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const response = await APIRequest(`${API_URL}/buyItem?index=${listIndex}&id=${index}`, options);
+    if(response)
+      setFetchError(response);
+  }
 
-    return (
-        <>
-        <div className="topContainer">
-          <img className="appImage" src={image_1} alt="Imagine 1" />
-          <img className="vector" src={image_3} alt="Vector" />
-        
-          <div className="shopping-list">Shopping Lists</div>
-          </div>
-          <div className="itemListButtons">
-            <div className="newList">
-              <button className="bigButtons" onClick={handleNlistDropdown}>Add new shopping list</button>
-              {nlist &&
-              <div className="newListPrompt">
-                <img src={productIcon}></img>
-                <form className="formStyle" onSubmit={(e) => handleSubmitList(e)}>
-                  <input
-                    autoFocus
-                    type="text"
-                    required
-                    placeholder="Name"
-                    value={newList}
-                    ref={inputRef}
-                    onChange={(e) => {if(setNewList) setNewList(e.target.value)}}
-                  />
-                  <button className="addNewList" type='submit' onClick={handleButton}>Add list</button>
-                </form>
-                
-              </div>
-              }
+  const addList = async (name : string) => {
+    const newList: ShoppingList = {shoppingList: [], listName: name};
+    if (products.shoppingLists) {
+      products.shoppingLists.push(newList);
+      setProducts(products);
+    }
+    else{
+      products.shoppingLists = [newList];
+      setProducts(products);
+    }
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newList)
+    }
+    const response = await APIRequest(`${API_URL}/addList?name=${name}`, options);
+    if(response)
+      setFetchError(response);
+  }
+
+  const handleSubmitList = (e : React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(!newList) return;
+    addList(newList);
+    setNewList('');
+  }
+
+  const handleButton = () => {
+    setTimeout(() => {
+      if(inputRef.current) {inputRef.current.value = '';}
+    }, 30);
+  };
+
+  return (
+    <>
+      <div className="topContainer">
+        <img className="appImage" src={image_1} alt="Imagine 1" />
+        <img className="vector" src={image_3} alt="Vector" />
+      
+        <div className="shopping-list">Shopping Lists</div>
+      </div>
+      <div className="itemListButtons">
+        <div className="newList">
+          <button className="bigButtons" onClick={handleNlistDropdown}>Add new shopping list</button>
+          {nlist &&
+            <div className="newListPrompt">
+              <img src={productIcon}></img>
+              <form className="formStyle" onSubmit={(e) => handleSubmitList(e)}>
+                <input
+                  autoFocus
+                  type="text"
+                  required
+                  placeholder="Name"
+                  value={newList}
+                  ref={inputRef}
+                  onChange={(e) => {if(setNewList) setNewList(e.target.value)}}
+                />
+                <button className="addNewList" type='submit' onClick={handleButton}>Add list</button>
+              </form>
             </div>
-            <div className="existingList">
-            <button className="bigButtons" onClick={handleSlistDropdown}>Select existing shopping list</button>
-            {slist &&
+          }
+        </div>
+        <div className="existingList">
+          <button className="bigButtons" onClick={handleSlistDropdown}>Select existing shopping list</button>
+          {slist &&
             <div className="existingListDropdown">
               {products.shoppingLists?.map((object, index) => {
-                return (
-                 <button onClick={() => handleListSelect(index)} key={index}>{object.listName}</button>
-              )})}
-            </div>
-            }
-            </div>
+                    return (
+                      <button onClick={() => handleListSelect(index)} key={index}>{object.listName}</button>
+                    )
+                  }
+                )
+              }
           </div>
-          <ItemLists
-            products={products}
-            listIndex={listIndex}
-            buyItem={buyItem}
-            handleIncreaseQuantity={handleIncreaseQuantity}
-            handleDecreaseQuantity={handleDecreaseQuantity}
-            handleSubmit={handleSubmit}
-            handleDelete={handleDelete}
-            setNewProduct={setNewProduct}
-            setNewQuantity={setNewQuantity}
-          />
-        </>
-    );
+          }
+        </div>
+      </div>
+      <ItemLists
+        products={products}
+        listIndex={listIndex}
+        buyItem={buyItem}
+        handleIncreaseQuantity={handleIncreaseQuantity}
+        handleDecreaseQuantity={handleDecreaseQuantity}
+        handleSubmit={handleSubmit}
+        handleDelete={handleDelete}
+        setNewProduct={setNewProduct}
+        setNewQuantity={setNewQuantity}
+      />
+    </>
+  );
 }
 
 export default Content;

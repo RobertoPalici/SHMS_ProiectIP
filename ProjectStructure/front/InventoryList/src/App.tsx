@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Nav from './components/header/Nav';
+import {Header} from './components/header/Header';
 import {ProductProps} from './components/product/Product';
 import footer from './components/pictures/Footer.png';
 import './App.css';
@@ -90,7 +90,7 @@ const App: React.FC = () => {
   }
   return (
     <div className="appContainer">
-      <Nav />
+      <Header />
       <main>
         {loading && <p>Inventory is loading...</p>}
         {fetchError && <p style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
@@ -105,7 +105,7 @@ const App: React.FC = () => {
           setFetchError = {setFetchError}
           handleSort={handleSort}
         />}
-        <Notifications /> { }
+        <Notifications />
       </main>
       <img className="footer" src={footer} alt="Footer" />
     </div>
