@@ -47,6 +47,7 @@ public class NotificationsList {
     }
     public void clearNotifications(NotificationRepository notificationRepository){
         while(!notificationList.isEmpty()){
+            Notification notification=notificationList.get(0);
             notificationRepository.notificationItemRepository.delete(notificationList.get(0));
             notificationList.remove(0);
         }
