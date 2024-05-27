@@ -1,5 +1,5 @@
 package com.restservice.shoppingListAndInventory.inventory;
-
+/*
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,3 +28,4 @@ public class ItemBuyHistory {
     @JoinColumn(name="list_id", nullable=false)
     private InventoryList list;
 }
+*/
