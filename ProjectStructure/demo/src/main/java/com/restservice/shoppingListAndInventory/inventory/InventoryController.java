@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -26,7 +24,7 @@ public class InventoryController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
     Household household;
-
+    Iterator<Product> productIterator;
     public InventoryController() {
     }
 
@@ -95,7 +93,21 @@ public class InventoryController {
         System.out.println(household.inventoryList);
         return household.inventoryList;
     }
-
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam(value="name", defaultValue = "placeholder_test")String name){
+        if(productIterator==null)
+            productIterator=repositories.inventoryRepository.productRepository.findAll().iterator();
+        Iterator<Product> iter = productIterator;
+        List<Product> list=new ArrayList<>();
+        while(iter.hasNext()){
+            Product product=iter.next();
+            if(product.getName().contains(name))
+                list.add(product);
+            if(list.size()==10)
+                return list;
+        }
+        return list;
+    }
     @GetMapping
     public InventoryList getInventory() {
 
