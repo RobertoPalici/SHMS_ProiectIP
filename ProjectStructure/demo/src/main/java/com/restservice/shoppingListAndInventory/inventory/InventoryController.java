@@ -24,7 +24,7 @@ public class InventoryController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
     Household household;
-    Iterator<Product> productIterator;
+    List<Product> productList=new ArrayList<>();
     public InventoryController() {
     }
 
@@ -95,12 +95,12 @@ public class InventoryController {
     }
     @GetMapping("/search")
     public List<Product> search(@RequestParam(value="name", defaultValue = "placeholder_test")String name){
-        if(productIterator==null)
-            productIterator=repositories.inventoryRepository.productRepository.findAll().iterator();
-        Iterator<Product> iter = productIterator;
+        if(productList.isEmpty())
+            for (Product product : repositories.inventoryRepository.productRepository.findAll()) {
+                productList.add(product);
+            }
         List<Product> list=new ArrayList<>();
-        while(iter.hasNext()){
-            Product product=iter.next();
+        for (Product product : productList) {
             if(product.getName().contains(name))
                 list.add(product);
             if(list.size()==10)
