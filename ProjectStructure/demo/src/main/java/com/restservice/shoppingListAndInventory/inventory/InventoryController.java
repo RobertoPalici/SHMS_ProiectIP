@@ -101,7 +101,7 @@ public class InventoryController {
             }
         List<Product> list=new ArrayList<>();
         for (Product product : productList) {
-            if(product.getName().contains(name))
+            if(product.getName().toLowerCase().contains(name.toLowerCase()))
                 list.add(product);
             if(list.size()==10)
                 return list;
