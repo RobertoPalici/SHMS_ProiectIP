@@ -2,10 +2,7 @@ package com.restservice.shoppingListAndInventory.shopping;
 
 import com.restservice.household.Household;
 import com.restservice.household.HouseholdRepositoriesGroup;
-import com.restservice.shoppingListAndInventory.inventory.InventoryException;
-import com.restservice.shoppingListAndInventory.inventory.InventoryList;
-import com.restservice.shoppingListAndInventory.inventory.Quantity;
-import com.restservice.shoppingListAndInventory.inventory.QuantityType;
+import com.restservice.shoppingListAndInventory.inventory.*;
 
 import com.restservice.shoppingListAndInventory.notifications.NotificationType;
 import jakarta.persistence.EntityManager;
@@ -26,6 +23,7 @@ public class ShoppingController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
     Household household;
+    List<Product> productList=new ArrayList<>();
 
     public ShoppingController() {
 
@@ -55,13 +53,13 @@ public class ShoppingController {
 
     @PostMapping("/addItem")
     public ShoppingLists addItem(@RequestParam(value = "index", defaultValue = "-1") String indexString,
-                                 @RequestParam(value = "name", defaultValue = "") String name,
+                                 @RequestParam(value = "name", defaultValue = "") String idString,
                                  @RequestParam(value = "quantity", defaultValue = "1") String quantityString,
                                  @RequestParam(value = "price", defaultValue = "0") String priceString) {
 
 
         try {
-            household.shoppingLists.addItem(indexString, name, quantityString, priceString, repositories.shoppingRepository);
+            household.shoppingLists.addItem(indexString, idString, quantityString, priceString, repositories);
             household.notificationsList.addNotification(NotificationType.ShoppingItemAdded, repositories.notificationRepository);
         } catch (ShoppingException e) {
             System.out.println("Error: " + e.getMessage());
@@ -126,16 +124,22 @@ public class ShoppingController {
         System.out.println(household.shoppingLists);
         return household.shoppingLists;
     }
-    @PostMapping("/autocomplete")
-    public ShoppingLists autocomplete(@RequestParam(value = "name", defaultValue = "") String name) {
-        try {
-            household.shoppingLists.autocomplete(name);
-        } catch (ShoppingException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return household.shoppingLists;
-    }
 
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam(value="name", defaultValue = "placeholder_test")String name){
+        if(productList.isEmpty())
+            for (Product product : repositories.inventoryRepository.productRepository.findAll()) {
+                productList.add(product);
+            }
+        List<Product> list=new ArrayList<>();
+        for (Product product : productList) {
+            if(product.getName().toLowerCase().contains(name.toLowerCase()))
+                list.add(product);
+            if(list.size()==10)
+                return list;
+        }
+        return list;
+    }
     @PatchMapping("/changePrice")
     public ShoppingLists changePrice(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                      @RequestParam(value = "id", defaultValue = "-1") String idString,

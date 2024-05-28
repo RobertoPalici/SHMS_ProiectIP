@@ -1,6 +1,7 @@
 package com.restservice.shoppingListAndInventory.shopping;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.restservice.household.HouseholdRepositoriesGroup;
 import com.restservice.restockAndShoppingOptimization.EfficientRoute;
 import com.restservice.shoppingListAndInventory.inventory.*;
 import jakarta.persistence.*;
@@ -61,20 +62,20 @@ public class ShoppingList {
     public void addItem(ShoppingItem item){
         shoppingList.add(item);
     }
-    public void addItem(String name, Quantity quantity, float price, ShoppingRepository shoppingRepository) throws ShoppingException {
-        if(name.isEmpty())
-            throw new ShoppingException("Item name cannot be empty.");
+    public void addItem(int id, Quantity quantity, float price, HouseholdRepositoriesGroup repositories) throws ShoppingException {
+        if(id<0)
+            throw new ShoppingException("Id cannot be negative.");
         if(quantity.getValue()<0&&quantity.getValue()!=-1)
             throw new ShoppingException("Quantity cannot be negative.");
         if(price < 0)
             throw new ShoppingException("Price cannot be nagative.");
-        ShoppingItem item= new ShoppingItem(name, quantity, price);
+        ShoppingItem item= new ShoppingItem(id, quantity, price, repositories.inventoryRepository);
         item.setList(this);
         shoppingList.add(item);
 
-        shoppingRepository.shoppingItemRepository.save(item);
+        repositories.shoppingRepository.shoppingItemRepository.save(item);
     }
-    public void addItem(String name, String quantityString, String priceString, ShoppingRepository shoppingRepository) throws ShoppingException{
+    public void addItem(String idString, String quantityString, String priceString, HouseholdRepositoriesGroup repositories) throws ShoppingException{
         float quantity;
         try {
             quantity = Float.parseFloat(quantityString);
@@ -87,7 +88,13 @@ public class ShoppingList {
         } catch (NumberFormatException e) {
             throw new ShoppingException("Price has to be a number.");
         }
-        this.addItem(name, new Quantity(quantity, QuantityType.Amount), price, shoppingRepository);
+        int id;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (NumberFormatException e) {
+            throw new ShoppingException("Item ID has to be a non-negative integer.");
+        }
+        this.addItem(id, new Quantity(quantity, QuantityType.Amount), price, repositories);
     }
     public ShoppingItem removeItem(String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int id;

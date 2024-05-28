@@ -2,6 +2,7 @@ package com.restservice.shoppingListAndInventory.shopping;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.restservice.shoppingListAndInventory.inventory.InventoryList;
+import com.restservice.shoppingListAndInventory.inventory.InventoryRepository;
 import com.restservice.shoppingListAndInventory.inventory.Product;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
 import jakarta.persistence.*;
@@ -31,7 +32,7 @@ public class ShoppingItem {
     } )
     Quantity quantity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     Product item;
 
@@ -41,8 +42,8 @@ public class ShoppingItem {
 
     @Column(name = "price")
     float price;
-    public ShoppingItem(String name, Quantity quantity, float price){
-        item=new Product(name);
+    public ShoppingItem(int id, Quantity quantity, float price, InventoryRepository inventoryRepository){
+        item=inventoryRepository.productRepository.findById(id).get();
         this.price=price;
         this.quantity=quantity;
     }

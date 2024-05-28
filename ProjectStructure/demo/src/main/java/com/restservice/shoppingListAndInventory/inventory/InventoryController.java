@@ -29,10 +29,10 @@ public class InventoryController {
     }
 
     @PostMapping("/addItem")
-    public InventoryList addItem(@RequestParam(value = "name", defaultValue = "") String name,
+    public InventoryList addItem(@RequestParam(value = "name", defaultValue = "") String idString,
                                  @RequestParam(value = "quantity", defaultValue = "1") String quantityString) {
         try {
-            household.inventoryList.addItem(name, quantityString, repositories.inventoryRepository);
+            household.inventoryList.addItem(idString, quantityString, repositories.inventoryRepository);
             household.notificationsList.addNotification(NotificationType.InventoryItemAdded, repositories.notificationRepository);
         } catch (InventoryException e) {
             System.out.println("Error: " + e.getMessage());

@@ -32,11 +32,11 @@ public class InventoryItem {
     Quantity quantity;
     @Column(name = "average_consumption")
     int averageConsumption;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product item;
-    public InventoryItem(String name, Quantity quantity){
-        item=new Product(name);
+    public InventoryItem(int id, Quantity quantity, InventoryRepository inventoryRepository){
+        item=inventoryRepository.productRepository.findById(id).get();
         this.quantity=quantity;
     }
     public void addQuantity(float quantity){

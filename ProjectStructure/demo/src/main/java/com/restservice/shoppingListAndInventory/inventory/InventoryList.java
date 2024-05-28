@@ -80,31 +80,31 @@ public class InventoryList {
         itemList.add(item);
     }
 
-    public void addItem(String name, Quantity quantity, InventoryRepository inventoryRepository) throws InventoryException {
-        if (name.isEmpty())
-            throw new InventoryException("Item name cannot be empty.");
+    public void addItem(int id, Quantity quantity, InventoryRepository inventoryRepository) throws InventoryException {
         if (quantity.value < 0 && quantity.value != -1)
             throw new InventoryException("Quantity cannot be negative.");
-        /*int index=findItemIndex(name);
-        if(index>=0)
-            itemList.get(index).getItem().addQuantity(quantity.value);
-        else
-        {
-        }*/
-        InventoryItem item = new InventoryItem(name, quantity);
+        if (id<0)
+            throw new InventoryException("Id cannot be negative.");
+        InventoryItem item = new InventoryItem(id, quantity, inventoryRepository);
         item.setList(this);
         inventoryRepository.inventoryItemRepository.save(item);
         itemList.add(item);
     }
 
-    public void addItem(String name, String quantityString, InventoryRepository inventoryRepository) throws InventoryException {
+    public void addItem(String idString, String quantityString, InventoryRepository inventoryRepository) throws InventoryException {
         float quantity;
         try {
             quantity = Float.parseFloat(quantityString);
         } catch (NumberFormatException e) {
             throw new InventoryException("Quantity has to be a number.");
         }
-        this.addItem(name, new Quantity(quantity, QuantityType.Amount), inventoryRepository);
+        int id;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (NumberFormatException e) {
+            throw new InventoryException("Item ID has to be a non-negative integer.");
+        }
+        this.addItem(id, new Quantity(quantity, QuantityType.Amount), inventoryRepository);
     }
 
     public void setItemDetails(String idString, String name, String quantityString, InventoryRepository inventoryRepository) throws InventoryException {

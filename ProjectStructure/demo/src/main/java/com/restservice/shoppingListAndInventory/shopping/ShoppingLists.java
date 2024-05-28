@@ -1,6 +1,7 @@
 package com.restservice.shoppingListAndInventory.shopping;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.restservice.household.Household;
+import com.restservice.household.HouseholdRepositoriesGroup;
 import com.restservice.shoppingListAndInventory.inventory.InventoryItem;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -71,21 +72,21 @@ public class ShoppingLists {
             throw new ShoppingException("There are no lists to delete!");
         this.removeList(index, shoppingRepository);
     }
-    public void addItem(int index, String name, String quantityString, String priceString, ShoppingRepository shoppingRepository)throws ShoppingException{
+    public void addItem(int index, String idString, String quantityString, String priceString, HouseholdRepositoriesGroup repositories)throws ShoppingException{
         if (index<0)
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");
-        shoppingLists.get(index).addItem(name, quantityString, priceString, shoppingRepository);
+        shoppingLists.get(index).addItem(idString, quantityString, priceString, repositories);
     }
-    public void addItem(String indexString, String name, String quantityString, String priceString, ShoppingRepository shoppingRepository) throws ShoppingException{
+    public void addItem(String indexString, String idString, String quantityString, String priceString, HouseholdRepositoriesGroup repositories) throws ShoppingException{
         int index;
         try{
             index=Integer.parseInt(indexString);
         } catch (NumberFormatException e){
             throw new ShoppingException("Index has to be a number.");
         }
-        this.addItem(index, name, quantityString, priceString, shoppingRepository);
+        this.addItem(index, idString, quantityString, priceString, repositories);
     }
     public ShoppingItem removeItem(int index, String idString, ShoppingRepository shoppingRepository) throws ShoppingException{
         if (index<0)

@@ -76,13 +76,13 @@ public class Household {
     public void markItemAsBought(String indexString, String idString, HouseholdRepositoriesGroup repositories) throws ShoppingException, InventoryException {
         ShoppingItem shoppingItem=shoppingLists.removeItem(indexString, idString, repositories.shoppingRepository);
         for(int i=0;i<inventoryList.getItemList().size();i++)
-            if(inventoryList.getItemList().get(i).getItem().getName().equals(shoppingItem.getItem().getName()))
+            if(inventoryList.getItemList().get(i).getItem().getId()==shoppingItem.getItem().getId())
             {
                 Quantity quantity=new Quantity(inventoryList.getItemList().get(i).getQuantity().getValue()+shoppingItem.getQuantity().getValue(), QuantityType.Amount);
                 inventoryList.changeQuantity(i, quantity, repositories.inventoryRepository);
                 return;
             }
-        inventoryList.addItem(shoppingItem.getItem().getName(), shoppingItem.getQuantity(), repositories.inventoryRepository);
+        inventoryList.addItem(shoppingItem.getItem().getId(), shoppingItem.getQuantity(), repositories.inventoryRepository);
     }
 
     public Household loadHousehold(HouseholdRepositoriesGroup repositories){
