@@ -13,12 +13,12 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "product_temporary")
+@Table(name = "product")
 @JsonIgnoreProperties(value = {"isEatable"})
 public class Product {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    //@GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
     @Column(name = "name")
