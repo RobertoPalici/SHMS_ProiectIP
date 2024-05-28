@@ -42,7 +42,9 @@ public class ShoppingItem {
 
     @Column(name = "price")
     float price;
-    public ShoppingItem(int id, Quantity quantity, float price, InventoryRepository inventoryRepository){
+    public ShoppingItem(int id, Quantity quantity, float price, InventoryRepository inventoryRepository) throws ShoppingException {
+        if(inventoryRepository.productRepository.findById(id).isEmpty())
+            throw new ShoppingException("Id product does not exist");
         item=inventoryRepository.productRepository.findById(id).get();
         this.price=price;
         this.quantity=quantity;

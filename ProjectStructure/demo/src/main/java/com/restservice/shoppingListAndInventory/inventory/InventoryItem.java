@@ -35,7 +35,9 @@ public class InventoryItem {
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product item;
-    public InventoryItem(int id, Quantity quantity, InventoryRepository inventoryRepository){
+    public InventoryItem(int id, Quantity quantity, InventoryRepository inventoryRepository) throws InventoryException {
+        if(inventoryRepository.productRepository.findById(id).isEmpty())
+            throw new InventoryException("Id product does not exist");
         item=inventoryRepository.productRepository.findById(id).get();
         this.quantity=quantity;
     }
