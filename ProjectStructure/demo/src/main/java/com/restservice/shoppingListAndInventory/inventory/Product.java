@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "product_temporary")
-@JsonIgnoreProperties(value = {"id", "isEatable"})
+@JsonIgnoreProperties(value = {"isEatable"})
 public class Product {
     @Id
     @Column(name = "id")
