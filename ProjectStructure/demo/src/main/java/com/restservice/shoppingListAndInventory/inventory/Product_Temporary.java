@@ -1,5 +1,5 @@
 package com.restservice.shoppingListAndInventory.inventory;
-
+/*
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,4 +39,4 @@ public class Product_Temporary {
                 "name='" + name + '\'' +
                 '}';
     }
-}
+}*/
