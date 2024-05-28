@@ -110,11 +110,6 @@ public class InventoryController {
     }
     @GetMapping
     public InventoryList getInventory() {
-        Product prod = new Product();
-        prod.setName("oven cleaner");
-        prod.setId(22);
-        prod.setCategory(1);
-        repositories.inventoryRepository.productRepository.save(prod);
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();
