@@ -2,6 +2,7 @@ package com.restservice.shoppingListAndInventory.inventory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.restservice.household.Household;
+import com.restservice.shoppingListAndInventory.chores.ChoreHistoryItem;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import lombok.Getter;
@@ -35,9 +36,9 @@ public class InventoryList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
+
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "list")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "list", cascade=CascadeType.ALL, orphanRemoval=true)
     List<InventoryItem> itemList = new ArrayList<>();
 
     @OneToMany(mappedBy = "list")
@@ -134,8 +135,9 @@ public class InventoryList {
             throw new InventoryException("Item ID has to be a non-negative integer.");
         if (id >= itemList.size())
             throw new InventoryException("Item ID cannot be bigger that the list's size.");
-        inventoryRepository.inventoryItemRepository.delete(itemList.get(id));
-        itemList.remove(id);
+        InventoryItem item=itemList.remove(id);
+        item.setList(null);
+        inventoryRepository.inventoryItemRepository.delete(item);
     }
 
     public void changeQuantity(String idString, String quantityString, InventoryRepository inventoryRepository) throws InventoryException {
