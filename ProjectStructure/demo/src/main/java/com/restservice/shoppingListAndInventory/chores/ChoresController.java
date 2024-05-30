@@ -82,8 +82,10 @@ public class ChoresController {
 
     @DeleteMapping("/clearHistory")
     public ChoresHistoryList clearHistory() {
+        System.out.println(household.choresHistoryList);
         household.choresHistoryList.clearHistory(repositories.choreRepository);
-        System.out.println(household.choresList);
+        System.out.println("After history clear: ");
+        System.out.println(household.choresHistoryList);
         return household.choresHistoryList;
     }
 

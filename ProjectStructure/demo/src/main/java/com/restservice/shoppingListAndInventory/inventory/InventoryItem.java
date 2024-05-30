@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @Table(name = "inventory_items")
-@JsonIgnoreProperties(value = {"id", "list"})
+@JsonIgnoreProperties(value = {"id", "list", "averageConsumption"})
 public class InventoryItem {
     @Id
     @Column(name = "id")
@@ -31,7 +31,7 @@ public class InventoryItem {
     } )
     Quantity quantity;
     @Column(name = "average_consumption")
-    int averageConsumption;
+    Integer averageConsumption;
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product item;

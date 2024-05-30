@@ -13,6 +13,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Session;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +36,8 @@ public class ChoresHistoryList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
-    @OneToMany(mappedBy = "list", fetch = FetchType.EAGER   )
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "list", cascade=CascadeType.ALL, orphanRemoval=true)
     List<ChoreHistoryItem> choresList = new ArrayList<>();
 
     public ChoresHistoryList(ChoreRepository choreRepository) {
@@ -45,8 +47,10 @@ public class ChoresHistoryList {
     }
     public void clearHistory(ChoreRepository choreRepository){
         while(!choresList.isEmpty()){
-            choreRepository.choreHistoryItemRepository.delete(choresList.get(0));
-            choresList.remove(0);
+            ChoreHistoryItem chore=choresList.get(0);
+            chore.setList(null);
+            choresList.remove(chore);
+            //choreRepository.choreHistoryItemRepository.delete(chore);
         }
     }
     public int findChoreIndex(String name){

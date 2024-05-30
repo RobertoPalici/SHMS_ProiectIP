@@ -21,7 +21,7 @@ public class ChoreHistoryItem {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="list_id", nullable=false)
+    @JoinColumn(name="list_id")
     private ChoresHistoryList list;
 
     @Column(name = "name")

@@ -37,9 +37,7 @@ public class NotificationController {
         } else {
             household = new Household(repositories);
         }
-        System.out.println("Before clear: " + household.notificationsList);
-        NotificationsList temp = household.notificationsList.clearNotifications(repositories.notificationRepository);
-        System.out.println("After clear: " + household.notificationsList);
-        return temp;
+        System.out.println(household.notificationsList);
+        return household.notificationsList;
     }
 }

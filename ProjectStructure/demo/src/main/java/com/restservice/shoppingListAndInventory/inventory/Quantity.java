@@ -11,6 +11,5 @@ import lombok.*;
 @ToString
 public class Quantity {
     float value;
-    @Enumerated(EnumType.STRING)
     QuantityType type;
 }

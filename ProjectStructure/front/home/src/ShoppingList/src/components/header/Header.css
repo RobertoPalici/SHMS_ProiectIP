@@ -1,0 +1,260 @@
+.NotifContent {
+    border-top: 2px solid black;
+    overflow: auto;
+    max-height: 400px;
+}
+
+.EachNot {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    border: 2px solid grey;
+    background-color: rgba(239, 239, 240, 0.5);
+    border-radius: 5px 5px 5px 5px;
+}
+
+.NotifHeader {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+}
+
+.NotifHeader h3 {
+    padding-left: 13.5%;
+}
+
+.NotifHeader button {
+    height: 60px;
+    color: black;
+    background-color: red;
+    border-radius: 0 0 0 0;
+    border-top-right-radius: 2px;
+    border-left: 2px solid black;
+}
+
+.NotifHeader button:hover {
+    background-color: #fff;
+}
+
+.NotifContent h3 {
+    text-align: justify;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.notification {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Bell
+{
+    border:none;
+    margin: 5px 50px 0 0;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background-image: url('../../../public/img/ico/NotificationsBell.png');
+    background-size: cover;
+    position: relative;
+    background-color: #F2F2F2;
+}
+.Bell:hover {
+    border-width: 2px;
+    border-radius: 20px;
+    background-color: #1BBC9B;
+}
+
+.NotifDropDown {
+    margin-top: 10px;
+    position: absolute; 
+    min-width: 350px;
+    max-height: 500px;
+    background-color: lightblue;
+    z-index: 1000;
+    right: 9%;
+    border: 2px solid black;
+    border-radius: 5px 5px 5px 5px;
+}
+
+nav
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 0.25em;
+    background-color: #F2F2F2;
+    color: #000;
+    width: 100%;
+    align-items: center;
+    height: 80px;
+}
+
+nav img
+{
+    margin-left: 100px;
+}
+
+nav ul
+{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.homeShopping
+{
+    margin-top: 10px;
+}
+.homeShopping>a
+{
+    color:#1BBC9B;
+}
+
+.aboutShopping
+{
+    margin: 10px 50px 0 190px;
+}
+
+.contactShopping
+{
+    margin: 10px 100px 0 0;
+}
+
+a
+{
+    text-decoration: none;
+    color: #000;
+}
+
+.menuShopping
+{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background-image: url('../../../public/img/ico/Menu.png');
+    background-size: cover;
+    position: relative;
+    bottom: 2px;
+}
+
+.homeHideShopping
+{
+    display: none;
+}
+
+nav button
+{
+    margin: 0 120px 0 40px;
+}
+
+nav button:hover
+{
+  background-color: #fff;
+  color: #1BBC9B;
+  border: 1px solid #1BBC9B;
+}
+
+.menuShopping:hover
+{
+    background-image: url('../../../public/img/ico/Menu-hover.png');
+}
+
+.dropdownShopping
+{
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.dropdownShopping a
+{
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+}
+
+.dropdownShopping .contentShopping
+{
+    right: 260px;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    min-width: 100px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    display: none;
+    z-index: 2;
+}
+
+.dropdownShopping .accountHideShopping {
+    display: none;
+}
+.dropdownShopping:hover .contentShopping
+{
+    display: block ;
+}
+
+.dropdownShopping .contentShopping a:hover
+{
+    background-color: #1BBC9B;
+}
+
+@media only screen and (max-width: 1500px)
+{
+    .aboutShopping
+    {
+        margin: 10px 20px 0 20px;
+    }
+
+    .menuShopping
+    {
+        margin: 0px 0 0 20px;
+    }
+}
+
+@media only screen and (max-width: 950px)
+{
+    .homeHideShopping
+    {
+        display: block;
+    }
+    .homeShopping{
+        display: none;
+    }
+    .aboutShopping{
+        display: none;
+    }
+    .contactShopping{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    .regBtnShopping {
+        display: none; 
+    }
+
+    .accountHideShopping {
+        display: block; 
+    }
+
+    .menuShopping {
+        margin-right: 20px;
+    }
+
+    .dropdownShopping .contentShopping { 
+        right: 0; 
+        width: 180px;
+    }
+
+    .dropdownShopping .accountHideShopping {
+        display: block; 
+    }
+
+    .regBtnShopping {
+        display: none;
+    }
+}
