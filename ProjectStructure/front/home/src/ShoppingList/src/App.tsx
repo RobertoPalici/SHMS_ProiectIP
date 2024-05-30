@@ -4,6 +4,7 @@ import {ProductProps} from './components/product/Product';
 import footer from './components/pictures/Footer.png';
 import './App.css';
 import Content from './Content';
+import Notifications from './components/Notifications';
 
 const App: React.FC = () => {
   console.log('React version:', React.version, 'from', require.resolve('react'));
@@ -69,6 +70,7 @@ const App: React.FC = () => {
             setFetchError = {setFetchError}
           />
         }
+        <Notifications />
       </main>
       <img className="footerShopping" src={footer} alt="Footer" />
     </div>

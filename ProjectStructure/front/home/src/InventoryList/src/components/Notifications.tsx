@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Define the TypeScript type for your notifications data
 interface Notification {
   id: number;
   message: string;
@@ -22,11 +21,9 @@ const Notifications: React.FC = () => {
         }
         const data = await response.json();
 
-        // Assuming data is in the format { notificationList: [...] }
         if (Array.isArray(data.notificationList)) {
-          // Map the received data to the format of Notification interface
           const mappedData: Notification[] = data.notificationList.map((item: any, index: number) => ({
-            id: index, // You can use a unique identifier for each notification
+            id: index,
             message: item.message
           }));
           setNotifications(mappedData);
@@ -46,18 +43,20 @@ const Notifications: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Display toast notification for each new notification
-    notifications.forEach((notification) => {
-      if (lastDisplayedId === null || notification.id > lastDisplayedId) {
-        toast.info(`${notification.message}`);
-      }
-    });
-
-    // Update lastDisplayedId to the ID of the last notification in the array
     if (notifications.length > 0) {
-      setLastDisplayedId(notifications[notifications.length - 1].id);
+      const lastNotificationId = notifications[notifications.length - 1].id;
+      if (lastDisplayedId !== lastNotificationId) {
+        setLastDisplayedId(lastNotificationId);
+      }
+
+      if (lastDisplayedId === null || lastDisplayedId !== lastNotificationId) {
+        if (notifications.length == 1)
+          toast.info(`You have ${notifications.length} new message!`);
+        else if (notifications.length > 1)
+          toast.info(`You have ${notifications.length} new messages!`);
+      }
     }
-  }, [notifications]);
+  }, [notifications, lastDisplayedId]);
 
   if (error) {
     return <div>Error: {error}</div>;
