@@ -22,7 +22,7 @@ import java.util.Objects;
 public class ShoppingController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
-    Household household;
+    //Household household;
     List<Product> productList=new ArrayList<>();
 
     public ShoppingController() {
@@ -31,6 +31,7 @@ public class ShoppingController {
 
     @PostMapping("/addList")
     public ShoppingLists addList(@RequestParam(value = "name", defaultValue = "") String name) {
+        Household household=Household.loadHousehold(repositories);
         household.shoppingLists.addList(name, repositories.shoppingRepository);
         household.notificationsList.addNotification(NotificationType.ShoppingListAdded, repositories.notificationRepository);
         System.out.println(household.shoppingLists);
@@ -39,6 +40,7 @@ public class ShoppingController {
 
     @DeleteMapping("/removeList")
     public ShoppingLists removeList(@RequestParam(value = "index", defaultValue = "-1") String indexString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.shoppingLists.removeList(indexString, repositories.shoppingRepository);
             household.notificationsList.addNotification(NotificationType.ShoppingListRemoved, repositories.notificationRepository);
@@ -56,7 +58,7 @@ public class ShoppingController {
                                  @RequestParam(value = "name", defaultValue = "") String idString,
                                  @RequestParam(value = "quantity", defaultValue = "1") String quantityString,
                                  @RequestParam(value = "price", defaultValue = "0") String priceString) {
-
+        Household household=Household.loadHousehold(repositories);
 
         try {
             household.shoppingLists.addItem(indexString, idString, quantityString, priceString, repositories);
@@ -72,6 +74,7 @@ public class ShoppingController {
     @DeleteMapping("/removeItem")
     public ShoppingLists removeItem(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                     @RequestParam(value = "id", defaultValue = "-1") String idString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.shoppingLists.removeItem(indexString, idString, repositories.shoppingRepository);
             household.notificationsList.addNotification(NotificationType.ShoppingItemRemoved, repositories.notificationRepository);
@@ -87,6 +90,7 @@ public class ShoppingController {
                                            @RequestParam(value = "id", defaultValue = "-1") String idString,
                                            @RequestParam(value = "quantity", defaultValue = "0") String quantityString,
                                            @RequestParam(value = "name", defaultValue = "") String nameString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.shoppingLists.setItemDetails(indexString, idString, nameString, quantityString, repositories.shoppingRepository);
         } catch (ShoppingException e) {
@@ -100,6 +104,7 @@ public class ShoppingController {
     public ShoppingLists changeQuantity(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                         @RequestParam(value = "id", defaultValue = "-1") String idString,
                                         @RequestParam(value = "quantity", defaultValue = "0") String quantityString) {
+        Household household=Household.loadHousehold(repositories);
 
         try {
             household.shoppingLists.changeQuantity(indexString, idString, quantityString, repositories.shoppingRepository);
@@ -114,6 +119,7 @@ public class ShoppingController {
     @PostMapping("/buyItem")
     public ShoppingLists buyItem(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                     @RequestParam(value = "id", defaultValue = "-1") String idString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.markItemAsBought(indexString, idString, repositories);
             household.notificationsList.addNotification(NotificationType.ShoppingItemBought, repositories.notificationRepository);
@@ -144,6 +150,7 @@ public class ShoppingController {
     public ShoppingLists changePrice(@RequestParam(value = "index", defaultValue = "-1") String indexString,
                                      @RequestParam(value = "id", defaultValue = "-1") String idString,
                                      @RequestParam(value = "price", defaultValue = "0") String priceString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.shoppingLists.changePrice(indexString, idString, priceString);
         } catch (ShoppingException e) {
@@ -156,30 +163,7 @@ public class ShoppingController {
 
     @GetMapping
     public ShoppingLists getShoppingLists() {
-        if (household != null)
-            return household.getShoppingLists();
-        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
-        if (iter.hasNext()) {
-            household = iter.next();
-        } else {
-            household=new Household(repositories);
-        }
+        Household household=Household.loadHousehold(repositories);
         return household.getShoppingLists();
-        /*
-        if (shoppingLists != null)
-            return shoppingLists;
-        Iterator<ShoppingLists> iterLists = shoppingRepository.shoppingListsRepository.findAll().iterator();
-        if (iterLists.hasNext()) {
-            shoppingLists = iterLists.next();
-            if(shoppingLists.getShoppingLists().isEmpty())
-                shoppingLists.addList(shoppingRepository);
-        }
-        else
-        {
-            shoppingLists = new ShoppingLists();
-            shoppingRepository.shoppingListsRepository.save(shoppingLists);
-            shoppingLists.addList(shoppingRepository);
-        }
-        return shoppingLists;*/
     }
 }

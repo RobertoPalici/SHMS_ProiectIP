@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.restservice.household.Household;
 import com.restservice.shoppingListAndInventory.inventory.InventoryItem;
 import com.restservice.shoppingListAndInventory.inventory.Quantity;
+import com.restservice.shoppingListAndInventory.notifications.Notification;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -47,10 +48,9 @@ public class ChoresHistoryList {
     }
     public void clearHistory(ChoreRepository choreRepository){
         while(!choresList.isEmpty()){
-            ChoreHistoryItem chore=choresList.get(0);
-            chore.setList(null);
-            choresList.remove(chore);
-            //choreRepository.choreHistoryItemRepository.delete(chore);
+            ChoreHistoryItem choreHistoryItem=choresList.remove(0);
+            choreHistoryItem.setList(null);
+            choreRepository.choreHistoryItemRepository.delete(choreHistoryItem);
         }
     }
     public int findChoreIndex(String name){

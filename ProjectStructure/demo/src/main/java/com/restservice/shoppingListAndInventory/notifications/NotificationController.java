@@ -14,29 +14,17 @@ import java.util.Iterator;
 public class NotificationController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
-    Household household;
+    //Household household;
     @DeleteMapping("/clearNotifications")
     public NotificationsList clearNotifications() {
-        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
-        if (iter.hasNext()) {
-            household = iter.next();
-        } else {
-            household = new Household(repositories);
-        }
+        Household household=Household.loadHousehold(repositories);
         household.notificationsList.clearNotifications(repositories.notificationRepository);
         System.out.println(household.notificationsList);
         return household.notificationsList;
     }
     @GetMapping
     public NotificationsList getNotifications(){
-//        if (household != null)
-//            return household.notificationsList;
-        Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
-        if (iter.hasNext()) {
-            household = iter.next();
-        } else {
-            household = new Household(repositories);
-        }
+        Household household=Household.loadHousehold(repositories);
         System.out.println(household.notificationsList);
         return household.notificationsList;
     }

@@ -85,7 +85,7 @@ public class Household {
         inventoryList.addItem(shoppingItem.getItem().getId(), shoppingItem.getQuantity(), repositories.inventoryRepository);
     }
 
-    public Household loadHousehold(HouseholdRepositoriesGroup repositories){
+    public static Household loadHousehold(HouseholdRepositoriesGroup repositories){
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             return iter.next();

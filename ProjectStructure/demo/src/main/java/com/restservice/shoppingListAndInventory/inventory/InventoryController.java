@@ -23,7 +23,7 @@ import java.util.*;
 public class InventoryController {
     @Autowired
     private HouseholdRepositoriesGroup repositories;
-    Household household;
+    //Household household;
     List<Product> productList=new ArrayList<>();
     public InventoryController() {
     }
@@ -31,6 +31,7 @@ public class InventoryController {
     @PostMapping("/addItem")
     public InventoryList addItem(@RequestParam(value = "name", defaultValue = "") String idString,
                                  @RequestParam(value = "quantity", defaultValue = "1") String quantityString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.inventoryList.addItem(idString, quantityString, repositories.inventoryRepository);
             household.notificationsList.addNotification(NotificationType.InventoryItemAdded, repositories.notificationRepository);
@@ -44,6 +45,7 @@ public class InventoryController {
 
     @DeleteMapping("/removeItem")
     public InventoryList removeItem(@RequestParam(value = "id", defaultValue = "-1") String idString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.inventoryList.removeItem(idString, repositories.inventoryRepository);
             household.notificationsList.addNotification(NotificationType.InventoryItemRemoved, repositories.notificationRepository);
@@ -58,6 +60,7 @@ public class InventoryController {
     @PatchMapping("/changeQuantity")
     public InventoryList changeQuantity(@RequestParam(value = "id", defaultValue = "-1") String idString,
                                         @RequestParam(value = "quantity", defaultValue = "0") String quantityString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.inventoryList.changeQuantity(idString, quantityString, repositories.inventoryRepository);
         } catch (InventoryException e) {
@@ -72,6 +75,7 @@ public class InventoryController {
     public InventoryList changeItemDetails(@RequestParam(value = "id", defaultValue = "-1") String idString,
                                            @RequestParam(value = "quantity", defaultValue = "0") String quantityString,
                                            @RequestParam(value = "name", defaultValue = "") String nameString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.inventoryList.setItemDetails(idString, nameString, quantityString, repositories.inventoryRepository);
         } catch (InventoryException e) {
@@ -84,6 +88,7 @@ public class InventoryController {
 
     @GetMapping("/sortItems")
     public InventoryList sortItems(@RequestParam(value = "sortFilter", defaultValue = "0") String filterString) {
+        Household household=Household.loadHousehold(repositories);
         try {
             household.inventoryList.sortItems(filterString, repositories.inventoryRepository);
         } catch (InventoryException e) {
@@ -110,6 +115,7 @@ public class InventoryController {
     }
     @GetMapping
     public InventoryList getInventory() {
+        Household household=Household.loadHousehold(repositories);
         Iterator<Household> iter = repositories.householdRepository.findAll().iterator();
         if (iter.hasNext()) {
             household = iter.next();
