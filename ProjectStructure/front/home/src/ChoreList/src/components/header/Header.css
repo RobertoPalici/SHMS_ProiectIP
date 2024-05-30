@@ -30,6 +30,8 @@
     border-radius: 0 0 0 0;
     border-top-right-radius: 2px;
     border-left: 2px solid black;
+    margin: 0;
+    width: 70px;
 }
 
 .NotifHeader button:hover {
@@ -185,7 +187,7 @@ nav button:hover
     min-width: 100px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
     display: none;
-    z-index: 2;
+    z-index: 6;
 }
 
 .dropdownChores .accountHideChores {

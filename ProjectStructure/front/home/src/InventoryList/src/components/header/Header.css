@@ -185,7 +185,7 @@ nav button:hover
     min-width: 100px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
     display: none;
-    z-index: 5;
+    z-index: 6;
 }
 
 .dropdownInventory .accountHideInventory {
