@@ -13,6 +13,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Session;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +36,8 @@ public class ChoresList {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
-    @OneToMany(mappedBy = "list")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "list", cascade=CascadeType.ALL, orphanRemoval=true)
     List<Chore> choresList = new ArrayList<>();
 
 
@@ -98,8 +100,9 @@ public class ChoresList {
             throw new ChoresException("Chore ID has to be a non-negative integer.");
         if(id>=choresList.size())
             throw new ChoresException("Chore ID cannot be bigger than the list's size.");
-        choreRepository.choreItemRepository.delete(choresList.get(id));
-        choresList.remove(id);
+        Chore chore=choresList.remove(id);
+        chore.setList(null);
+        choreRepository.choreItemRepository.delete(chore);
     }
     public void setItemDetails(String idString, String name, String description, String durationString, String personIDString, ChoreRepository choreRepository) throws ChoresException{
         int id;
