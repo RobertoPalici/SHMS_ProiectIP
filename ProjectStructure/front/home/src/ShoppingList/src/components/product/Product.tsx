@@ -99,7 +99,7 @@ const Product: React.FC<ShoppingItem & ProductDeclareProps> = ({
         <div className="confirmShop">
           <h3>Are you sure you want to delete this item from your shopping list?</h3>
           <div className="confirmButtonContainerShop" >
-            <button onClick={() => handleDelete(item.name)}>Yes</button>
+            <button onClick={() => {handleConfirmShop; handleDelete(item.name)}}>Yes</button>
             <button onClick={handleConfirmShop}>No</button>
         </div>
         </div>
