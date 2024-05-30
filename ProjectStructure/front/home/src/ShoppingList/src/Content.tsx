@@ -262,7 +262,7 @@ const Content: React.FC<ContentProps> = ({
       </div>
       <div className="itemListButtons">
         <div className="newList">
-          <button className="bigButtons" onClick={handleNlistDropdown}>Add new shopping list</button>
+          <button className="bigButtons" onClick={handleNlistDropdown}>New list</button>
           {nlist &&
             <div className="newListPrompt">
               <img src={productIcon}></img>
@@ -282,7 +282,7 @@ const Content: React.FC<ContentProps> = ({
           }
         </div>
         <div className="existingList">
-          <button className="bigButtons" onClick={handleSlistDropdown}>Select existing shopping list</button>
+          <button className="bigButtons" onClick={handleSlistDropdown}>Select list</button>
           {slist &&
             <div className="existingListDropdown">
               {products.shoppingLists?.map((object, index) => {
