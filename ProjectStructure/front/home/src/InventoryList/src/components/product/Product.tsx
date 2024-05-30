@@ -155,7 +155,7 @@ const Product: React.FC<ItemList & ProductDeclareProps> = ({
         <div className="confirmInv">
           <h3>Are you sure you want to delete this item from your inventory?</h3>
           <div className="confirmButtonContainer">
-            <button onClick={() => {handleConfirmInv; handleDelete(item.name)}}>Yes</button>
+            <button onClick={() => {handleConfirmInv(); handleDelete(item.name)}}>Yes</button>
             <button onClick={handleConfirmInv}>No</button>
             </div>
         </div>
