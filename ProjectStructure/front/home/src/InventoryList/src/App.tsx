@@ -18,17 +18,6 @@ const App: React.FC = () => {
   const [fetchError, setFetchError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const clearNotifications = async () => {
-    try {
-      const response = await fetch(`${API_URL_NOTIFICATIONS}/clearNotifications`, {
-        method: 'DELETE'
-      });
-      if (!response.ok) throw Error('Notifications could not be cleared');
-    } catch (error) {
-      console.error('Error clearing notifications:', error);
-    }
-  };
-
   useEffect(() => {
     const fetchItems = async () => {
       try{
@@ -39,10 +28,6 @@ const App: React.FC = () => {
         const notifications = await fetch(API_URL_NOTIFICATIONS);
         if (!notifications.ok) throw Error('Notifications were not received');
         const listNotifications = await notifications.json();
-
-        setTimeout(() => {
-          clearNotifications();
-        }, 3000);
 
         setProducts(prevProducts => {
           return {...prevProducts, itemList: listItems.itemList};

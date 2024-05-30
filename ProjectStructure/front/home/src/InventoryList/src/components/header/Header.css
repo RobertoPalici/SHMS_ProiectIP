@@ -1,5 +1,5 @@
 .NotifContent {
-    border-top: 2px solid black;
+    margin-bottom: 2px;
     overflow: auto;
     max-height: 400px;
 }
@@ -8,8 +8,7 @@
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
-    border: 2px solid grey;
-    background-color: rgba(239, 239, 240, 0.5);
+    border: 1px solid white;
     border-radius: 5px 5px 5px 5px;
 }
 
@@ -19,21 +18,27 @@
     height: 60px;
 }
 
-.NotifHeader h3 {
+.NotifHeader b{
+    color:white
+}
+
+
+.NotifHeader h5 {
     padding-left: 13.5%;
+    color:white;
 }
 
 .NotifHeader button {
     height: 60px;
     color: black;
     background-color: red;
-    border-radius: 0 0 0 0;
-    border-top-right-radius: 2px;
-    border-left: 2px solid black;
+    border-radius: 6px;
+    margin: 0;
+    width: 70px;
 }
 
 .NotifHeader button:hover {
-    background-color: #fff;
+    background-color: #be0909;
 }
 
 .NotifContent h3 {
@@ -72,11 +77,16 @@
     position: absolute; 
     min-width: 350px;
     max-height: 500px;
-    background-color: lightblue;
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 1000;
     right: 9%;
-    border: 2px solid black;
     border-radius: 5px 5px 5px 5px;
+}
+.EachNot h3{
+    color: white;
+}
+.EachNot:hover{
+    background-color: #1BBC9B;
 }
 
 nav

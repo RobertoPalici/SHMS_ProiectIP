@@ -76,7 +76,7 @@ export const Header = () => {
                         {notif &&
                             <div className="NotifDropDown">
                                 <div className='NotifHeader'>
-                                    <h3><b>Notifications</b></h3>
+                                    <h5>Notifications</h5>
                                     <button onClick={() => {setNotifications([]); clearNotifications()}}><b>Clear</b></button>
                                 </div>
                                 <div className="NotifContent">
