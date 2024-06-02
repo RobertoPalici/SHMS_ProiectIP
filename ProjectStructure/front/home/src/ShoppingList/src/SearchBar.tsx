@@ -50,7 +50,7 @@ const SearchBar: React.FC<SearchProps> = ({
 		let listItems;
 		try{
 			const response = await fetch(`${API_URL}/search?name=${e.target.value}`);
-			if(!response.ok) throw Error('Searched data was not received');
+			//if(!response.ok) throw Error('Searched data was not received');
 			listItems = await response.json();
 			if (e.target.value) {
 				setFilteredOptions(listItems);
@@ -61,11 +61,12 @@ const SearchBar: React.FC<SearchProps> = ({
 				setShowDropdown(false);
 			}
 		} catch(err : unknown){
-				if (err instanceof Error) {
+				/*if (err instanceof Error) {
 					throw err.message;
 				} else {
 					throw 'An unknown error occurred';
-				}
+				}*/
+				console.log('Fetch Error');
 		}
 	};
 

@@ -27,15 +27,15 @@ const App: React.FC = () => {
     const fetchItems = async () => {
       try {
         const response1 = await fetch(API_URL);
-        if (!response1.ok) throw Error('Chores were not received');
+        //if (!response1.ok) throw Error('Chores were not received');
         const listChores = await response1.json();
 
         const response2 = await fetch(`${API_URL}/getHistory`);
-        if (!response2.ok) throw Error('History was not received');
+        //if (!response2.ok) throw Error('History was not received');
         const listChoresHistory = await response2.json();
 
         const notifications = await fetch(API_URL_NOTIFICATIONS);
-        if (!notifications.ok) throw Error('Notifications were not received');
+        //if (!notifications.ok) throw Error('Notifications were not received');
         const listNotifications = await notifications.json();
 
         setChores(prevChores => {
@@ -46,11 +46,11 @@ const App: React.FC = () => {
         });
         setFetchError(null);
       } catch (err: unknown) {
-        if (err instanceof Error) {
+        /*if (err instanceof Error) {
           setFetchError(err.message);
         } else {
           setFetchError('An unknown error occurred');
-        }
+        }*/
       } finally {
         setLoading(false);
       }
