@@ -18,42 +18,27 @@ const App: React.FC = () => {
   const [fetchError, setFetchError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const clearNotifications = async () => {
-    try {
-      const response = await fetch(`${API_URL_NOTIFICATIONS}/clearNotifications`, {
-        method: 'DELETE'
-      });
-      if (!response.ok) throw Error('Notifications could not be cleared');
-    } catch (error) {
-      console.error('Error clearing notifications:', error);
-    }
-  };
-
   useEffect(() => {
     const fetchItems = async () => {
       try{
         const response = await fetch(API_URL);
-        if(!response.ok) throw Error('Data was not received');
+        //if(!response.ok) throw Error('Data was not received');
         const listItems = await response.json();
 
         const notifications = await fetch(API_URL_NOTIFICATIONS);
-        if (!notifications.ok) throw Error('Notifications were not received');
+        //if (!notifications.ok) throw Error('Notifications were not received');
         const listNotifications = await notifications.json();
-
-        setTimeout(() => {
-          clearNotifications();
-        }, 3000);
 
         setProducts(prevProducts => {
           return {...prevProducts, itemList: listItems.itemList};
         });
         setFetchError(null);
       } catch(err : unknown){
-          if (err instanceof Error) {
+          /*if (err instanceof Error) {
             setFetchError(err.message);
           } else {
             setFetchError('An unknown error occurred');
-          }
+          }*/
       } finally{
         setLoading(false);
       }
@@ -66,7 +51,7 @@ const App: React.FC = () => {
   const handleSort = async (filter: number) => {
       try{
         const response = await fetch(`${API_URL}/sortItems?sortFilter=${filter}`);
-        if(!response.ok) throw Error('Data was not received');
+        //if(!response.ok) throw Error('Data was not received');
         const listItems = await response.json();
 
         setProducts(prevProducts => {
@@ -74,11 +59,11 @@ const App: React.FC = () => {
         });
         setFetchError(null);
       } catch(err : unknown){
-          if (err instanceof Error) {
+          /*if (err instanceof Error) {
             setFetchError(err.message);
           }else {
             setFetchError('An unknown error occurred');
-          }
+          }*/
       }
   }
   return (

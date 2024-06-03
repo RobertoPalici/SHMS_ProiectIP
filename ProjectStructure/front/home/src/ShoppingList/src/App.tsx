@@ -22,7 +22,7 @@ const App: React.FC = () => {
     const fetchItems = async () => {
       try{
         const response = await fetch(API_URL);
-        if(!response.ok) throw Error('Data was not received');
+        //if(!response.ok) {//throw Error('Data was not received');
           const listItems = await response.json();
 
         setProducts(prevProducts => {
@@ -41,6 +41,7 @@ const App: React.FC = () => {
           } else {
             setFetchError('An unknown error occurred');
           }
+          console.log('Fetch error');
       } {
         setLoading(false);
       }
@@ -55,8 +56,8 @@ const App: React.FC = () => {
       <Header />
       <main>
         {loading && <p className='paragraphShopping'>Shopping lists are loading...</p>}
-        {fetchError && <p className='paragraphShopping' style={{color: "red"}}>{`Error: ${fetchError}`}</p>}
-        {!fetchError && !loading && 
+        {/*{fetchError && <p className='paragraphShopping' style={{color: "red"}}>{`Error: ${fetchError}`}</p>}*/}
+        {/*!fetchError &&*/ !loading && 
           <Content 
             products = {products}
             newId = {newId}

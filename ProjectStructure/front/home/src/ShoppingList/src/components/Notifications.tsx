@@ -16,9 +16,9 @@ const Notifications: React.FC = () => {
     const fetchNotifications = async () => {
       try {
         const response = await fetch('http://localhost:8081/notifications');
-        if (!response.ok) {
+        /*if (!response.ok) {
           throw new Error('Network response was not ok');
-        }
+        }*/
         const data = await response.json();
 
         if (Array.isArray(data.notificationList)) {
@@ -27,15 +27,15 @@ const Notifications: React.FC = () => {
             message: item.message
           }));
           setNotifications(mappedData);
-        } else {
-          throw new Error('Data format is incorrect');
-        }
+        } //else {
+          //throw new Error('Data format is incorrect');
+        //}
       } catch (error: unknown) {
-        if (error instanceof Error) {
+        /*if (error instanceof Error) {
           setError(error.message);
         } else {
           setError('An unknown error occurred');
-        }
+        }*/
       }
     };
 

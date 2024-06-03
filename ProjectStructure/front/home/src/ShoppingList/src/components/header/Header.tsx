@@ -19,9 +19,9 @@ export const Header = () =>
         const fetchNotifications = async () => {
             try {
                 const response = await fetch('http://localhost:8081/notifications');
-                if (!response.ok) {
+                /*if (!response.ok) {
                     throw new Error('Network response was not ok');
-                }
+                }*/
                 const data = await response.json();
 
                 if (Array.isArray(data.notificationList)) {
@@ -34,11 +34,12 @@ export const Header = () =>
                     throw new Error('Data format is incorrect');
                 }
             } catch (error: unknown) {
-                if (error instanceof Error) {
-                    setError(error.message);
+                /*if (error instanceof Error) {
+                    setError('bro');
                 } else {
                     setError('An unknown error occurred');
-                }
+                }*/
+                console.log('fetch error');
             }
         };
 
@@ -77,7 +78,7 @@ export const Header = () =>
                         {notif &&
                             <div className="NotifDropDown">
                                 <div className='NotifHeader'>
-                                    <h3><b>Notifications</b></h3>
+                                    <h5>Notifications</h5>
                                     <button onClick={() => {setNotifications([]); clearNotifications()}}><b>Clear</b></button>
                                 </div>
                                 <div className="NotifContent">
@@ -100,7 +101,7 @@ export const Header = () =>
                                     )}
                                 </div>
                             </div>
-                        }
+                                }
                     </div>
                 </li>
                 <li className="dropdownShopping">
