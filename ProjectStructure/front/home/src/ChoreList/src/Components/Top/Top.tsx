@@ -1,5 +1,5 @@
 import React from 'react';
-import background from './pictures/image 3_vector.png'
+import background from '../../../public/img/ico/image 3_vector.png'
 import './Top.css'
 export const Top = () =>{
 

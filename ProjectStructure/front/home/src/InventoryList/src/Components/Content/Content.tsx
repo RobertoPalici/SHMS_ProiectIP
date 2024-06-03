@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import {ProductProps , ItemList} from './components/product/Product';
-import image_1 from './components/pictures/image 3.png';
-import ItemLists from './ItemLists';
-import APIRequest from './APIRequest';
-import './App.css';
+import React, { useState, useRef, useEffect } from 'react';
+import {ProductProps , ItemList} from '../Product/Product';
+import image_1 from '../../../public/img/ico/image 3.png';
+import ItemLists from '../ItemLists/ItemLists';
+import APIRequest from '../APIRequest/APIRequest';
+import '../../App.css';
 
 interface ContentProps{
   products: ProductProps;
@@ -190,6 +190,77 @@ const Content: React.FC<ContentProps> = ({
     setSort(!isSort);
   };
 
+
+  /*pt buton de restock suggestion -- modul 4*/
+    const [loading, setLoading] = useState(false);
+    const prevDataRef = useRef(null);
+    function isEqual(objA: { [x: string]: any; } | null, objB: { [x: string]: any; } | null) {
+      if (objA === objB) return true;
+      if (objA == null || objB == null) return false;
+      if (typeof objA !== 'object' || typeof objB !== 'object') return false;
+      const keysA = Object.keys(objA);
+      const keysB = Object.keys(objB);
+      if (keysA.length !== keysB.length) return false;
+
+      for (let key of keysA) {
+          if (!isEqual(objA[key], objB[key])) return false;
+      }
+      return true;
+    }
+    const restockbtn = async () => {
+      try {
+          const response = await fetch('http://localhost:8080/inventory/infoItemRestock', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(58)
+          });
+
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+
+          const responseData = await response.json();
+          console.log(responseData);
+          console.log('prevData:');
+          console.log(prevDataRef.current);
+          if (!isEqual(responseData, prevDataRef.current)) {
+              prevDataRef.current = responseData;
+              console.log('Data changed!');
+              console.log(prevDataRef.current);
+              const productId = Object.keys(responseData)[0];
+              const productName = responseData[productId];
+              console.log(productName);
+              console.log(productId);
+              Notification.requestPermission().then(perm => {
+                  if (perm === 'granted') {
+                      const notification = new Notification('Sugestie de restock!', {
+                          body: `Produsul ${productName} trebuie cumparat in urmatoarele zile!`
+                      })
+                      notification.onclick = (event) => {
+                          event.preventDefault(); 
+                          
+                          const targetUrl = `http://localhost:3000/ShoppingList?fromNotification=true&productId=${productId}&productName=${encodeURIComponent(productName)}`;
+                          if (!window.location || window.location.href === 'http://localhost:3000/') {
+                              window.location.href = targetUrl;
+                          } else {
+                              window.open(targetUrl, '_blank');
+                          }
+                      };
+                  }
+              });
+          }
+
+      } catch (error) {
+          console.error('There has been a problem with your fetch operation:', error);
+      } finally {
+          setLoading(false);
+      }
+  };
+
+  
+
   return (
     <>
       <div className="topContainerInventory">
@@ -208,7 +279,9 @@ const Content: React.FC<ContentProps> = ({
             </div>
           }
         </div>
-        <button className="restock">Restock suggestions</button>
+        <div className="restock">
+          <button onClick={restockbtn}>Restock suggestions</button>            
+        </div>
       </div>
       <ItemLists
         products={products}

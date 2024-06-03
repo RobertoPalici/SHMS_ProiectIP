@@ -141,6 +141,7 @@
 
 .buttonContainerInventory{
   display:flex;
+  align-items: center;  
   justify-content: space-around;
   margin-top: 3vh;
 }
@@ -193,6 +194,34 @@
 .sortDropdown button{
   margin-top: 1vh;
 }
-.restock{
-  height: 4vh;
+
+/*adaugat de modul 4 pt butonul de restock*/
+.restock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
 }
+
+.restock button {
+  background-color: #1BBC9B;
+  color: white;
+  border: none;
+  font-size: 18px; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 250px; 
+  text-align: center; 
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+  .restock button {
+    min-width: auto; 
+    width: 75%;
+  }
+}
+
+

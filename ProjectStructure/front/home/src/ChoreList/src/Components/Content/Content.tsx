@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Mid.css'
+import './Content.css'
 import placeholder from './pictures/sweep.jpg'
-import APIRequest from '../APIRequest';
-import ChoreLists from './ChoreLists';
-import { ChoresList, ChoreProps } from './Chore';
+import APIRequest from '../APIRequest/APIRequest';
+import ChoreLists from '../ChoreLists/ChoreLists';
+import { ChoresList, ChoreProps } from '../Chore/Chore';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-interface MidProps {
+interface ContentProps {
   chores: ChoreProps;
   choresHistory: ChoreProps;
   newChore: string;
@@ -28,7 +28,7 @@ interface MidProps {
   setFetchError: React.Dispatch<any>; 
 }
 
-const Mid: React.FC<MidProps> = ({ 
+const Content: React.FC<ContentProps> = ({ 
   choresHistory, 
   chores, 
   newChore, 
@@ -215,4 +215,4 @@ const Mid: React.FC<MidProps> = ({
   );
 };
 
-export default Mid;
+export default Content;

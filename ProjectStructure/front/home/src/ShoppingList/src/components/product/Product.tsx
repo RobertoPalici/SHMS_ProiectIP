@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import questionmark from '../pictures/questionmark.png';
+import questionmark from '../../../public/img/ico/questionmark.png';
 import './Product.css';
 import { useRef } from 'react';
-import SearchBar from './../../SearchBar';
+import SearchBar from '../SearchBar/SearchBar';
 
 type Quantity = {
   value: number;

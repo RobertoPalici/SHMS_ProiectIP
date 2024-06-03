@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Mid.css'
-import placeholder from './pictures/sweep.jpg'
-import APIRequest from '../APIRequest';
+import '../Content/Content.css'
+import placeholder from '../../../public/img/ico/sweep.jpg'
+import APIRequest from '../APIRequest/APIRequest';
 
 export type ChoresList = {
   name : string | null;

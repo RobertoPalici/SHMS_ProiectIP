@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Product, { ProductProps , ShoppingList, ShoppingItem} from './components/product/Product';
-import image_1 from './components/pictures/image 3.png';
-import productIcon from './components/pictures/product.png';
-import ItemLists from './ItemLists';
-import APIRequest from './APIRequest';
-import './App.css';
+import Product, { ProductProps , ShoppingList, ShoppingItem} from '../Product/Product';
+import image_1 from '../../../public/img/ico/image 3.png';
+import productIcon from '../../../public/img/ico/product.png';
+import ItemLists from '../ItemLists/ItemLists';
+import APIRequest from '../APIRequest/APIRequest';
+import '../../App.css';
 
 interface ContentProps{
   products: ProductProps;
@@ -47,6 +47,7 @@ const Content: React.FC<ContentProps> = ({
   }
 
   const handleSlistDropdown = () =>{
+    console.log(products.shoppingLists);
     setSlist(!slist);
   };
 
@@ -167,7 +168,8 @@ const Content: React.FC<ContentProps> = ({
 
   const handleListDelete = async (name: string) => {
     if(products.shoppingLists !== undefined){
-      const index = products.shoppingLists.findIndex(list => list.listName === name); 
+      const index = products.shoppingLists.findIndex(list => list.listName === name);
+      console.log(index); 
       products.shoppingLists.splice(index, 1);
       setProducts(products);
 
@@ -254,8 +256,90 @@ const Content: React.FC<ContentProps> = ({
     }, 30);
   };
 
+  /*pt popup la notificare -- modul 4*/
+  const [showPopup, setShowPopup] = useState(false);
+    const [productId, setProductId] = useState<string | null>('');
+    const [productName, setProductName] = useState<string | null>('');
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('fromNotification') === 'true') {
+            setShowPopup(true);
+            setProductId(urlParams.get('productId'));
+            setProductName(urlParams.get('productName'));
+        }
+    }, []);
+
+    const removeQueryParam = () => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('fromNotification');
+        url.searchParams.delete('productId');
+        url.searchParams.delete('productName');
+        window.history.replaceState({}, '', url.toString());
+    };
+
+    const handleYesClick = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/shopping/addItemWithBody', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ index: 0, name: productId, quantity: 1 }) 
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const responseData = await response.json();
+            console.log(responseData);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        } finally {
+            setShowPopup(false);
+            removeQueryParam();
+        }
+    };
+
+    const handleNoClick = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/inventory/notAcceptSuggestion', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productId)
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const responseData = await response.json();
+            console.log(responseData);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        } finally {
+            setShowPopup(false);
+            removeQueryParam();
+        }
+    };
+
+    /*am pus pop-up --modul 4 */
   return (
     <>
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <p>Do you want to add {productName} to the shopping list?</p>
+            <div className="button-container">
+              <button onClick={handleYesClick}>Yes</button>
+              <button onClick={handleNoClick}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="topContainerShopping">
         <img className="appImageShopping" src={image_1} alt="Imagine 1" />
         <div className="shoppingList">Shopping Lists</div>
@@ -312,8 +396,11 @@ const Content: React.FC<ContentProps> = ({
           </div>
           }
         </div>
+        <div className="efficientroute">
+          <button className="bigButtons">Get Efficient Routes</button>
+        </div>
       </div>
-      <h1 className="listTitle">{products.shoppingLists[listIndex].listName}</h1>
+      <h1 className="listTitle">{products.shoppingLists[listIndex]?.listName}</h1>
       <ItemLists
         products={products}
         listIndex={listIndex}

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Mid.css'
-import placeholder from './pictures/sweep.jpg'
-import APIRequest from '../APIRequest';
-import Chore, { ChoreProps, ChoresList } from './Chore';
-import HistoryChore from './HistoryChore';
+import '../Content/Content.css'
+import placeholder from '../../../public/img/ico/sweep.jpg'
+import APIRequest from '../APIRequest/APIRequest';
+import Chore, { ChoreProps, ChoresList } from '../Chore/Chore';
+import HistoryChore from '../HistoryChore/HistoryChore';
 
-interface MidProps{
+interface ContentProps{
   chores: ChoreProps;
   choresHistory: ChoreProps;
   addChore: (name: string, description: string, duration: string, addToHistoryCheck: number) => void;
@@ -24,7 +24,7 @@ interface MidProps{
   setUpdatedDuration: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ChoreList: React.FC<MidProps> = ({ 
+const ChoreList: React.FC<ContentProps> = ({ 
   chores, 
   choresHistory, 
   addChore, 

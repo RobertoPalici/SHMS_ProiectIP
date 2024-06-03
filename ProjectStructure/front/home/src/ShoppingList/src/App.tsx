@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {Header} from './components/header/Header';
-import {ProductProps} from './components/product/Product';
-import footer from './components/pictures/Footer.png';
+import {Header} from './Components/Header/Header';
+import {ProductProps} from './Components/Product/Product';
+import footer from '../public/img/ico/Footer.png';
 import './App.css';
-import Content from './Content';
-import Notifications from './components/Notifications';
+import Content from './Components/Content/Content';
+import Notifications from './Components/Notifications/Notifications';
 
 const App: React.FC = () => {
   console.log('React version:', React.version, 'from', require.resolve('react'));

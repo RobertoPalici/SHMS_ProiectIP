@@ -1,6 +1,6 @@
 import React from 'react';
 import './Footer.css'
-import placeholder from './pictures/footerimage.jpg'
+import placeholder from '../../../public/img/ico/footerimage.jpg'
 
 export const Footer = () => {
   return(

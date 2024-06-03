@@ -1,11 +1,11 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { Top } from './components/Top';
-import {Header} from './components/header/Header';
-import Mid from './components/Mid';
-import { ChoreProps } from './components/Chore';
-import { Footer } from './components/Footer';
-import Notifications from './components/Notifications';
+import { Top } from './Components/Top/Top';
+import {Header} from './Components/Header/Header';
+import Content from './Components/Content/Content';
+import { ChoreProps } from './Components/Chore/Chore';
+import { Footer } from './Components/Footer/Footer';
+import Notifications from './Components/Notifications/Notifications';
 
 const App: React.FC = () => {
   
@@ -69,7 +69,7 @@ const App: React.FC = () => {
         {loading && <p>Chores List is loading...</p>}
         {fetchError && <p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !loading && (
-          <Mid
+          <Content
             chores={chores}
             choresHistory={choresHistory}
             newChore={newChore}

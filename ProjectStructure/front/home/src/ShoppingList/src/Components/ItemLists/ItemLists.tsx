@@ -1,17 +1,16 @@
 import React from 'react'
-import Product, { ProductProps , ItemList} from './components/product/Product';
-import './components/product/Product.css';
-import questionmark from './components/pictures/questionmark.png';
-import productIcon from './components/pictures/product.png';
+import Product, { ProductProps , ShoppingList, ShoppingItem} from '../Product/Product';
+import '../Product/Product.css';
+import questionmark from '../../../public/img/ico/questionmark.png';
+import productIcon from '../../../public/img/ico/product.png';
 
 interface ContentProps{
   products: ProductProps;
-  setUpdatedQuantity: React.Dispatch<React.SetStateAction<number>>;
+  listIndex: number;
+  buyItem: (name: string) => void;
   handleIncreaseQuantity: (name : string) => void;
   handleDecreaseQuantity: (name : string) => void;
-  handleChangeQuantity: (name : string, quantity: number) => void;
   handleSubmit: (e : React.FormEvent<HTMLFormElement>) => void;
-  handleSubmitUpdate: (e: React.FormEvent<HTMLFormElement>, name: string) => void;
   handleDelete: (name : string) => void;
   setNewId: React.Dispatch<React.SetStateAction<number>>;
   setNewProduct: React.Dispatch<React.SetStateAction<string>>;
@@ -20,61 +19,52 @@ interface ContentProps{
 
 const ItemLists: React.FC<ContentProps> = ({
   products, 
-  setUpdatedQuantity, 
-  handleChangeQuantity, 
+  listIndex, 
+  buyItem, 
   handleIncreaseQuantity, 
   handleDecreaseQuantity, 
   handleSubmit, 
-  handleSubmitUpdate, 
   handleDelete,
-  setNewId,
+  setNewId, 
   setNewProduct, 
   setNewQuantity
 }) => {
 
-  const {itemList} = products;
-
   return (
-    <div className="productListInventory">
-      {itemList?.map((item, index) => (
-        <div className="productContainerInventory" key={index}>
+    <div className="productListShopping">
+      {products.shoppingLists[listIndex].shoppingList?.map((item, index) => (
+        <div className="productContainerShopping" key={index}>
           <Product
             item={item.item}
-            setUpdatedQuantity={setUpdatedQuantity}
-            quantity={item.quantity}
-            averageConsumption={item.averageConsumption}
             imageSrc={productIcon}
-            handleChangeQuantity={handleChangeQuantity}
+            price={item.price}
+            quantity={item.quantity}
+            buyItem={buyItem}
             handleIncreaseQuantity={handleIncreaseQuantity}
             handleDecreaseQuantity={handleDecreaseQuantity}
             handleDelete={handleDelete}
-            handleSubmitUpdate={handleSubmitUpdate}
             id={undefined}
           />
         </div>
       ))}
-      <div className="productContainerInventory">
+      <div className="productContainerShopping">
         <Product
           item={{
-            "name": "",
-            "eatable": false
+            "name": ""
           }}
           quantity={{
             "value": 0,
             "type": "Amount"
-          }} 
-          averageConsumption={0}
+          }}
           imageSrc={questionmark}
-          handleChangeQuantity={handleChangeQuantity}
+          price={0}
           handleIncreaseQuantity={handleIncreaseQuantity}
           handleDecreaseQuantity={handleDecreaseQuantity}
           handleSubmit={handleSubmit}
-          handleSubmitUpdate={handleSubmitUpdate}
           handleDelete={handleDelete}
           setNewId={setNewId}
           setNewProduct={setNewProduct}
           setNewQuantity={setNewQuantity}
-          setUpdatedQuantity={setUpdatedQuantity}
           id={undefined}
         />
       </div>
