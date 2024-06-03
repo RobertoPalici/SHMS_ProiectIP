@@ -30,8 +30,7 @@ public class ShoppingLists {
     @JoinColumn(name = "household_id", referencedColumnName = "id")
     private Household household;
 
-    @OneToMany(mappedBy = "list")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "list", cascade=CascadeType.ALL, orphanRemoval=true)
     List<ShoppingList> shoppingLists=new ArrayList<>();
 
     public ShoppingLists(String name, ShoppingRepository shoppingRepository){
@@ -58,8 +57,9 @@ public class ShoppingLists {
             throw new ShoppingException("List index cannot be negative!");
         if (index > shoppingLists.size() - 1)
             throw new ShoppingException("List index cannot be bigger than list size!");
-        shoppingRepository.shoppingListRepository.delete(shoppingLists.get(index));
-        shoppingLists.remove(index);
+        ShoppingList shoppingList=shoppingLists.remove(index);
+        shoppingList.setList(null);
+        shoppingRepository.shoppingListRepository.delete(shoppingList);
     }
     public void removeList(String indexString, ShoppingRepository shoppingRepository) throws ShoppingException{
         int index;
