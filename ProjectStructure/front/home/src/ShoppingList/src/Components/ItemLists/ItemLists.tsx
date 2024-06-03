@@ -32,7 +32,7 @@ const ItemLists: React.FC<ContentProps> = ({
 
   return (
     <div className="productListShopping">
-      {products.shoppingLists[listIndex].shoppingList?.map((item, index) => (
+      {products.shoppingLists[listIndex]?.shoppingList?.map((item, index) => (
         <div className="productContainerShopping" key={index}>
           <Product
             item={item.item}
@@ -48,7 +48,7 @@ const ItemLists: React.FC<ContentProps> = ({
         </div>
       ))}
       <div className="productContainerShopping">
-        <Product
+        {products.shoppingLists.length > 0 ? (<Product
           item={{
             "name": ""
           }}
@@ -66,7 +66,7 @@ const ItemLists: React.FC<ContentProps> = ({
           setNewProduct={setNewProduct}
           setNewQuantity={setNewQuantity}
           id={undefined}
-        />
+        />) : (<p>Start by creating a list!</p>)}
       </div>
     </div>
   )
